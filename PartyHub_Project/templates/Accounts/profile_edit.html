@@ -1,0 +1,17 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Accounts_css/profile_edit.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="edit-profile-container">
+        <h2>Edit Your Profile</h2>
+        
+        <!-- Формата за редактиране на профила -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_div }}
+            <button>Confirm</button>
+        </form>
+    </div>
+{% endblock %}

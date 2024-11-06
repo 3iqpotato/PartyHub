@@ -7,7 +7,6 @@ from django.db import models
 # Create your models here.
 # Doing that to
 class BaseUser(AbstractUser):
-
     objects = UserProfileManager()
     """
     Extends Django's AbstractUser to create a base user model.
@@ -18,10 +17,26 @@ class BaseUser(AbstractUser):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(
+        to=BaseUser,
+        on_delete=models.CASCADE,
+        related_name='profile',
+    )
+
     points = models.PositiveIntegerField(default=0)
+
     is_vip = models.BooleanField(default=False)
-    friends = models.ManyToManyField('self', blank=True, symmetrical=True)
+
+    friends = models.ManyToManyField(
+        to='self',
+        blank=True,
+        symmetrical=True,
+        max_length=300,
+    )
+
+    profile_picture = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
+
+    bio = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.user.username

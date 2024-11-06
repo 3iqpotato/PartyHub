@@ -1,0 +1,141 @@
+/* Контейнер за профила */
+.profile-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 50px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Хедър на профила (снимка и инфо) */
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+/* Профилна снимка */
+.profile-picture-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    transition: transform 0.3s ease;
+}
+
+/* Ако е VIP, снимката получава златна граница */
+.profile-picture.vip {
+    border: 5px solid gold;
+    box-shadow: 0 0 20px rgba(255, 223, 0, 0.6);
+}
+
+/* VIP лента */
+.vip-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: gold;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 223, 0, 0.8);
+}
+
+/* Информация за потребителя */
+.profile-info {
+    margin-left: 20px;
+}
+
+.profile-info h2 {
+    font-size: 28px;
+    color: #333;
+    margin: 0;
+}
+
+.profile-info .points {
+    font-size: 16px;
+    color: #777;
+}
+
+/* Линкове към приятели и билети */
+.profile-links {
+    margin-top: 30px;
+    font-size: 18px;
+    color: #333;
+}
+
+.profile-links a {
+    color: #25e091;
+    text-decoration: none;
+}
+
+.profile-links a:hover {
+    text-decoration: underline;
+}
+
+/* Информация за потребителя */
+.profile-info-details {
+    margin-top: 20px;
+}
+
+.profile-info-details h3 {
+    font-size: 22px;
+    color: #333;
+}
+
+.profile-info-details p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Стилове за бутон за редактиране на профила */
+.edit-profile {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.edit-btn {
+    padding: 12px 20px;
+    background-color: #25e091;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #1b9c7c;
+}
+
+/* Адаптивност */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-info {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .profile-links {
+        text-align: center;
+    }
+
+    .profile-info-details {
+        margin-top: 15px;
+    }
+}

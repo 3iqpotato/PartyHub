@@ -1,0 +1,91 @@
+/* Общи стилове за формата */
+.form-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Заглавие и текст на формата */
+.form-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-header h2 {
+    font-size: 28px;
+    color: #333;
+}
+
+.form-header p {
+    font-size: 16px;
+    color: #555;
+}
+
+.form-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-links a {
+    color: #25e091;
+    text-decoration: none;
+}
+
+.form-links a:hover {
+    text-decoration: underline;
+}
+
+/* Стилове за полетата на формата */
+.form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+}
+
+.form label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form input:focus {
+    border-color: #25e091;
+    outline: none;
+}
+
+/* Стилове за бутона */
+.submit-btn {
+    padding: 12px;
+    background-color: #25e091;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #1b9c7c;
+}
+
+/* Адаптивност за по-малки екрани */
+@media (max-width: 600px) {
+    .form-container {
+        width: 90%;
+    }
+}

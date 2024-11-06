@@ -1,0 +1,25 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Accounts_css/login.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Login to EventHub</h2>
+            <p>Welcome back! Please log in to continue.</p>
+        </div>
+        <form class="form" method="post">
+            {% csrf_token %}
+            {{ form }}
+
+            <button class="submit-btn" type="submit">Login</button>
+        </form>
+
+        <div class="form-links">
+            <p>Don't have an account? <a href="{% url 'register' %}" class="login-link">Register here</a></p>
+{#            <p><a href="#" class="forgot-password">Forgot your password?</a></p>#}
+                            {#            TODO da dobavq logika za smqna na parola maybe#}
+        </div>
+    </div>
+{% endblock %}

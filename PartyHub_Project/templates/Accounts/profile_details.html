@@ -1,0 +1,44 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Accounts_css/profile_details.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="profile-container">
+        <div class="profile-header">
+            <!-- Профилна снимка и VIP статус -->
+            <div class="profile-picture-wrapper">
+                {% if user.profile.profile_picture %}
+                <img src="{{ user.profile.profile_picture }}" alt="Profile Picture" class="profile-picture {% if user.profile.is_vip %}vip{% endif %}">
+                {% else %}
+                <img src="{% static 'images/profiles/default_img.jpg' %}" alt="Profile Picture" class="profile-picture {% if user.profile.is_vip %}vip{% endif %}">
+            {% endif %}
+                {% if user.profile.is_vip %}
+                    <div class="vip-badge">VIP</div>
+                {% endif %}
+            </div>
+            <!-- Потребителско име и точки -->
+            <div class="profile-info">
+                <h2>{{ user.username }}</h2>
+                <p class="points">Points: {{ user.profile.points }}</p>
+            </div>
+        </div>
+
+        <!-- Линкове към приятели и билети -->
+        <div class="profile-links">
+            <p><strong>Friends:</strong> <a href="">{{ user.profile.friends.count }} Friends</a></p>
+            <p><strong>Tickets:</strong> <a href="">{{ user.profile.tickets.count }} Tickets</a></p>
+        </div>
+
+        <!-- Информация за потребителя -->
+        <div class="profile-info-details">
+            <h3>About Me: </h3>
+            <p>{{ user.bio }}</p>
+        </div>
+
+        <!-- Бутон за редактиране на профила -->
+        <div class="edit-profile">
+            <a href="{% url 'profile_edit' %}" class="edit-btn">Edit Profile</a>
+        </div>
+    </div>
+{% endblock %}
