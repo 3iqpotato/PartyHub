@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
+User = get_user_model()
 
 # Create your models here.
 class UserProfile(AbstractUser):
@@ -15,11 +15,12 @@ class UserProfile(AbstractUser):
         return self.username
 
 
-User = get_user_model()
+
+
 
 class Friendship(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships')
-    friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friends')
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='friendships')
+    friend = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='friends')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
