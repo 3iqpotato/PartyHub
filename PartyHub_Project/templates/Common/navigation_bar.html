@@ -16,13 +16,28 @@
         </div>
         {% else %}
 
-                <!-- Линкове за влезли потребители -->
-                <div id="user_links">
-                    <a href="{% url 'profile_details' %}">My Account</a>
-                    <a href="">Events</a>
-                    <a href="">My Tickets</a>
+            <!-- Линкове за влезли потребители -->
+            <div id="user_links">
+                <a href="">Create Event</a>
+                <a href="">Events</a>
+
+                <!-- Падащо меню за "My Account" -->
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">My Account</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'profile_details' %}">View Profile</a>
+                        <a href="">My Tickets</a>
+                        <a href="">My Friends</a>
+                        <form method="post" action="{% url 'logout' %}" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-link"><a>Logout</a></button>
+                        </form>
+                    </div>
                 </div>
+            </div>
 
     {% endif %}
     </div>
 </nav>
+<script src="{% static 'JS/Nav_buttons_functionality.js' %}"></script>
+

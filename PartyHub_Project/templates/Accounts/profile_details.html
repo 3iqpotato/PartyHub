@@ -9,7 +9,7 @@
             <!-- Профилна снимка и VIP статус -->
             <div class="profile-picture-wrapper">
                 {% if user.profile.profile_picture %}
-                <img src="{{ user.profile.profile_picture }}" alt="Profile Picture" class="profile-picture {% if user.profile.is_vip %}vip{% endif %}">
+                <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture {% if user.profile.is_vip %}vip{% endif %}">
                 {% else %}
                 <img src="{% static 'images/profiles/default_img.jpg' %}" alt="Profile Picture" class="profile-picture {% if user.profile.is_vip %}vip{% endif %}">
             {% endif %}
@@ -33,7 +33,7 @@
         <!-- Информация за потребителя -->
         <div class="profile-info-details">
             <h3>About Me: </h3>
-            <p>{{ user.bio }}</p>
+            <p>{{ user.profile.bio }}</p>
         </div>
 
         <!-- Бутон за редактиране на профила -->

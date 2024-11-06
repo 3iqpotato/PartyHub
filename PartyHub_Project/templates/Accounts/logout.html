@@ -1,0 +1,17 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Accounts_css/logout.css' %}">
+{% endblock %}
+{% block content %}
+<div class="logout-container">
+    <h2>Are you sure you want to log out?</h2>
+    <p>If you log out, you will need to enter your login details to access your account again.</p>
+    
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="confirm-logout">Logout</button>
+        <a href="{% url 'profile_details' %}" class="cancel-logout">Cancel</a>
+    </form>
+</div>
+{% endblock %}

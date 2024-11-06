@@ -34,7 +34,7 @@ class UserProfile(models.Model):
         max_length=300,
     )
 
-    profile_picture = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profiles/', blank=True, null=True)
 
     bio = models.TextField(blank=True, null=True)
 

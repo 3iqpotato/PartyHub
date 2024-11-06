@@ -2,6 +2,7 @@ from PartyHub_Project.Accounts.forms import UserProfileCreateForm
 from PartyHub_Project.Accounts.models import UserProfile
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView
@@ -32,6 +33,8 @@ class ProfileDetailsView(LoginRequiredMixin, DetailView):
     context_object_name = 'user'
 
     def get_object(self):
+        a = self.request.user.profile.profile_picture.url
+        print(a)
         return self.request.user
 
 
@@ -42,4 +45,13 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
     fields = ['profile_picture', 'bio',]
 
     def get_object(self):
-        return self.request.user
+        # a = self.request.user.profile.profile_picture.url
+        # print(a)
+        return self.request.user.profile
+
+
+class CustomLoginView(LoginView):
+    template_name = "accounts/login.html"
+
+    def get_success_url(self):
+        return reverse_lazy('profile_details')

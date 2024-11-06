@@ -49,3 +49,107 @@ body {
 #nav_links a:hover {
     text-decoration: underline; /* Подчертаване при задържане на курсора */
 }
+
+#user_links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+}
+
+/* Стилове за dropdown контейнера */
+/* Стилове за основните линкове */
+#user_links {
+    display: flex;
+    align-items: center; /* За да подравниш линковете по център */
+}
+
+#user_links a {
+    margin-right: 20px; /* Разстояние между линковете */
+    text-decoration: none; /* Премахва подчертаването на линковете */
+    color: #333; /* Цвета на текста */
+}
+
+/* Стилове за падащото меню */
+.dropdown {
+    position: relative;
+    display: inline-block; /* За да се нареди редом с останалите линкове */
+}
+
+.dropdown .dropbtn {
+    background-color: #4CAF50; /* Зелен фон */
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Падащото съдържание */
+.dropdown-content {
+    display: none; /* Скрива съдържанието по подразбиране */
+    position: absolute;
+    background-color: #f9f9f9; /* Светъл фон */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Променя стила на линковете при hover */
+.dropdown-content a:hover {
+    background-color: #ddd; /* Променя фона на линковете при задържане на мишката */
+}
+
+/* Показване на падащото меню при hover */
+.dropdown:hover .dropdown-content {
+    display: block; /* Показва менюто когато мишката е върху падащото меню */
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41; /* Променя фона на бутона при hover */
+}
+
+.logout-form {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.logout-link {
+    background: none;
+    border: none;
+    color: black;
+    padding: 6px 16px;
+    font-size: 16px;
+    text-align: left;
+    width: auto;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+}
+
+/*.logout-link:hover {*/
+/*    background-color: #ddd; !* Променя фона при задържане *!*/
+/*}*/
+
+/*!* Допълнителни стилове *!*/
+/*.dropdown-content a,*/
+/*.logout-link {*/
+/*    color: black;*/
+/*    display: block;*/
+/*    text-decoration: none;*/
+/*    padding: 12px 16px;*/
+/*}*/
+
+/*.dropdown-content a:hover,*/
+/*.logout-link:hover {*/
+/*    background-color: #ddd;*/
+/*}*/
