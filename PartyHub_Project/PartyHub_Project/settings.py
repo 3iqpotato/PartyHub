@@ -30,10 +30,10 @@ ALLOWED_HOSTS = []
 
 # Application definition
 MY_APPS = [
+    'PartyHub_Project.Accounts.apps.AccountsConfig',
     'PartyHub_Project.Common.apps.CommonConfig',
     'PartyHub_Project.Party.apps.EventConfig',
     'PartyHub_Project.Ticket.apps.TicketConfig',
-    'PartyHub_Project.Accounts.apps.AccountsConfig',
 ]
 
 INSTALLED_APPS = [
@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'PartyHub_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Event_Hub_db',
+        'NAME': 'Party_Hub_db',
         'USER': 'postgres',
         'PASSWORD': 'kiko369963',
         'HOST': 'localhost',
@@ -139,4 +139,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'Accounts.UserProfile'
+
+AUTH_USER_MODEL = 'Accounts.BaseUser'

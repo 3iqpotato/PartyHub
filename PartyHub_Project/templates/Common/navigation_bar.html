@@ -12,7 +12,7 @@
         {% if not request.user.is_authenticated %}
         <div id="guest_links">
             <a href="">Login</a>
-            <a href="">Register</a>
+            <a href="{% url 'register' %}">Register</a>
         </div>
         {% else %}
 

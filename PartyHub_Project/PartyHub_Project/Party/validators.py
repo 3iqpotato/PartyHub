@@ -1,6 +1,8 @@
 from django.core.exceptions import ValidationError
+from django.utils.deconstruct import deconstructible
 
 
+@deconstructible
 class MaxSizeValidator():
     def __init__(self, size=5, message=None):
         self.__message = message

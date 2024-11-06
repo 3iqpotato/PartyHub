@@ -69,7 +69,7 @@ class Party(models.Model):
     )
 
     picture = models.ImageField(
-        upload_to='', #TODO to make right path to the place to upload the images
+        upload_to='images/', #TODO to make right path to the place to upload the images
         blank=True,
         null=True,
         help_text="Upload an image with a maximum size of 6MB.",

@@ -1,0 +1,19 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Accounts_css/register.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Register for EventHub</h2>
+            <p>Already have an account? <a href="{% url 'login' %}" class="login-link">Login</a></p>
+        </div>
+
+        <form method="post" class="form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+    </div>
+{% endblock %}
