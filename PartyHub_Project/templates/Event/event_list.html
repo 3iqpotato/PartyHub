@@ -1,0 +1,50 @@
+{% extends 'Common/base.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Events_css/list_display.css' %}">
+{% endblock %}
+{% block content %}
+    <body>
+<div class="events-page-container">
+
+    <!-- Търсачка в центъра -->
+    <div class="search-bar-container">
+        <form class="search-form" method="GET"
+{#              action="{% url 'event_search' %}"#}
+        >
+            <label>
+                <input type="text" name="q" class="search-input" placeholder="Search for events...">
+            </label>
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+
+{#    <!-- Филтри в лявата част като падащо меню -->#}
+{#    <div class="filters-container">#}
+{#        <div class="filter-button">Filter</div>#}
+{#        <div class="filter-dropdown">#}
+{#            <label><input type="checkbox" name="category" value="music"> Music</label><br>#}
+{#            <label><input type="checkbox" name="category" value="sports"> Sports</label><br>#}
+{#            <label><input type="checkbox" name="category" value="arts"> Arts</label><br>#}
+{#            <!-- Добави още филтри тук -->#}
+{#        </div>#}
+{#    </div>#}
+</div>
+
+            <!-- Контейнер за събития -->
+            <div class="events-container">
+                {% for event in events %}
+                <div class="event-card">
+                    <!-- Снимка на събитието -->
+                    <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-image">
+
+                    <!-- Заглавие на събитието -->
+                    <h2 class="event-title">{{ event.title }}</h2>
+
+                    <!-- Бутон за детайли -->
+                    <a href="{% url 'event_detail' event.pk %}" class="details-button">View Details</a>
+                </div>
+                {% endfor %}
+            </div>
+    </body>
+{% endblock %}

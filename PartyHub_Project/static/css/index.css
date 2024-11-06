@@ -1,0 +1,25 @@
+.welcome-container {
+    text-align: center; /* Центрираме текста */
+    padding: 50px 20px; /* Отстъпи отгоре и отдолу */
+}
+
+.welcome-container h2 {
+    font-family: 'Roboto', sans-serif; /* Използваме Roboto шрифта */
+    font-size: 36px; /* Увеличаваме размера на заглавието */
+    color: #2b8a3e; /* Избери цвят, който се свързва с темата */
+    margin-bottom: 10px; /* Отстъп между заглавието и параграфите */
+}
+
+.welcome-container p {
+    font-family: 'Roboto', sans-serif; /* Използваме Roboto шрифта */
+    font-size: 20px; /* Увеличаваме размера на текста */
+    color: #333; /* Тъмен цвят за четимост */
+    line-height: 1.5; /* Увеличаваме разстоянието между редовете */
+    margin: 5px 0; /* Отстъп между параграфите */
+}
+
+.welcome-image {
+    max-width: 100%; /* Много важно за адаптивност */
+    height: auto; /* Запазваме пропорциите на изображението */
+    margin-top: 20px; /* Отстъп отгоре на изображението */
+}

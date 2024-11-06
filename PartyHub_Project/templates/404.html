@@ -1,0 +1,17 @@
+{% extends 'Common/base.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/404.css' %}">
+{% endblock %}
+{% block content %}
+<div class="error-container">
+    <h1>Uh-oh! Where did it go?</h1>
+    <p>It seems like the page you're looking for has taken a vacation! 🏖️</p>
+    <p>But don't worry, we have plenty of other exciting events for you to explore.</p>
+     <img src="{% static 'images/error_animation.jpg' %}" alt="Error Animation" class="error-image">
+    <p>
+        <a href="{% url 'index' %}" class="back-home-link">Let's go back home!</a>
+    </p>
+</div>
+{% endblock %}
+

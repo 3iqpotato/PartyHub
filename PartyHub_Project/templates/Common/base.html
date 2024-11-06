@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PartyHub</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block styles %}
+    {% endblock %}
+</head>
+<body>
+{% include 'Common/navigation_bar.html' %}
+    <main>
+        {% block content %}
+            WELCOME
+                    <!-- Main content of the page -->
+        {% endblock %}
+
+    </main>
+
+{% include 'Common/footer.html' %}
+</body>
+</html>

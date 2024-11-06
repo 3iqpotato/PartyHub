@@ -1,0 +1,38 @@
+{% load static %}
+<nav id="navbar">
+    <div id="logo">
+        <a class="logo-container" href="{% url 'index' %}">
+        <img src="{% static 'images/logo.jpg' %}" alt="EventHub Logo" class="logo">
+        <h1 class="site-title">PartyHub</h1>
+        </a>
+    </div>
+    <div id="nav_links">
+
+        <!-- Линкове за не влезли потребители -->
+        {% if not request.user.is_authenticated %}
+        <div id="guest_links">
+            <a href="">Login</a>
+            <a href="">Register</a>
+        </div>
+        {% else %}
+
+            {% if request.user.is_organizer %}  <!-- if the user is organizer has this attribute -->
+                <!-- Линкове за организатори -->
+                <div id="organizer_links">
+                    <a href="">Create Event</a>
+                    <a href="">View My Events</a>
+                </div>
+
+
+           {% else %}
+                <!-- Линкове за влезли потребители -->
+                <div id="user_links">
+                    <a href="">My Account</a>
+                    <a href="">Events</a>
+                    <a href="">My Tickets</a>
+                </div>
+
+            {% endif %}
+    {% endif %}
+    </div>
+</nav>

@@ -1,0 +1,13 @@
+{% extends 'Common/base.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+{% block content %}
+<div class="welcome-container">
+    <h2>Welcome to EventHub</h2>
+    <p>Your ultimate platform for discovering and managing events.</p>
+    <p>Join us to explore exciting events and connect with organizers!</p>
+    <img src="{% static 'images/welcome_image.jpg' %}" alt="Welcome Image" class="welcome-image">
+</div>
+{% endblock %}
