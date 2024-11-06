@@ -4,18 +4,19 @@ from django.db import models
 
 User = get_user_model()
 
+
 # Create your models here.
-class UserProfile(AbstractUser):
+class BaseUser(AbstractUser):
+    pass
+
+
+class UserProfile(BaseUser):
     points = models.PositiveIntegerField(default=0)
     is_vip = models.BooleanField(default=False)
     friends = models.ManyToManyField('self', blank=True, symmetrical=True)
 
-
     def __str__(self):
         return self.username
-
-
-
 
 
 class Friendship(models.Model):

@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class Ticket(models.Model):
     event = models.ForeignKey(to='Party.Party', on_delete=models.CASCADE, related_name='tickets')
     participant = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE, related_name='tickets')
