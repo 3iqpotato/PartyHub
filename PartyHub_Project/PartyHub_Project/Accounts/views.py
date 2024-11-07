@@ -89,35 +89,39 @@ class UsersListView(ListView):
                                                         #// TODO:Make it work with search form
         users_list = self.request.user.get_users_not_in_followers()
 
+        query = self.request.GET.get('query', '')
+
+        if query:
+            users_list = users_list.filter(username__icontains=query)
+
         context = {
             'users': users_list
         }
         return super().get_context_data(**context)
 
 
-class AddFollowView(LoginRequiredMixin, UserPassesTestMixin, View):
+class AddFollowView(LoginRequiredMixin, View):
 
-    def test_func(self):
-        profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-        return self.request.user == profile
+    # def test_func(self):
+    #     profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
+    #     return self.request.user == profile
 
     def post(self, request, *args, **kwargs):
 
         other = get_object_or_404(UserModel, pk=kwargs.get('pk'))
         self.request.user.follow(other)
-        return redirect('users')
+        return redirect(request.META.get('HTTP_REFERER'))
 
+class RemoveFollowView(LoginRequiredMixin, View):
 
-class RemoveFollowView(LoginRequiredMixin, UserPassesTestMixin, View):
-
-    def test_func(self):
-        profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-        return self.request.user == profile
+    # def test_func(self):
+    #     profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
+    #     return self.request.user == profile
 
     def post(self, request, *args, **kwargs):
         other = get_object_or_404(UserModel, pk=kwargs.get('pk'))
         self.request.user.unfollow(other)
-        return redirect('following_list')
+        return redirect('following_list', self.request.user.pk)
 
 
 class UsersDetailView(DetailView):
@@ -136,8 +140,18 @@ class ShowFollowersView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return self.request.user == profile
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        users_list = self.request.user.get_followers()
+        user = self.request.user
+        following_followers = user.get_followers().filter(following__in=[user])
+
+        non_following_followers = user.get_followers().exclude(following__in=[user])
+
         context = {
-            'followers_list': users_list
+            'user': user,
+            'following_followers': following_followers,
+            'non_following_followers': non_following_followers,
         }
+        # users_list = self.request.user.get_followers()
+        # context = {
+        #     'followers_list': users_list
+        # }
         return super().get_context_data(**context)

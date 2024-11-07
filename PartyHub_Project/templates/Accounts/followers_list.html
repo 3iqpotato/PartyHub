@@ -5,11 +5,31 @@
 {% endblock %}
 {% block content %}
 <div class="friends-list-container">
-    <h2>Your Friends</h2>
+    <h2>Your Followers</h2>
 
-    {% if followers_list %}
+{% if following_followers or non_following_followers %}
+    {% for follower in following_followers %}
+                <ul class="friends-list">
+                        <li class="friend-item">
+                            {% if follower.user.profile_picture %}
+                                <img src="{{ follower.user.profile_picture.url }}" alt="{{ follower.user.username }}'s profile picture" class="profile-image">
+                            {% else %}
+                                <img src="{% static 'images/profiles/default_img.jpg' %}" alt="{{ follower.user.username }}'s profile picture" class="profile-image">
+                            {% endif %}
+                            <div class="friend-info">
+                                <h3>{{ follower.user.username }}</h3>
+                                <p>Points: {{ follower.user.points }}</p>
+                            </div>
+                                <div class="user-actions">
+                                <a href="{%  url 'user_details' follower.user.pk %}" class="view-profile-btn">View Profile</a>
+                            </div>
+                        </li>
+                </ul>
+    {% endfor %}
+
+
+    {% for follower in non_following_followers %}
         <ul class="friends-list">
-            {% for follower in followers_list %}
                 <li class="friend-item">
                     {% if follower.user.profile_picture %}
                         <img src="{{ follower.user.profile_picture.url }}" alt="{{ follower.user.username }}'s profile picture" class="profile-image">
@@ -22,16 +42,50 @@
                     </div>
                         <div class="user-actions">
                         <a href="{%  url 'user_details' follower.user.pk %}" class="view-profile-btn">View Profile</a>
-                        <form method="post" action="{% url 'follow' follower.user.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="add-friend-btn">Follow Back</button>
-                        </form>
+
+                             <form method="post" action="{% url 'follow' follower.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="add-friend-btn">Follow Back</button>
+                            </form>
                     </div>
                 </li>
-            {% endfor %}
         </ul>
-    {% else %}
-        <p>No one is following you!.</p>
-    {% endif %}
+
+    {% endfor %}
+{% else %}
+        <p>No one is following you yet.</p>
+{% endif %}
+
+
+
+
+{##}
+{#    {% if followers_list %}#}
+{#        <ul class="friends-list">#}
+{#            {% for follower in followers_list %}#}
+{#                <li class="friend-item">#}
+{#                    {% if follower.user.profile_picture %}#}
+{#                        <img src="{{ follower.user.profile_picture.url }}" alt="{{ follower.user.username }}'s profile picture" class="profile-image">#}
+{#                    {% else %}#}
+{#                        <img src="{% static 'images/profiles/default_img.jpg' %}" alt="{{ follower.user.username }}'s profile picture" class="profile-image">#}
+{#                    {% endif %}#}
+{#                    <div class="friend-info">#}
+{#                        <h3>{{ follower.user.username }}</h3>#}
+{#                        <p>Points: {{ follower.user.points }}</p>#}
+{#                    </div>#}
+{#                        <div class="user-actions">#}
+{#                        <a href="{%  url 'user_details' follower.user.pk %}" class="view-profile-btn">View Profile</a>#}
+{##}
+{#                        <form method="post" action="{% url 'follow' follower.user.pk %}">#}
+{#                            {% csrf_token %}#}
+{#                            <button type="submit" class="add-friend-btn">Follow Back</button>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% else %}#}
+{#        <p>No one is following you!.</p>#}
+{#    {% endif %}#}
 </div>
 {% endblock %}

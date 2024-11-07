@@ -119,6 +119,20 @@
     background-color: #1b9c7c;
 }
 
+.remove-friend-btn {
+    padding: 8px 12px;
+    background-color: #d9534f; /* Червен бутон за премахване */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.remove-friend-btn:hover {
+    background-color: #c9302c;
+}
+
 /* Адаптивност */
 @media (max-width: 768px) {
     .profile-header {
