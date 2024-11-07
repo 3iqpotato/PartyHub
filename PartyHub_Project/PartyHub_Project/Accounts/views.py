@@ -71,7 +71,7 @@ class ShowFriendsView(LoginRequiredMixin, ListView):
     template_name = 'Accounts/friends_list.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        friends_list = self.request.user.get_friends()
+        friends_list = self.request.user.get_following()
         context = {
             'friends': friends_list
         }
@@ -85,7 +85,7 @@ class UsersListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         # print(self.request.user)#// TODO:Make it work with search form
-        users_list = self.request.user.get_users_not_in_friends(UserProfile)
+        users_list = self.request.user.get_users_not_in_followers()
         context = {
             'users': users_list
         }
@@ -94,11 +94,11 @@ class UsersListView(ListView):
 class AddFriendView(View):
     def post(self, request, *args, **kwargs):
         other = get_object_or_404(UserProfile, pk=kwargs.get('pk'))
-        self.request.user.add_friend(other)
+        self.request.user.follow(other)
         return redirect('users')
 
 class DeleteFriendView(View):
     def post(self, request, *args, **kwargs):
         other = get_object_or_404(UserProfile, pk=kwargs.get('pk'))
-        self.request.user.remove_friend(other)
+        self.request.user.unfollow(other)
         return redirect('friends_list')

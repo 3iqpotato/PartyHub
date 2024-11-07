@@ -31,7 +31,7 @@
                         <a href="" class="view-profile-btn">View Profile</a>
                         <form method="post" action="{% url 'add_friend' user.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="add-friend-btn">Add Friend</button>
+                            <button type="submit" class="add-friend-btn">Follow</button>
                         </form>
                     </div>
                 </li>
