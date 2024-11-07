@@ -56,7 +56,6 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
 
 
     def get_object(self):
-        # print(BaseUser.objects.get_user_with_full_data(id=self.request.user.id))
         return self.request.user  #TODO: fix the view to edit username too
 
 

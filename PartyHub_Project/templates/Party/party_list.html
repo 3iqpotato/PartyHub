@@ -30,12 +30,12 @@
 {#        </div>#}
 {#    </div>#}
 </div>
-            {% if parties %}
+            {% if object_list %}
 
 
             <!-- Контейнер за събития -->
             <div class="events-container">
-                {% for party in parties %}
+                {% for party in object_list %}
                 <div class="event-card">
                     <!-- Снимка на събитието -->
                     <img src="{{ party.image.url }}" alt="{{ party.title }}" class="event-image">
@@ -44,7 +44,7 @@
                     <h2 class="event-title">{{ party.title }}</h2>
 
                     <!-- Бутон за детайли -->
-                    <a href="{% url 'event_detail' party.pk %}" class="details-button">View Details</a>
+                    <a href="" class="details-button">View Details</a>
                 </div>
                 {% endfor %}
             </div>

@@ -1,0 +1,79 @@
+/* Контейнер за създаване на парти */
+.create-party-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.create-party-container h2 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Формата за парти */
+.party-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Полета на формата */
+.party-form input[type="text"],
+.party-form input[type="date"],
+.party-form textarea,
+.party-form select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.party-form input[type="file"] {
+    padding: 5px;
+    border-radius: 4px;
+}
+
+/* Заглавие на полето */
+.party-form label {
+    text-align: left;
+    width: 100%;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Бутон за изпращане на формата */
+.submit-btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Ред за различни секции в формата */
+.party-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Празен ред между различни секции в формата */
+.party-form .empty-row {
+    margin-bottom: 20px;
+}
