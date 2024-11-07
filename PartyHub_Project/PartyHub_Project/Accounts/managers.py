@@ -6,12 +6,10 @@ from django.db import models
 
 
 class UserProfileManager(UserManager):
-
-    def get_user_with_full_data(self, *args, **kwargs):
-        """
-        This method optimizes the query by using select_related to fetch the
-        user and their associated profile in a single query.
-        It reduces the number of queries, improving performance when loading
-        many users at once.
-        """
-        return self.select_related('user').filter(*args, **kwargs)
+    # def get_users_not_in_friends(self, user):
+    #     non_friends = user.objects.exclude(id=user.id)
+    #     # .exclude(
+    #     #     id__in=self.friends.values_list('id', flat=True))
+    #     # non_friends = all_users.
+    #     return non_friends
+    pass

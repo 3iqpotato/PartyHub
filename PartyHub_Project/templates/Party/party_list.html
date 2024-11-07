@@ -1,7 +1,7 @@
 {% extends 'Common/base.html' %}
 {% load static %}
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/Events_css/list_display.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Parties_css/list_display.css' %}">
 {% endblock %}
 {% block content %}
     <body>
@@ -30,21 +30,27 @@
 {#        </div>#}
 {#    </div>#}
 </div>
+            {% if parties %}
+
 
             <!-- Контейнер за събития -->
             <div class="events-container">
-                {% for event in events %}
+                {% for party in parties %}
                 <div class="event-card">
                     <!-- Снимка на събитието -->
-                    <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-image">
+                    <img src="{{ party.image.url }}" alt="{{ party.title }}" class="event-image">
 
                     <!-- Заглавие на събитието -->
-                    <h2 class="event-title">{{ event.title }}</h2>
+                    <h2 class="event-title">{{ party.title }}</h2>
 
                     <!-- Бутон за детайли -->
-                    <a href="{% url 'event_detail' event.pk %}" class="details-button">View Details</a>
+                    <a href="{% url 'event_detail' party.pk %}" class="details-button">View Details</a>
                 </div>
                 {% endfor %}
             </div>
+        {% else %}
+                <h1>No parties!!!</h1>
+
+        {% endif %}
     </body>
 {% endblock %}

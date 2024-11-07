@@ -1,0 +1,44 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Accounts_css/Users_search.css' %}">
+{% endblock %}
+{% block content %}
+<div class="user-list-container">
+    <h2>All Users</h2>
+
+    <!-- Търсачка за потребители -->
+    <form method="get" action="" class="search-form">
+        <input type="text" name="query" placeholder="Search users..." value="{{ request.GET.query }}" class="search-input">
+        <button type="submit" class="search-btn">Search</button>
+    </form>
+
+    <!-- Списък с потребители -->
+    {% if users %}
+        <ul class="user-list">
+            {% for user in users %}
+                <li class="user-item">
+                {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-image">
+                    {% else %}
+                        <img src="{% static 'images/profiles/default_img.jpg' %}" alt="{{ user.username }}'s profile picture" class="profile-image">
+                    {% endif %}
+                    <div class="user-info">
+                        <h3>{{ user.username }}</h3>
+                        <p>Points: {{ user.points }}</p>
+                    </div>
+                    <div class="user-actions">
+                        <a href="" class="view-profile-btn">View Profile</a>
+                        <form method="post" action="{% url 'add_friend' user.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="add-friend-btn">Add Friend</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+</div>
+{% endblock %}

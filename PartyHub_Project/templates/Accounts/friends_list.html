@@ -1,0 +1,34 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Accounts_css/friends_list.css' %}">
+{% endblock %}
+{% block content %}
+<div class="friends-list-container">
+    <h2>Your Friends</h2>
+
+    {% if friends %}
+        <ul class="friends-list">
+            {% for friend in friends %}
+                <li class="friend-item">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-image">
+                    {% else %}
+                        <img src="{% static 'images/profiles/default_img.jpg' %}" alt="{{ user.username }}'s profile picture" class="profile-image">
+                    {% endif %}
+                    <div class="friend-info">
+                        <h3>{{ friend.username }}</h3>
+                        <p>Points: {{ friend.points }}</p>
+                    </div>
+                    <form method="post" action="{% url 'remove_friend' friend.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="remove-friend-btn">Remove</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no friends in your list.</p>
+    {% endif %}
+</div>
+{% endblock %}

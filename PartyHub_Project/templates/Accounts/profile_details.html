@@ -9,31 +9,31 @@
             <!-- Профилна снимка и VIP статус -->
             <div class="profile-picture-wrapper">
                 {% if user.profile.profile_picture %}
-                <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture {% if user.profile.is_vip %}vip{% endif %}">
+                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture {% if user.is_vip %}vip{% endif %}">
                 {% else %}
-                <img src="{% static 'images/profiles/default_img.jpg' %}" alt="Profile Picture" class="profile-picture {% if user.profile.is_vip %}vip{% endif %}">
+                <img src="{% static 'images/profiles/default_img.jpg' %}" alt="Profile Picture" class="profile-picture {% if user.is_vip %}vip{% endif %}">
             {% endif %}
-                {% if user.profile.is_vip %}
+                {% if user.is_vip %}
                     <div class="vip-badge">VIP</div>
                 {% endif %}
             </div>
             <!-- Потребителско име и точки -->
             <div class="profile-info">
                 <h2>{{ user.username }}</h2>
-                <p class="points">Points: {{ user.profile.points }}</p>
+                <p class="points">Points: {{ user.points }}</p>
             </div>
         </div>
 
         <!-- Линкове към приятели и билети -->
         <div class="profile-links">
-            <p><strong>Friends:</strong> <a href="">{{ user.profile.friends.count }} Friends</a></p>
-            <p><strong>Tickets:</strong> <a href="">{{ user.profile.tickets.count }} Tickets</a></p>
+            <p><strong>Friends:</strong> <a href="">{{ user.friends.count }} Friends</a></p>
+            <p><strong>Tickets:</strong> <a href="">{{ user.tickets.count }} Tickets</a></p>
         </div>
 
         <!-- Информация за потребителя -->
         <div class="profile-info-details">
             <h3>About Me: </h3>
-            <p>{{ user.profile.bio }}</p>
+            <p>{{ user.bio }}</p>
         </div>
 
         <!-- Бутон за редактиране на профила -->

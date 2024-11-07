@@ -1,0 +1,65 @@
+.friends-list-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.friends-list-container h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.friends-list {
+    list-style: none;
+    padding: 0;
+}
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.friend-info {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.friend-info h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.friend-info p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.remove-friend-btn {
+    padding: 8px 12px;
+    background-color: #d9534f; /* Червен бутон за премахване */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.remove-friend-btn:hover {
+    background-color: #c9302c;
+}

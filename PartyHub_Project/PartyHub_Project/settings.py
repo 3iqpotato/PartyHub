@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'PartyHub_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Party_Hub_db',
+        'NAME': 'PartyHub_db',
         'USER': 'postgres',
         'PASSWORD': 'kiko369963',
         'HOST': 'localhost',
@@ -146,6 +146,6 @@ MEDIA_ROOT = BASE_DIR / 'images/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'Accounts.BaseUser'
+AUTH_USER_MODEL = 'Accounts.UserProfile'
 # LOGIN_REDIRECT_URL = 'home'  # URL на главната страница след успешен логин
 LOGOUT_REDIRECT_URL = reverse_lazy('index')
