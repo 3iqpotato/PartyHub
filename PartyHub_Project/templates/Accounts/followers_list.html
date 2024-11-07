@@ -20,10 +20,13 @@
                         <h3>{{ follower.user.username }}</h3>
                         <p>Points: {{ follower.user.points }}</p>
                     </div>
-                    <form method="post" action="{% url 'follow' follower.user.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="add-friend-btn">Follow Back</button>
-                    </form>
+                        <div class="user-actions">
+                        <a href="{%  url 'user_details' follower.user.pk %}" class="view-profile-btn">View Profile</a>
+                        <form method="post" action="{% url 'follow' follower.user.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="add-friend-btn">Follow Back</button>
+                        </form>
+                    </div>
                 </li>
             {% endfor %}
         </ul>

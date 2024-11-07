@@ -8,33 +8,40 @@
         <div class="profile-header">
             <!-- Профилна снимка и VIP статус -->
             <div class="profile-picture-wrapper">
-                {% if object.profile_picture %}
-                <img src="{{ object.profile_picture.url }}" alt="Profile Picture" class="profile-picture {% if object.is_vip %}vip{% endif %}">
+                {% if other_user.profile_picture %}
+                <img src="{{ other_user.profile_picture.url }}" alt="Profile Picture" class="profile-picture {% if other_user.is_vip %}vip{% endif %}">
                 {% else %}
-                <img src="{% static 'images/profiles/default_img.jpg' %}" alt="Profile Picture" class="profile-picture {% if object.is_vip %}vip{% endif %}">
+                <img src="{% static 'images/profiles/default_img.jpg' %}" alt="Profile Picture" class="profile-picture {% if other_user.is_vip %}vip{% endif %}">
             {% endif %}
-                {% if user.is_vip %}
+                {% if other_user.is_vip %}
                     <div class="vip-badge">VIP</div>
                 {% endif %}
             </div>
             <!-- Потребителско име и точки -->
             <div class="profile-info">
-                <h2>{{ object.username }}</h2>
-                <p class="points">Points: {{ object.points }}</p>
+                <h2>{{ other_user.username }}</h2>
+                <p class="points">Points: {{ other_user.points }}</p>
             </div>
         </div>
 
         <!-- Линкове към приятели и билети -->
         <div class="profile-links">
-            <p> <a href="{% url 'following_list' %}">{{ object.get_following.count }} Following</a></p>
-            <p> <a href="">{{ object.get_followers.count }} Followers</a></p>
-{#            <p> <a href="">{{ object.tickets.count }} Tickets</a></p>#}
+            <p>
+{#                <a href="{% url 'following_list_user' object.pk %}">#}
+                {{ other_user.get_following.count }} Following
+{#            </a>#}
+            </p>
+            <p>
+{#                <a href="{% url 'followers_list_user' object.pk %}">#}
+                    {{ other_user.get_followers.count }} Followers
+{#                </a>#}
+            </p>
         </div>
 
         <!-- Информация за потребителя -->
         <div class="profile-info-details">
             <h3>About Me: </h3>
-            <p>{{ object.bio }}</p>
+            <p>{{ other_user.bio }}</p>
         </div>
     </div>
 {% endblock %}
