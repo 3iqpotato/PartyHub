@@ -28,8 +28,8 @@
                         <p>Points: {{ user.points }}</p>
                     </div>
                     <div class="user-actions">
-                        <a href="" class="view-profile-btn">View Profile</a>
-                        <form method="post" action="{% url 'add_friend' user.pk %}">
+                        <a href="{%  url 'user_details' user.pk %}" class="view-profile-btn">View Profile</a>
+                        <form method="post" action="{% url 'follow' user.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="add-friend-btn">Follow</button>
                         </form>

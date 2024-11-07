@@ -1,0 +1,34 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Accounts_css/friends_list.css' %}">
+{% endblock %}
+{% block content %}
+<div class="friends-list-container">
+    <h2>Your Friends</h2>
+
+    {% if followers_list %}
+        <ul class="friends-list">
+            {% for follower in followers_list %}
+                <li class="friend-item">
+                    {% if follower.user.profile_picture %}
+                        <img src="{{ follower.user.profile_picture.url }}" alt="{{ follower.user.username }}'s profile picture" class="profile-image">
+                    {% else %}
+                        <img src="{% static 'images/profiles/default_img.jpg' %}" alt="{{ follower.user.username }}'s profile picture" class="profile-image">
+                    {% endif %}
+                    <div class="friend-info">
+                        <h3>{{ follower.user.username }}</h3>
+                        <p>Points: {{ follower.user.points }}</p>
+                    </div>
+                    <form method="post" action="{% url 'follow' follower.user.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="add-friend-btn">Follow Back</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No one is following you!.</p>
+    {% endif %}
+</div>
+{% endblock %}

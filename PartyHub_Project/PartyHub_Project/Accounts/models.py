@@ -44,7 +44,9 @@ class UserProfile(AbstractUser):
         return FollowTable.objects.filter(user=self, following=other_user).exists()
 
     def get_users_not_in_followers(self):
-        return UserProfile.objects.exclude(id=self.id).exclude(id__in=self.get_following().values_list('id', flat=True))
+        all_users = UserProfile.objects.exclude(id=self.id)
+        not_following = all_users.exclude(id__in=self.get_following().values_list('following_id', flat=True))
+        return not_following
 
 
 class FollowTable(models.Model):

@@ -28,7 +28,7 @@
                     <div class="dropdown-content">
                         <a href="{% url 'profile_details' %}">View Profile</a>
                         <a href="">My Tickets</a>
-                        <a href="{% url 'friends_list' %}">My Friends</a>
+{#                        <a href="{% url 'friends_list' %}">Following</a>#}
                         <a href="{% url 'index' %}">My Parties</a>
                         <form method="post" action="{% url 'logout' %}" class="logout-form">
                             {% csrf_token %}

@@ -66,14 +66,14 @@ class CustomLoginView(LoginView):
         return reverse_lazy('profile_details')
 
 
-class ShowFriendsView(LoginRequiredMixin, ListView):
+class ShowFollowingView(LoginRequiredMixin, ListView):
     model = UserProfile
-    template_name = 'Accounts/friends_list.html'
+    template_name = 'Accounts/following_list.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        friends_list = self.request.user.get_following()
+        following_list = self.request.user.get_following()
         context = {
-            'friends': friends_list
+            'following_list': following_list
         }
         # print(friends_list)
         return super().get_context_data(**context)
@@ -86,19 +86,37 @@ class UsersListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         # print(self.request.user)#// TODO:Make it work with search form
         users_list = self.request.user.get_users_not_in_followers()
+        print(users_list)
         context = {
             'users': users_list
         }
         return super().get_context_data(**context)
 
-class AddFriendView(View):
+class AddFollowView(LoginRequiredMixin,     View):
     def post(self, request, *args, **kwargs):
         other = get_object_or_404(UserProfile, pk=kwargs.get('pk'))
         self.request.user.follow(other)
         return redirect('users')
 
-class DeleteFriendView(View):
+class RemoveFollowView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         other = get_object_or_404(UserProfile, pk=kwargs.get('pk'))
         self.request.user.unfollow(other)
-        return redirect('friends_list')
+        return redirect('following_list')
+
+
+class UsersDetailView(DetailView):
+    model = UserProfile
+    template_name = 'Accounts/user_details.html'
+
+class ShowFollowersView(LoginRequiredMixin, ListView):
+    model = UserProfile
+    template_name = 'Accounts/followers_list.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        users_list = self.request.user.get_followers()
+        print(users_list.first().user.username)
+        context = {
+            'followers_list': users_list
+        }
+        return super().get_context_data(**context)

@@ -1,0 +1,34 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Accounts_css/friends_list.css' %}">
+{% endblock %}
+{% block content %}
+<div class="friends-list-container">
+    <h2>Your Friends</h2>
+
+    {% if following_list %}
+        <ul class="friends-list">
+            {% for following_user in following_list %}
+                <li class="friend-item">
+                    {% if following.profile_picture %}
+                        <img src="{{ following_user.following.profile_picture.url }}" alt="{{ following_user.following.username }}'s profile picture" class="profile-image">
+                    {% else %}
+                        <img src="{% static 'images/profiles/default_img.jpg' %}" alt="{{ following_user.following.username }}'s profile picture" class="profile-image">
+                    {% endif %}
+                    <div class="friend-info">
+                        <h3>{{ following_user.following.username }}</h3>
+                        <p>Points: {{ following_user.following.points }}</p>
+                    </div>
+                    <form method="post" action="{% url 'unfollow' following_user.following.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="remove-friend-btn">Unfollow</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You aren't Following any Users.</p>
+    {% endif %}
+</div>
+{% endblock %}

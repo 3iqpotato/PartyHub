@@ -63,3 +63,28 @@
 .remove-friend-btn:hover {
     background-color: #c9302c;
 }
+
+.view-profile-btn, .add-friend-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    text-decoration: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.view-profile-btn {
+    background-color: #4CAF50;
+}
+
+.view-profile-btn:hover {
+    background-color: #45a049;
+}
+
+.add-friend-btn {
+    background-color: #008CBA;
+    border: none;
+}
+
+.add-friend-btn:hover {
+    background-color: #007BB5;
+}

@@ -8,11 +8,13 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),       # за логване
     path('logout/', LogoutView.as_view(), name='logout'),    # за излизане
     path('users/', views.UsersListView.as_view(), name='users'),    # за излизане
+    path('users/<int:pk>', views.UsersDetailView.as_view(), name='user_details'),    # за излизане
     path('profile/', include([
         path('details/', views.ProfileDetailsView.as_view(), name='profile_details'),
         path('edit/', views.ProfileEditView.as_view(), name='profile_edit'),
-        path('friends/', views.ShowFriendsView.as_view(), name='friends_list'),
-        path('friends/add/<int:pk>', views.AddFriendView.as_view(), name='add_friend'),
-        path('friends/remove/<int:pk>', views.DeleteFriendView.as_view(), name='remove_friend'),
+        path('following/', views.ShowFollowingView.as_view(), name='following_list'),
+        path('followers/', views.ShowFollowersView.as_view(), name='followers_list'),
+        path('following/add/<int:pk>', views.AddFollowView.as_view(), name='follow'),
+        path('following/remove/<int:pk>', views.RemoveFollowView.as_view(), name='unfollow'),
     ])),
 ]
