@@ -26,14 +26,17 @@ UserModel = get_user_model()
 class RegisterView(CreateView):
     form_class = UserProfileCreateForm
     template_name = 'Accounts/register.html'
-    success_url = reverse_lazy('profile_details')  # Пренасочване след успешна регистрация
+     # Пренасочване след успешна регистрация
 
     def form_valid(self, form):
         response = super().form_valid(form)
         user = self.object
-        user.backend = 'PartyHub_Project.Accounts.authentication.EmailOrUsernameBackend'
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(self.request, user)  # Логване на потребителя след регистрация
         return response  # Връща успешен отговор потребител
+
+    def get_success_url(self):
+        return reverse_lazy('profile_details', kwargs={'pk': self.object.pk})
 
 
 class ProfileDetailsView(LoginRequiredMixin, DetailView):

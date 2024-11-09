@@ -8,7 +8,7 @@ class UserProfileBaseForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ['username', 'email', 'password1', 'password2']# Use the custom user model
+        fields = ['username', 'email', 'password1', 'password2']
 
 
 class UserProfileCreateForm(RemoveHelpTextMixin, UserProfileBaseForm):
@@ -21,6 +21,13 @@ class UserProfileCreateForm(RemoveHelpTextMixin, UserProfileBaseForm):
         label="Email",
         widget=forms.TextInput(attrs={'placeholder': 'Enter your email...'}),
     )
+
+    # def clean_email(self):
+    #     email = self.cleaned_data.get('email')
+    #     if get_user_model().objects.filter(email=email).exists():
+    #         raise forms.ValidationError("This email is already in use.")
+    #     return email
+
 
 
 class UserProfileLoginForm(RemoveHelpTextMixin, AuthenticationForm):
