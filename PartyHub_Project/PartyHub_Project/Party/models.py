@@ -106,7 +106,11 @@ class Party(models.Model):
         help_text="URL-friendly identifier based on the title."
      )
 
-    # ended = models.BooleanField(default=False)
+    is_public = models.BooleanField(
+        default=False,
+        null=False,
+        blank=False,
+    )
 
     def clean(self):
         super().clean()

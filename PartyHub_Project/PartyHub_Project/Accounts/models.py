@@ -54,7 +54,11 @@ class UserProfile(AbstractUser):
     def get_live_party(self):
         now = timezone.now()
         party = self.organized_parties.filter(date__lte=now, end_date__gte=now)
+
         return party
+
+    # def get_parties(self):
+    #     return self.organized_parties
 
 
 class FollowTable(models.Model):

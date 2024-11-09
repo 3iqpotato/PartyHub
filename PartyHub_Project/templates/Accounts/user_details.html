@@ -43,9 +43,19 @@
             <h3>About Me: </h3>
             <p>{{ other_user.bio }}</p>
         </div>
+    {% if request.user.is_authenticated %}
+    {% if i_follow_him %}
         <form method="post" action="{% url 'unfollow' other_user.pk %}">
             {% csrf_token %}
             <button type="submit" class="remove-friend-btn">Unfollow</button>
         </form>
+        {%  else  %}
+        <form method="post" action="{% url 'follow' other_user.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="add-friend-btn">Follow</button>
+        </form>
+    {% endif %}
+    {% endif %}
     </div>
+
 {% endblock %}

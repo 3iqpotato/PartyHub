@@ -1,6 +1,6 @@
 from PartyHub_Project.Party.models import Party
 from django import forms
-from django.forms import DateTimeInput, TextInput, Select
+from django.forms import DateTimeInput, TextInput, Select, CheckboxInput
 from django.utils import timezone
 
 
@@ -8,7 +8,7 @@ class PartyCreateForm(forms.ModelForm):
     class Meta:
         model = Party
         fields = ['title', 'description', 'date', 'end_date', 'location',
-                  'available_spots', 'party_type', 'picture', 'registration_deadline']
+                  'available_spots', 'party_type', 'picture', 'registration_deadline', 'is_public']
 
         widgets = {
             'title': TextInput(attrs={
@@ -46,6 +46,9 @@ class PartyCreateForm(forms.ModelForm):
                 'type': 'datetime-local',
                 'class': 'form-control',
             }),
+            'is_public': CheckboxInput(attrs={
+                'class': 'form-control',
+            })
         }
 
         def clean_title(self):

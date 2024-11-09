@@ -1,4 +1,5 @@
 from PartyHub_Project.Accounts.forms import UserProfileCreateForm, UserProfileLoginForm
+from PartyHub_Project.Accounts.models import FollowTable
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
@@ -74,7 +75,7 @@ class CustomLoginView(LoginView):
         return reverse_lazy('profile_details', kwargs={'pk': self.request.user.pk})
 
 
-class ShowFollowingView(LoginRequiredMixin,UserPassesTestMixin, ListView):
+class ShowFollowingView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = UserModel
     template_name = 'Accounts/following_list.html'
 
@@ -130,7 +131,7 @@ class RemoveFollowView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         other = get_object_or_404(UserModel, pk=kwargs.get('pk'))
         self.request.user.unfollow(other)
-        return redirect('following_list', self.request.user.pk)
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class UsersDetailView(DetailView):
@@ -138,7 +139,13 @@ class UsersDetailView(DetailView):
     template_name = 'Accounts/user_details.html'
     context_object_name = 'other_user'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        if self.request.user.is_authenticated:
+            i_follow_him = self.request.user.is_following(self.object)
 
+            context['i_follow_him'] = i_follow_him
+        return context
 
 class ShowFollowersView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = UserModel
@@ -150,17 +157,27 @@ class ShowFollowersView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         user = self.request.user
-        following_followers = user.get_followers().filter(following__in=[user])
+        followers = user.get_followers()
+        followers_list_ids = [f.user.id for f in followers]
+        followers_objs = UserModel.objects.filter(id__in=followers_list_ids)
+        #here afther 10 tries and 1 hour with chat gpt i find out how stupid he is and after 2 hours i mane if working!!!
 
-        non_following_followers = user.get_followers().exclude(following__in=[user])
+        # Потребители, които аз също следвам
+        following_followers = followers_objs.filter(
+            id__in=followers_list_ids,  # Те ме следват
+            follower_set__user=user  # Аз ги следвам обратно
+        )
+
+        # Потребители, които ме следват, но аз не ги следвам обратно
+        non_following_followers = (followers_objs.filter(
+            id__in=followers_list_ids  # Те ме следват
+        ).exclude(
+            follower_set__user=user  # Аз не ги следвам
+        ))
 
         context = {
             'user': user,
             'following_followers': following_followers,
             'non_following_followers': non_following_followers,
         }
-        # users_list = self.request.user.get_followers()
-        # context = {
-        #     'followers_list': users_list
-        # }
         return super().get_context_data(**context)
