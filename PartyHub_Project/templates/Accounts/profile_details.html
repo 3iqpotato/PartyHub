@@ -29,6 +29,12 @@
             <p> <a href="{% url 'following_list' user.pk %}">{{ user.get_following.count }} Following</a></p>
             <p> <a href="{% url 'followers_list' user.pk %}">{{ user.get_followers.count }} Followers</a></p>
             <p> <a href="">{{ user.tickets.count }} Tickets</a></p>
+{#            {% if live_party %}#}
+{#            <p> <a href="">{{ live_party.title }} Yes</a></p>#}
+{#                {% else %}#}
+{#                <p>No</p>#}
+{#            {% endif %}#}
+
         </div>
 
         <!-- Информация за потребителя -->

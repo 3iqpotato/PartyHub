@@ -44,6 +44,12 @@ class ProfileDetailsView(LoginRequiredMixin, DetailView):
     template_name = 'accounts/profile_details.html'
     context_object_name = 'user'
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     live_party = self.request.user.get_live_party()
+    #     context.update({'live_party': live_party})
+    #     return context
+
 
 class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = UserModel

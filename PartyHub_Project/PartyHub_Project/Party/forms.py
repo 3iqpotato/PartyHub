@@ -1,12 +1,13 @@
 from PartyHub_Project.Party.models import Party
 from django import forms
 from django.forms import DateTimeInput, TextInput, Select
+from django.utils import timezone
 
 
 class PartyCreateForm(forms.ModelForm):
     class Meta:
         model = Party
-        fields = ['title', 'description', 'date', 'location',
+        fields = ['title', 'description', 'date', 'end_date', 'location',
                   'available_spots', 'party_type', 'picture', 'registration_deadline']
 
         widgets = {
@@ -41,8 +42,9 @@ class PartyCreateForm(forms.ModelForm):
                 'type': 'datetime-local',
                 'class': 'form-control',
             }),
-            'ended': forms.CheckboxInput(attrs={
-                'class': 'form-check-input',
+            'end_date':  DateTimeInput(attrs={
+                'type': 'datetime-local',
+                'class': 'form-control',
             }),
         }
 

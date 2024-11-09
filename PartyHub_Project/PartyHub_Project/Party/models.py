@@ -1,5 +1,6 @@
-from PartyHub_Project.Party.managers import EventManager
+from PartyHub_Project.Party.managers import PartyManager
 from PartyHub_Project.Party.validators import MaxSizeValidator
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
@@ -23,6 +24,12 @@ class Party(models.Model):
         ('other', 'Other'),
     ]
 
+    organizer = models.ForeignKey(
+        to=get_user_model(),  # Свързване към модела UserProfile
+        on_delete=models.CASCADE,  # Изтриване на събитията при изтриване на потребителя
+        related_name='organized_parties',  # Свързване обратно за лесен достъп до събитията
+    )
+
     title = models.CharField(
         max_length=70,
         blank=False,
@@ -43,7 +50,13 @@ class Party(models.Model):
     date = models.DateTimeField(
         blank=False,
         null=False,
-        help_text="Set the date and time for the event.",
+        help_text="Set the start date and time for the event.",
+    )
+
+    end_date = models.DateTimeField(
+        blank=False,
+        null=False,
+        help_text="Set the end date and time for the event.",
     )
 
     location = models.TextField(
@@ -89,15 +102,19 @@ class Party(models.Model):
     slug = models.SlugField(
         unique=True,
         blank=True,
+        null=True,
         help_text="URL-friendly identifier based on the title."
      )
 
-    ended = models.BooleanField(default=False)
+    # ended = models.BooleanField(default=False)
 
     def clean(self):
         super().clean()
         if self.date < timezone.now():
             raise ValidationError("The event date cannot be in the past.")
+
+        if self.end_date <= self.date:
+            raise ValidationError("The end date must be after the start date.")
 
         if self.registration_deadline and self.registration_deadline > self.date:
             raise ValidationError("The registration deadline cannot be after the event date.")
@@ -110,7 +127,7 @@ class Party(models.Model):
     def __str__(self):
         return self.title
 
-    objects = EventManager()
+    objects = PartyManager()
 
     class Meta:
         ordering = ['-date']

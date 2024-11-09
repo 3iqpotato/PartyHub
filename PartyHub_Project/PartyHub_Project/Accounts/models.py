@@ -1,6 +1,7 @@
 from PartyHub_Project.Accounts.managers import UserProfileManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
@@ -50,6 +51,11 @@ class UserProfile(AbstractUser):
         not_following = all_users.exclude(id__in=self.get_following().values_list('following_id', flat=True))
         return not_following
 
+    def get_live_party(self):
+        now = timezone.now()
+        party = self.organized_parties.filter(date__lte=now, end_date__gte=now)
+        return party
+
 
 class FollowTable(models.Model):
     user = models.ForeignKey(to=UserProfile, on_delete=models.CASCADE, related_name='following')
@@ -57,7 +63,7 @@ class FollowTable(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'following')  # Предотвратява дублиращи записи
+        unique_together = ('user', 'following')
 
     def __str__(self):
         return f"{self.user} is following {self.following}"
