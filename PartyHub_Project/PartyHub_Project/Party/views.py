@@ -24,6 +24,13 @@ class PartyListView(ListView):
         all_parties = public_parties
         if followers_parties:
             all_parties | public_parties
+
+        query = self.request.GET.get('q', '')
+
+        if query:
+            all_parties = all_parties.filter(title__icontains=query)
+
+
         context.update({'parties': all_parties})
         return context
 

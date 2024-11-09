@@ -13,7 +13,7 @@
 {#              action="{% url 'event_search' %}"#}
         >
             <label>
-                <input type="text" name="q" class="search-input" placeholder="Search for events...">
+                <input type="text" name="q" value="{{ request.GET.q }}" class="search-input" placeholder="Search for events...">
             </label>
             <button type="submit" class="search-button">Search</button>
         </form>

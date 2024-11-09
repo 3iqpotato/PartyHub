@@ -112,10 +112,6 @@ class UsersListView(ListView):
 
 class AddFollowView(LoginRequiredMixin, View):
 
-    # def test_func(self):
-    #     profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-    #     return self.request.user == profile
-
     def post(self, request, *args, **kwargs):
 
         other = get_object_or_404(UserModel, pk=kwargs.get('pk'))
