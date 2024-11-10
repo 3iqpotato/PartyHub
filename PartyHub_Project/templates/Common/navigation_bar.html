@@ -12,6 +12,7 @@
         <!-- Линкове за не влезли потребители -->
         {% if not request.user.is_authenticated %}
         <div id="guest_links">
+            <a href="{% url 'all_parties' %}">Parties</a>
             <a href="{%  url 'login' %}">Login</a>
             <a href="{% url 'register' %}">Register</a>
         </div>
@@ -21,7 +22,7 @@
             <div id="user_links">
                 {% get_live_events request as live_party %}
                 {% if live_party %}
-                    <a href="">Live Party</a>
+                    <a href="{% url 'live_party' live_party.pk %}">Live Party</a>
                 {% endif %}
                 <a href="{% url 'create_party' %}">Create Party</a>
                 <a href="{% url 'all_parties' %}">Parties</a>
@@ -34,7 +35,7 @@
                         <a href="{% url 'profile_details' request.user.pk %}">View Profile</a>
                         <a href="">My Tickets</a>
 {#                        <a href="{% url 'friends_list' %}">Following</a>#}
-                        <a href="{% url 'index' %}">My Parties</a>
+                        <a href="{% url 'user_parties' %}">My Parties</a>
                         <form method="post" action="{% url 'logout' %}" class="logout-form">
                             {% csrf_token %}
                             <button type="submit" class="logout-link"><a>Logout</a></button>

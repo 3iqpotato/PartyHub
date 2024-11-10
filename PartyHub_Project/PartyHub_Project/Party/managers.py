@@ -3,6 +3,7 @@ from django.utils import timezone
 
 
 class PartyManager(models.Manager):
+
     # def filter_by_organizer(self, organizer):
     #     return self.filter(organizer__) TODO to make it search by organizator name
 
@@ -11,4 +12,8 @@ class PartyManager(models.Manager):
         return self.filter(organizer=user, date__lte=now, end_date__gte=now)
 
     def get_public_parties(self):
-        return self.filter(is_public=True)
+        now = timezone.now()
+        return self.filter(is_public=True, date__gte=now)
+
+    def get_party_by_id(self, party_id):
+        return self.filter(id=party_id).first()

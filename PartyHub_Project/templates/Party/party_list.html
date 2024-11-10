@@ -44,7 +44,7 @@
                     <h2 class="event-title">{{ party.title }}</h2>
 
                     <!-- Бутон за детайли -->
-                    <a href="" class="details-button">View Details</a>
+                    <a href="{% url 'details_party' party.pk %}" class="details-button">View Details</a>
                 </div>
                 {% endfor %}
             </div>
@@ -53,4 +53,22 @@
 
         {% endif %}
     </body>
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if parties.has_previous %}
+            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">First</a>
+            <a href="?page={{ parties.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ parties.number }} of {{ parties.paginator.num_pages }}
+        </span>
+
+        {% if parties.has_next %}
+            <a href="?page={{ parties.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+            <a href="?page={{ parties.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Last</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

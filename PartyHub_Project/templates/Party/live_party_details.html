@@ -1,0 +1,54 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Parties_css/live_party.css' %}">
+{% endblock %}
+{% block content %}
+<div class="party-container">
+    <!-- Заглавие и снимка на партито -->
+    <h1 class="party-title">{{ party.title }}</h1>
+    <img src="{{ party.image.url }}" alt="Party Image" class="party-image">
+
+    <div class="attendance-lists">
+        <!-- Списък с хора, които са дошли -->
+        <div class="attendance-list">
+            <h2>Attendees</h2>
+            <ul>
+                {% for attendee in attendees %}
+                    <li class="attendee-card">
+                        <img src="{{ attendee.user.profile_image.url }}" alt="Profile Picture" class="attendee-image">
+                        <span class="attendee-name">{{ attendee.user.username }}</span>
+                        <span class="attendee-points">{{ attendee.user.points }} points</span>
+                        <form method="post" action="{% url 'mark_not_arrived' attendee.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="status-button">Mark as Not Arrived</button>
+                        </form>
+                    </li>
+                {% empty %}
+                    <p>No attendees yet.</p>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Списък с хора, които още не са дошли -->
+        <div class="attendance-list">
+            <h2>Not Arrived</h2>
+            <ul>
+                {% for not_arrived in not_arrived %}
+                    <li class="attendee-card">
+                        <img src="{{ not_arrived.user.profile_image.url }}" alt="Profile Picture" class="attendee-image">
+                        <span class="attendee-name">{{ not_arrived.user.username }}</span>
+                        <span class="attendee-points">{{ not_arrived.user.points }} points</span>
+                        <form method="post" action="{% url 'mark_arrived' not_arrived.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="status-button">Mark as Arrived</button>
+                        </form>
+                    </li>
+                {% empty %}
+                    <p>All guests have arrived!</p>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

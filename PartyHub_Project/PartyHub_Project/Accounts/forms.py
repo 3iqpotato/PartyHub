@@ -22,13 +22,6 @@ class UserProfileCreateForm(RemoveHelpTextMixin, UserProfileBaseForm):
         widget=forms.TextInput(attrs={'placeholder': 'Enter your email...'}),
     )
 
-    # def clean_email(self):
-    #     email = self.cleaned_data.get('email')
-    #     if get_user_model().objects.filter(email=email).exists():
-    #         raise forms.ValidationError("This email is already in use.")
-    #     return email
-
-
 
 class UserProfileLoginForm(RemoveHelpTextMixin, AuthenticationForm):
     username = forms.CharField(

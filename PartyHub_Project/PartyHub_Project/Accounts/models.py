@@ -53,9 +53,12 @@ class UserProfile(AbstractUser):
 
     def get_live_party(self):
         now = timezone.now()
-        party = self.organized_parties.filter(date__lte=now, end_date__gte=now)
-
+        party = self.organized_parties.filter(date__lte=now, end_date__gte=now).first()
         return party
+
+    def get_not_started_parties(self):
+        now = timezone.now()
+        return self.organized_parties.filter(date__gte=now)
 
     # def get_parties(self):
     #     return self.organized_parties

@@ -1,7 +1,9 @@
 from PartyHub_Project.Party.models import Party
 from django import forms
+from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.forms import DateTimeInput, TextInput, Select, CheckboxInput
-from django.utils import timezone
+
 
 
 class PartyCreateForm(forms.ModelForm):
@@ -51,8 +53,33 @@ class PartyCreateForm(forms.ModelForm):
             })
         }
 
-        def clean_title(self):
-            title = self.cleaned_data.get('title')
-            if Party.objects.filter(title=title).exists():
-                raise forms.ValidationError("An event with this title already exists.")
-            return title
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if Party.objects.filter(title=title).exists():
+            raise forms.ValidationError("An event with this title already exists.")
+
+        return title
+
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get("date")
+        end_date = cleaned_data.get("end_date")
+            # Проверка за конфликти с други партита
+        conflicting_parties = Party.objects.filter(
+                # Условие 1: Съществуващо парти започва преди края на новото и свършва след началото на новото
+                Q(date__lt=end_date, end_date__gt=start_date) |
+                # Условие 2: Съществуващо парти започва преди началото на новото и свършва след началото на новото
+                Q(date__lt=start_date, end_date__gt=start_date) |
+                # Условие 3: Съществуващо парти свършва след началото на новото и започва преди края на новото
+                Q(end_date__gt=start_date, date__lt=end_date)
+            )
+
+        # .exclude(id=self.id))  # Изключваме текущото парти, ако редактираме // TODO ako pravq forma za editvane da dobavq towa!!!
+
+
+        if conflicting_parties.exists():
+            raise ValidationError("There is another party scheduled during this time. Please choose a different time period.")
+
+        return cleaned_data
+
+

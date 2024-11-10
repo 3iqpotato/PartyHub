@@ -1,0 +1,71 @@
+/* Контейнер за страницата с детайли на партито */
+.party-details-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.party-details-container h2 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Съдържание на детайлите за партито */
+.party-details-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.party-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.party-info {
+    text-align: left;
+    width: 100%;
+    max-width: 500px;
+}
+
+.party-info p {
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0;
+}
+
+/* Бутони за присъединяване и напускане */
+.join-party-button,
+.leave-party-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.leave-party-button {
+    background-color: #e74c3c;
+}
+
+.join-party-button:hover {
+    background-color: #45a049;
+}
+
+.leave-party-button:hover {
+    background-color: #c0392b;
+}

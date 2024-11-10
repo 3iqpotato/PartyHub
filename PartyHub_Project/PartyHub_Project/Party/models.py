@@ -112,6 +112,9 @@ class Party(models.Model):
         blank=False,
     )
 
+    # def not_started(self):
+    #     return self.date > timezone.now()
+
     def clean(self):
         super().clean()
         if self.date < timezone.now():
@@ -134,5 +137,5 @@ class Party(models.Model):
     objects = PartyManager()
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['-date'] #// TODO da ne moze da ima 2 partita po edno i sushto vreme!!!
 

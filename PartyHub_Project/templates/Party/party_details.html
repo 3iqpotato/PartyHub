@@ -1,0 +1,48 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Parties_css/party_details.css' %}">
+{% endblock %}
+{% block content %}
+<div class="party-details-container">
+    <h2>{{ party.name }}</h2>
+    
+    <div class="party-details-content">
+        <!-- Изображение на партито -->
+        {% if party.image %}
+            <img src="{{ party.image.url }}" alt="Party Image" class="party-image">
+        {% else %}
+            <img src="{% static 'default_party_image.jpg' %}" alt="Default Party Image" class="party-image">
+        {% endif %}
+
+        <div class="party-info">
+            <p><strong>Date:</strong> {{ party.date }}</p>
+            <p><strong>Title:</strong> {{ party.title }}</p>
+            <p><strong>Location:</strong> {{ party.location }}</p>
+            <p><strong>Organizer:</strong> {{ party.organizer.username }}</p>
+            <p><strong>Description:</strong> {{ party.description }}</p>
+{#            <p><strong>Attendees:</strong> {{ party.attendees.count }} people</p>#}
+            
+            <!-- Бутон за участие или напускане на партито -->
+            {% if user.is_authenticated %}
+                {% if party.organizer == user %}
+                    <a href="{% url 'delete_party' party.pk %}" class="details-link">Delete Party</a>
+                {% endif %}
+                {% if user in party.attendees.all %}
+{#                    <form method="post" action="{% url 'leave_party' party.id %}">#}
+{#                        {% csrf_token %}#}
+{#                        <button type="submit" class="leave-party-button">Leave Party</button>#}
+{#                    </form>#}
+                {% else %}
+{#                    <form method="post" action="{% url 'join_party' party.id %}">#}
+{#                        {% csrf_token %}#}
+{#                        <button type="submit" class="join-party-button">Join Party</button>#}
+{#                    </form>#}
+                {% endif %}
+            {% else %}
+                <p>Please <a href="{% url 'login' %}">log in</a> to join this party.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
