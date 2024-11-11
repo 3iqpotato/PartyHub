@@ -22,7 +22,7 @@
             <div id="user_links">
                 {% get_live_events request as live_party %}
                 {% if live_party %}
-                    <a href="{% url 'live_party' live_party.pk %}">Live Party</a>
+                    <a href="{% url 'live_party' live_party.slug %}">Live Party</a>
                 {% endif %}
                 <a href="{% url 'create_party' %}">Create Party</a>
                 <a href="{% url 'all_parties' %}">Parties</a>
@@ -33,8 +33,7 @@
                     <a href="#" class="dropbtn">My Account</a>
                     <div class="dropdown-content">
                         <a href="{% url 'profile_details' request.user.pk %}">View Profile</a>
-                        <a href="">My Tickets</a>
-{#                        <a href="{% url 'friends_list' %}">Following</a>#}
+                        <a href="{% url 'user_tickets' request.user.pk %}">My Tickets</a>
                         <a href="{% url 'user_parties' %}">My Parties</a>
                         <form method="post" action="{% url 'logout' %}" class="logout-form">
                             {% csrf_token %}

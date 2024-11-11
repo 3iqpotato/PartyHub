@@ -1,0 +1,29 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Tickets_css/ticket_create.css' %}">
+{% endblock %}
+{% block content %}
+<div class="ticket-container">
+    <div class="ticket-info">
+        <h2 class="party-title">🎉 Готови ли сте за партито? 🎉</h2>
+        <p class="party-details">Присъединете се към партито "{{ party.title }}"!</p>
+        <p class="party-date">Дата на партито: {{ party.date|date:"d M Y, H:i" }}</p>
+        <p class="party-location">Локация: {{ party.location }}</p>
+        
+        <div class="ticket-actions">
+            <form action="{% url 'get_ticket' party.slug %}" method="POST">
+                {% csrf_token %}
+                <button class="btn-buy">
+                🎟️ Купи Билет
+            </button>
+
+            </form>
+
+            <button class="btn-cancel" onclick="window.location.href='{% url 'details_party' party.slug %}'">
+                ❌ Отказвам се
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

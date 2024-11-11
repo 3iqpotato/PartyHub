@@ -1,0 +1,32 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Tickets_css/ticket_details.css' %}">
+{% endblock %}
+{% block content %}
+<div class="ticket-container">
+    <div class="ticket-header">
+        <h2>🎉 Билет за Партито: "{{ ticket.party.title }}" 🎉</h2>
+        <p class="ticket-date">Дата на партито: {{ ticket.party.date|date:"d M Y, H:i" }}</p>
+    </div>
+
+    <div class="ticket-info">
+        <h3>Информация за Билета:</h3>
+        <ul>
+            <li><strong>Участник:</strong> {{ ticket.participant.username }}</li>
+            <li><strong>Тип билет:</strong> 
+                {% if ticket.is_vip %}
+                    <span class="vip-label">VIP</span>
+                {% else %}
+                    Стандартен
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+
+    <div class="ticket-actions">
+        <a href="" class="btn-cancel">❌ Отказване на Билета</a>
+        <a href="{% url 'details_party' ticket.party.slug %}" class="btn-party-details">🔎 Детайли за Партито</a>
+    </div>
+</div>
+{% endblock %}

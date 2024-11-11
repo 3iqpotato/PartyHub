@@ -22,7 +22,7 @@
                         <p><strong>Date:</strong> {{ party.date }}</p>
                         <p><strong>Location:</strong> {{ party.location }}</p>
                         <p>{{ party.description|truncatewords:20 }}</p>
-                        <a href="{% url 'details_party' party.pk %}" class="details-link">View Details</a>
+                        <a href="{% url 'details_party' party.slug %}" class="details-link">View Details</a>
                     </div>
                 </div>
             {% endfor %}
@@ -40,7 +40,7 @@
                         <p><strong>Date:</strong> {{ party.date }}</p>
                         <p><strong>Location:</strong> {{ party.location }}</p>
                         <p>{{ party.description|truncatewords:20 }}</p>
-                        <a href="{% url 'delete_party' party.pk %}" class="details-link">Delete Party</a>
+                        <a href="{% url 'delete_party' party.slug %}" class="details-link">Delete Party</a>
                     </div>
                 </div>
             {% endfor %}

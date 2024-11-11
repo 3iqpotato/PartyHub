@@ -12,8 +12,6 @@ class UserProfile(AbstractUser):
 
     email = models.EmailField(_("email address"), blank=False, null=False, unique=True)
 
-    is_vip = models.BooleanField(default=False)
-
     followers = models.ManyToManyField(
         to='self',
         blank=True,
@@ -30,6 +28,12 @@ class UserProfile(AbstractUser):
     def __str__(self):
         return self.username
 
+    def is_vip(self):
+        return self.points > 300
+
+    def get_valid_tickets(self):
+        now = timezone.now()
+        return self.tickets.filter(party__end_date__gt=now)
     def get_followers(self):
         return self.follower_set.all()
 

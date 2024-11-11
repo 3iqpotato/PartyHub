@@ -93,13 +93,14 @@ class Party(models.Model):
         blank=True,
         null=True,
         help_text="Optional: Deadline for participant registration.",
-    )
+    ) #TODO да направя да не излизат партита на който тази дата е минала и други неща с това!!!
 
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
 
     slug = models.SlugField(
+        max_length=100,
         unique=True,
         blank=True,
         null=True,
@@ -112,8 +113,16 @@ class Party(models.Model):
         blank=False,
     )
 
-    # def not_started(self):
-    #     return self.date > timezone.now()
+    def get_free_spots(self):
+        return self.available_spots - self.tickets.count()
+
+    def not_late_for_tickets(self):
+        now = timezone.now()
+        if self.registration_deadline:
+            if self.registration_deadline > now:
+                return True
+        else:
+            return self.date > now
 
     def clean(self):
         super().clean()

@@ -1,0 +1,32 @@
+{#{% extends "Common/base.html" %}#}
+{##}
+{#{% block content %}#}
+{#    <div class="message">#}
+{#        <h2>Party Inactive</h2>#}
+{#        <p>The party "{{ party.title }}" is not live at this moment. Please check back during the scheduled time.</p>#}
+{#    </div>#}
+{#{% endblock %}#}
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Parties_css/inactive_party.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="party-ended-container">
+    <h2 class="party-ended-title">🎉 Your Party Has Officially Ended! 🎉</h2>
+    <p class="party-ended-text">
+        Well done, <strong>{{ request.user.username }}</strong>! The party "<strong>{{ party.title }}</strong>" was a blast! 🎊
+    </p>
+    <p class="party-organizer-reflection">
+        You brought people together, you set the vibes, and everyone had a fantastic time. But all great parties must come to an end, right? 😉
+    </p>
+    <p class="party-next-steps">
+        Ready to plan the next epic bash? Keep an eye on your party skills and start dreaming up an even bigger event! 💥
+    </p>
+
+    <button class="next-party-button" onclick="window.location.href='{% url 'create_party' %}'">
+        🎈 Plan a New Party 🎈
+    </button>
+</div>
+{% endblock %}

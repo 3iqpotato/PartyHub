@@ -1,0 +1,33 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Tickets_css/user_tickets.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="tickets-container">
+    <h2 class="tickets-title">🎟️ Моите Билети за Парти 🎟️</h2>
+
+    {% if user_tickets %}
+        <div class="tickets-list">
+            {% for ticket in user_tickets %}
+                <div class="ticket-card">
+                    <h3 class="ticket-title">{{ ticket.party.title }}</h3>
+                    <p class="ticket-date">Дата на партито: {{ ticket.party.date|date:"d M Y, H:i" }}</p>
+                    <p class="ticket-location">Локация: {{ ticket.party.location }}</p>
+                    <div class="ticket-actions">
+                        <button class="btn-view" onclick="window.location.href='{% url 'party_ticket_detail' ticket.pk %}'">
+                            🔍 Прегледай Билета
+                        </button>
+                        <a class="btn-delete" href="{% url 'delete_ticket' ticket.pk %}">
+                            <button type="submit" class="btn-delete">🗑️ Премахни Билета</button>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-tickets">Нямате добавени билети за парти в момента. Вижте наличните партита и се включете!</p>
+    {% endif %}
+</div>
+{% endblock %}

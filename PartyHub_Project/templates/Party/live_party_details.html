@@ -10,7 +10,27 @@
     <img src="{{ party.image.url }}" alt="Party Image" class="party-image">
 
     <div class="attendance-lists">
-        <!-- Списък с хора, които са дошли -->
+
+        <!-- Списък с хора, които още не са дошли -->
+        <div class="attendance-list">
+            <h2>Not Arrived</h2>
+            <ul>
+                {% for not_arrived in not_arrived_list %}
+                    <li class="attendee-card">
+                        <img src="{{ not_arrived.user.profile_image.url }}" alt="Profile Picture" class="attendee-image">
+                        <span class="attendee-name">{{ not_arrived.user.username }}</span>
+                        <span class="attendee-points">{{ not_arrived.user.points }} points</span>
+                        <form method="post" action="{% url 'mark_arrived' not_arrived.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="status-button">Mark as Arrived</button>
+                        </form>
+                    </li>
+                {% empty %}
+                    <p>All guests have arrived!</p>
+                {% endfor %}
+            </ul>
+        </div>
+            <!-- Списък с хора, които са дошли -->
         <div class="attendance-list">
             <h2>Attendees</h2>
             <ul>
@@ -26,26 +46,6 @@
                     </li>
                 {% empty %}
                     <p>No attendees yet.</p>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <!-- Списък с хора, които още не са дошли -->
-        <div class="attendance-list">
-            <h2>Not Arrived</h2>
-            <ul>
-                {% for not_arrived in not_arrived %}
-                    <li class="attendee-card">
-                        <img src="{{ not_arrived.user.profile_image.url }}" alt="Profile Picture" class="attendee-image">
-                        <span class="attendee-name">{{ not_arrived.user.username }}</span>
-                        <span class="attendee-points">{{ not_arrived.user.points }} points</span>
-                        <form method="post" action="{% url 'mark_arrived' not_arrived.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="status-button">Mark as Arrived</button>
-                        </form>
-                    </li>
-                {% empty %}
-                    <p>All guests have arrived!</p>
                 {% endfor %}
             </ul>
         </div>

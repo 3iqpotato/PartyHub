@@ -1,4 +1,5 @@
 from PartyHub_Project.Party.forms import PartyCreateForm
+from PartyHub_Project.Party.mixins import LivePartyAccessMixin
 from PartyHub_Project.Party.models import Party
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
@@ -26,8 +27,6 @@ def return_parties_for_user(request):
             if follower.following.is_following(request.user):
                 friends_parties = friends_parties | follower.following.get_not_started_parties()
 
-        # print(friends_parties)
-
         if friends_parties:
             all_parties = all_parties | friends_parties
 
@@ -41,7 +40,7 @@ def return_parties_for_user(request):
 
 class PartyListView(ListView):
     model = Party
-    paginate_by = 1
+    paginate_by = 1 #TODO fix
     template_name = 'Party/party_list.html'
 
     def get_context_data(self, **kwargs):
@@ -86,7 +85,6 @@ class MyPartiesView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         now = timezone.localtime(timezone.now())
 
-        # Филтриране на предстоящи и изтекли партита
         context['upcoming_parties'] = self.get_queryset().filter(date__gte=now)
         context['past_parties'] = self.get_queryset().filter(end_date__lt=now)
 
@@ -97,21 +95,31 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
     model = Party
     template_name = 'Party/party_details.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        can_buy = False
+
+        if self.object.get_free_spots() >= 0 and self.object.not_late_for_tickets():
+            if not self.object.tickets.filter(participant=self.request.user):
+                can_buy = True
+        print(can_buy)
+        context['can_buy'] = can_buy
+        return context
+
     def test_func(self):
-        # Получаваме обекта за партито
         party = self.get_object()
         now = timezone.localtime(timezone.now())
-        # Проверка дали партито е започнало
+
         if party.date <= now:
             return False
 
-        # Проверка дали партито е публично
         if not party.is_public:
-            # Ако партито не е публично, проверяваме връзката между текущия потребител и организатора
+
             user = self.request.user
 
             if not user.is_authenticated:
                 return False
+
             organizer = party.organizer
 
             if organizer == user:
@@ -119,6 +127,7 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
 
             if not (user.is_following(organizer) and organizer.is_following(user)):
                 return False
+
         return True
 
 
@@ -129,19 +138,24 @@ class PartyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         user = self.request.user
-        party = Party.objects.get_party_by_id(self.kwargs.get('pk'))
+        party = get_object_or_404(Party, slug=self.kwargs.get('slug'))
         return user == party.organizer
 
 
-class LivePartyDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class LivePartyDetailView(LoginRequiredMixin, LivePartyAccessMixin, DetailView):
     model = Party
     template_name = 'Party/live_party_details.html'
 
-    def test_func(self):
-        party = Party.objects.get_party_by_id(self.kwargs.get('pk'))
-        current_time = timezone.now()
+    # def get_context_data(self):
+    #     context = super().get_context_data()
+    #
+    #     return context
 
-        # Проверка дали потребителят е организаторът и дали партито е активно в момента
-        if self.request.user == party.organizer and party.date <= current_time <= party.end_date:
-            return True
-        return False
+    # def test_func(self):
+    #     party = get_object_or_404(Party, pk=self.kwargs.get('pk'))
+    #     current_time = timezone.now()
+    #
+    #     # Проверка дали потребителят е организаторът и дали партито е активно в момента
+    #     if self.request.user == party.organizer and party.date <= current_time <= party.end_date:
+    #         return True
+    #     return False

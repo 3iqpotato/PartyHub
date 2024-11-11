@@ -1,0 +1,100 @@
+/* Контейнер за билети */
+.tickets-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f3f4f6;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Заглавие за билети */
+.tickets-title {
+    text-align: center;
+    font-size: 26px;
+    color: #4a5568;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px #e2e8f0;
+}
+
+/* Контейнер за списък с билети */
+.tickets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Карта за билет */
+.ticket-card {
+    background-color: #edf2f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+}
+
+.ticket-card:hover {
+    transform: scale(1.02);
+}
+
+/* Заглавие на партито */
+.ticket-title {
+    font-size: 20px;
+    color: #2b6cb0;
+    margin-bottom: 8px;
+}
+
+/* Информация за датата и локацията */
+.ticket-date, .ticket-location {
+    font-size: 16px;
+    color: #4a5568;
+    margin: 5px 0;
+}
+
+/* Действия за билет */
+.ticket-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Бутон за преглед на билет */
+.btn-view {
+    background-color: #3182ce;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-view:hover {
+    background-color: #2b6cb0;
+}
+
+/* Бутон за изтриване на билет */
+.btn-delete {
+    background-color: #e53e3e;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+    background-color: #c53030;
+}
+
+/* Стил за съобщение, когато няма билети */
+.no-tickets {
+    text-align: center;
+    font-size: 18px;
+    color: #718096;
+    margin-top: 20px;
+}

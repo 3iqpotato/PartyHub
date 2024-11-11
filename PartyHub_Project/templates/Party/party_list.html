@@ -44,7 +44,7 @@
                     <h2 class="event-title">{{ party.title }}</h2>
 
                     <!-- Бутон за детайли -->
-                    <a href="{% url 'details_party' party.pk %}" class="details-button">View Details</a>
+                    <a href="{% url 'details_party' party.slug %}" class="details-button">View Details</a>
                 </div>
                 {% endfor %}
             </div>

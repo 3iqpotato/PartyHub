@@ -1,0 +1,30 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Tickets_css/ticket_delete.css' %}">
+{% endblock %}
+{% block content %}
+<div class="ticket-delete-container">
+    <div class="ticket-delete-header">
+        <h2>🚨 О, Не! 🚨</h2>
+        <p>Искаш ли да изтриеш този билет? Това ще го махне за винаги! 😱</p>
+    </div>
+
+    <div class="ticket-delete-body">
+        <p>Преди да натиснеш бутона, бъди сигурен! Възможно е да се чувстваш малко тъжно след това... 😢</p>
+        <p><strong>Парти:</strong> "{{ ticket.party.title }}"</p>
+        <p><strong>Участник:</strong> {{ ticket.participant.username }}</p>
+        {% if ticket.is_vip %}
+            <p class="vip-label">VIP Билет! 🌟</p>
+        {% endif %}
+    </div>
+
+    <div class="ticket-delete-actions">
+        <form action="{% url 'delete_ticket' ticket.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn-delete-confirm">Да, изтрий билета! 😱</button>
+        </form>
+        <a href="{% url 'user_tickets' request.user.pk %}" class="btn-cancel">Не, не съм сигурен! 🙈</a>
+    </div>
+</div>
+{% endblock %}

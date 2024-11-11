@@ -26,18 +26,27 @@
             <!-- Бутон за участие или напускане на партито -->
             {% if user.is_authenticated %}
                 {% if party.organizer == user %}
-                    <a href="{% url 'delete_party' party.pk %}" class="details-link">Delete Party</a>
-                {% endif %}
-                {% if user in party.attendees.all %}
-{#                    <form method="post" action="{% url 'leave_party' party.id %}">#}
-{#                        {% csrf_token %}#}
-{#                        <button type="submit" class="leave-party-button">Leave Party</button>#}
-{#                    </form>#}
+                    <a href="{% url 'delete_party' party.slug %}" class="details-link">Delete Party</a>
+
                 {% else %}
-{#                    <form method="post" action="{% url 'join_party' party.id %}">#}
-{#                        {% csrf_token %}#}
-{#                        <button type="submit" class="join-party-button">Join Party</button>#}
-{#                    </form>#}
+                    {% if can_buy %}
+                        <button type="submit" class="join-party-button" onclick="window.location.href='{% url 'get_ticket' party.slug %}'">Buy Ticket</button>
+                        {% else %}
+                        <div class="no-ticket-message">
+{#                                {% if party.is_full %}#}
+{#                                    <p>🎟️ Sorry, party's all packed! No tickets left. 🎉</p>#}
+{#                                {% elif party.has_started %}#}
+{#                                    <p>⏰ Oh no, you missed it! The party has already started! 🕺💃</p>#}
+{#                                {% elif party.has_ended %}#}
+{#                                    <p>🚪 The party's over, and the dance floor is closed. Hope to see you at the next one! 🥳</p>#}
+{#                                {% elif party.registration_deadline %}#}
+{#                                    <p>⏳ Oops! Ticket sales closed on {{ party.registration_deadline }}. Better luck next time! 😉</p>#}
+{#                                {% else %}#}
+                            <p>🚫 Unfortunately, tickets are unavailable for this event. Stay tuned for more!</p>
+{#                                {% endif %}#}
+                        </div>
+
+                        {% endif %}
                 {% endif %}
             {% else %}
                 <p>Please <a href="{% url 'login' %}">log in</a> to join this party.</p>

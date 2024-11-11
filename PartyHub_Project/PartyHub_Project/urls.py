@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('PartyHub_Project.Common.urls')),
     path('parties/', include('PartyHub_Project.Party.urls')),
     path('accounts/', include('PartyHub_Project.Accounts.urls')),
+    path('tickets/', include('PartyHub_Project.Ticket.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

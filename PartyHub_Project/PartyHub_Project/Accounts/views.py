@@ -9,20 +9,7 @@ from django.views import View
 from django.views.generic import DetailView, UpdateView, CreateView, ListView
 
 UserModel = get_user_model()
-# Create your views here.
-# def register(request):
-#     if request.method == 'POST':
-#         form = UserProfileCreateForm(request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#             user.backend = 'PartyHub_Project.Accounts.authentication.EmailOrUsernameBackend'
-#             user.save()
-#             login(request, user)  # автоматично влизане след регистрация
-#             # messages.success(request, 'Registered successfully!')
-#             return redirect('profile_details')  # пренасочване към профила на потребителя
-#     else:
-#         form = UserProfileCreateForm()
-#     return render(request, 'Accounts/register.html', {'form': form})
+
 
 class RegisterView(CreateView):
     form_class = UserProfileCreateForm
@@ -44,12 +31,6 @@ class ProfileDetailsView(LoginRequiredMixin, DetailView):
     model = UserModel
     template_name = 'accounts/profile_details.html'
     context_object_name = 'user'
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     live_party = self.request.user.get_live_party()
-    #     context.update({'live_party': live_party})
-    #     return context
 
 
 class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -96,7 +77,7 @@ class UsersListView(ListView):
     template_name = 'Accounts/Users_search.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-                                                        #// TODO:Make it work with search form
+
         users_list = self.request.user.get_users_not_in_followers()
 
         query = self.request.GET.get('query', '')
@@ -119,11 +100,6 @@ class AddFollowView(LoginRequiredMixin, View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 class RemoveFollowView(LoginRequiredMixin, View):
-
-    # def test_func(self):
-    #     profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-    #     return self.request.user == profile
-
     def post(self, request, *args, **kwargs):
         other = get_object_or_404(UserModel, pk=kwargs.get('pk'))
         self.request.user.unfollow(other)
@@ -142,6 +118,7 @@ class UsersDetailView(DetailView):
 
             context['i_follow_him'] = i_follow_him
         return context
+
 
 class ShowFollowersView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = UserModel
