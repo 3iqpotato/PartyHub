@@ -33,7 +33,8 @@ class UserProfile(AbstractUser):
 
     def get_valid_tickets(self):
         now = timezone.now()
-        return self.tickets.filter(party__end_date__gt=now)
+        return self.tickets.filter(party__end_date__gt=now).exclude(checked=True)
+
     def get_followers(self):
         return self.follower_set.all()
 

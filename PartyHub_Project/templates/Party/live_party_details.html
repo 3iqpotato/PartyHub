@@ -1,4 +1,5 @@
 {% extends "Common/base.html" %}
+{% load custom_tags %}
 {% load static %}
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/Parties_css/live_party.css' %}">
@@ -15,12 +16,13 @@
         <div class="attendance-list">
             <h2>Not Arrived</h2>
             <ul>
-                {% for not_arrived in not_arrived_list %}
+                {% get_tickets_for_party_by_check_variable party False as unchecked_tickets %}
+                {% for ticket in unchecked_tickets %}
                     <li class="attendee-card">
-                        <img src="{{ not_arrived.user.profile_image.url }}" alt="Profile Picture" class="attendee-image">
-                        <span class="attendee-name">{{ not_arrived.user.username }}</span>
-                        <span class="attendee-points">{{ not_arrived.user.points }} points</span>
-                        <form method="post" action="{% url 'mark_arrived' not_arrived.id %}">
+                        <img src="{{ ticket.participant.profile_image.url }}" alt="Profile Picture" class="attendee-image">
+                        <span class="attendee-name">{{ ticket.participant.username }}</span>
+                        <span class="attendee-points">{{ ticket.participant.points }} points</span>
+                        <form method="post" action="{% url 'mark_as_arrived' ticket.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="status-button">Mark as Arrived</button>
                         </form>
@@ -34,12 +36,13 @@
         <div class="attendance-list">
             <h2>Attendees</h2>
             <ul>
-                {% for attendee in attendees %}
+                {% get_tickets_for_party_by_check_variable party True as checked_tickets %}
+                {% for ticket in checked_tickets %}
                     <li class="attendee-card">
-                        <img src="{{ attendee.user.profile_image.url }}" alt="Profile Picture" class="attendee-image">
-                        <span class="attendee-name">{{ attendee.user.username }}</span>
-                        <span class="attendee-points">{{ attendee.user.points }} points</span>
-                        <form method="post" action="{% url 'mark_not_arrived' attendee.id %}">
+                        <img src="{{ ticket.participant.profile_image.url }}" alt="Profile Picture" class="attendee-image">
+                        <span class="attendee-name">{{ ticket.participant.username }}</span>
+                        <span class="attendee-points">{{ ticket.participant.points }} points</span>
+                        <form method="post" action="{% url 'mark_as_not_arrived' ticket.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="status-button">Mark as Not Arrived</button>
                         </form>

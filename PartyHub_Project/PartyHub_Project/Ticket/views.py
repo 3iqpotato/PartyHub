@@ -3,6 +3,7 @@ from PartyHub_Project.Party.models import Party
 from PartyHub_Project.Ticket.models import Ticket
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
@@ -96,3 +97,16 @@ class TicketDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         ticket = self.get_object()  # Вземаме билета чрез id от URL
         return ticket.participant == self.request.user
+
+
+class MarkAsArrivedView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        ticket = get_object_or_404(Ticket, pk=pk,)
+        ticket.mark_as_arrived()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+class MarkAsNotArrivedView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        ticket = get_object_or_404(Ticket, pk=pk,)
+        ticket.mark_as_not_arrived()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

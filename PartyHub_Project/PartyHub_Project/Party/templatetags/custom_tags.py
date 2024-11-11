@@ -8,5 +8,9 @@ def get_live_events(request):
     user = request.user
 
     live_event = user.get_live_party()
-    # Връща първото парти, ако има такова
-    return live_event # Може да върне None, ако няма парти на живо за този потребител
+    return live_event
+
+@register.simple_tag
+def get_tickets_for_party_by_check_variable(party, variable):
+    tickets = party.tickets.filter(checked=variable)
+    return tickets
