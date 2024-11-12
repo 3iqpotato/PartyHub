@@ -98,11 +98,9 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         can_buy = False
-
-        if self.object.get_free_spots() >= 0 and self.object.not_late_for_tickets():
+        if self.object.get_free_spots() > 0 and self.object.not_late_for_tickets():
             if not self.object.tickets.filter(participant=self.request.user):
                 can_buy = True
-        print(can_buy)
         context['can_buy'] = can_buy
         return context
 

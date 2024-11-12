@@ -25,7 +25,7 @@
     </div>
 
     <div class="ticket-actions">
-        <a href="" class="btn-cancel">❌ Отказване на Билета</a>
+        <a href="{% url 'delete_ticket' ticket.pk %}" class="btn-cancel">❌ Отказване на Билета</a>
         <a href="{% url 'details_party' ticket.party.slug %}" class="btn-party-details">🔎 Детайли за Партито</a>
     </div>
 </div>

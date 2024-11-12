@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'PartyHub_Project.middlewares.CustomErrorHandlingMiddleware',
 ]
 
 ROOT_URLCONF = 'PartyHub_Project.urls'

@@ -27,10 +27,14 @@ class RegisterView(CreateView):
         return reverse_lazy('profile_details', kwargs={'pk': self.object.pk})
 
 
-class ProfileDetailsView(LoginRequiredMixin, DetailView):
+class ProfileDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = UserModel
     template_name = 'accounts/profile_details.html'
     context_object_name = 'user'
+
+    def test_func(self):
+        profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
+        return self.request.user == profile
 
 
 class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

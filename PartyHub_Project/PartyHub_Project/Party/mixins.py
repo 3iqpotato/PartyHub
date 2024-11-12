@@ -1,4 +1,5 @@
 from PartyHub_Project.Party.models import Party
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 from django.http import HttpResponseForbidden
@@ -20,4 +21,4 @@ class LivePartyAccessMixin:
                 return render(request, 'Party/party_inactive.html', {'party': party})
 
         # Ако партито не е на живо, показваме съобщение или шаблон
-        return HttpResponseForbidden("You do not have permission to access this party.")
+        raise PermissionDenied("You do not have permission to access this party.")

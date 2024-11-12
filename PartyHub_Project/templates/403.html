@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "Common/base.html" %}
+{% load static %}
+<!-- 403.html -->
 
-</body>
-</html>
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/403.css' %}">
+{%  endblock %}
+
+{% block content %}
+<div class="forbidden-container">
+    <h1>🚫 No Entry Allowed! 🚫</h1>
+    <p>It looks like you tried to sneak into a restricted area! Naughty, naughty! 😼</p>
+
+    {% if exception.message %}
+        <p class="error-message">Reason: "{{ exception.message }}"</p>
+    {% else %}
+        <p class="error-message">Unfortunately, you don't have permission to do this.</p>
+    {% endif %}
+
+    <p>Remember: rules are rules! You might not want to be this curious again...</p>
+
+    <!-- Humorous GIF of a cat playfully slapping another cat -->
+    <div class="cat-gif">
+        <img src="{% static 'images/bear-spanking.gif' %}" alt="Cat slapping another cat playfully" />
+    </div>
+
+    <p>So, better luck next time, brave explorer! 🐾</p>
+</div>
+{% endblock %}
