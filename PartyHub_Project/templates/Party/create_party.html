@@ -1,19 +1,53 @@
 {% extends "Common/base.html" %}
 {% load static %}
-{%  block styles %}
+{% block styles %}
     <link rel="stylesheet" href="{% static 'css/Parties_css/create_party.css' %}">
 {% endblock %}
 {% block content %}
 <div class="create-party-container">
-    <h2>Create a Party</h2>
+    <h2>Create a Party 🎉</h2>
+    <p class="description">Fill in the details below to set up your unforgettable event.</p>
 
-    <!-- Форма за създаване на парти -->
-    <form method="post" enctype="multipart/form-data" class="party-form">
-        {% csrf_token %}
-        {{ form.as_p }} <!-- Рендиране на полетата на формата -->
-        
-        <!-- Бутон за създаване на парти -->
-        <button type="submit" class="submit-btn">Create Party</button>
-    </form>
+<form method="post" enctype="multipart/form-data" class="party-form">
+    {% csrf_token %}
+
+    <!-- Задължителни полета -->
+    <div class="form-section">
+        <h3>Required Information</h3>
+
+        {% for field in form %}
+            {% if field.field.required %}
+
+                <div class="form-group">
+                    {{ field.label }}<span class="required"></span>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="help-text">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Незадължителни полета -->
+    <div class="form-section">
+        <h3>Optional Information</h3>
+
+        {% for field in form %}
+            {% if not field.field.required %}
+                <div class="form-group">
+                    {{ field.label }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="help-text">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="submit-btn">Create Party</button>
+</form>
 </div>
 {% endblock %}

@@ -22,8 +22,8 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(help_text='Enter a unique title of at least 5 characters.', max_length=70, unique=True, validators=[django.core.validators.MinLengthValidator(5, 'The title must be at least 5 characters long.')])),
                 ('description', models.TextField(max_length=300)),
-                ('date', models.DateTimeField(help_text='Set the start date and time for the event.')),
-                ('end_date', models.DateTimeField(help_text='Set the end date and time for the event.')),
+                ('start_time', models.DateTimeField(help_text='Set the start date and time for the party.')),
+                ('end_time', models.DateTimeField(help_text='Set the end date and time for the party.')),
                 ('location', models.TextField(max_length=70)),
                 ('party_type', models.CharField(choices=[('metal', 'Metal'), ('rap', 'Rap'), ('chalga', 'Chalga'), ('disco', 'Disco'), ('drinking', 'Drinking'), ('drinking_and_smoking', 'Drinking and smoking'), ('normal', 'Normal'), ('gaming', 'Gaming'), ('meetup', 'Meetup'), ('other', 'Other')], help_text="Select an event type, or choose 'Other' to specify your own.", max_length=20, validators=[django.core.validators.MinLengthValidator(3, 'Party type must be at least characters long.')])),
                 ('available_spots', models.PositiveIntegerField(help_text='Minimum of 2 people required.', validators=[django.core.validators.MinValueValidator(2, "Available spots can't be less than 2!")])),
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('organizer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='organized_parties', to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'ordering': ['-date'],
+                'ordering': ['-start_time'],
             },
         ),
     ]

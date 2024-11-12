@@ -1,0 +1,32 @@
+{% extends "Common/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/Parties_css/edit_party.css' %}">
+{% endblock %}
+{% block content %}
+<div class="edit-party-container">
+    <h2>Edit Your Party 🎉</h2>
+    <p class="description">Make changes to your party details below.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="error-message">
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="save-button">Save Changes</button>
+        <a href="{% url 'details_party' party.pk %}" class="cancel-button">Cancel</a>
+    </form>
+</div>
+{% endblock %}

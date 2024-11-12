@@ -23,6 +23,7 @@
                         <p><strong>Location:</strong> {{ party.location }}</p>
                         <p>{{ party.description|truncatewords:20 }}</p>
                         <a href="{% url 'details_party' party.slug %}" class="details-link">View Details</a>
+                        <a href="{% url 'edit_party' party.slug %}" class="details-link">Edit Party</a>
                     </div>
                 </div>
             {% endfor %}
@@ -41,6 +42,7 @@
                         <p><strong>Location:</strong> {{ party.location }}</p>
                         <p>{{ party.description|truncatewords:20 }}</p>
                         <a href="{% url 'delete_party' party.slug %}" class="details-link">Delete Party</a>
+
                     </div>
                 </div>
             {% endfor %}

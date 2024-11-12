@@ -38,7 +38,7 @@ class TicketCreateView(LoginRequiredMixin, View):
         if party.registration_deadline and party.registration_deadline < timezone.now():
             raise PermissionDenied("Срокът за регистрация е изтекъл.")
 
-        if party.date and party.date < timezone.now():
+        if party.start_time and party.start_time < timezone.now():
             raise PermissionDenied("Партито вече е започнало.")
 
         if party.get_free_spots() <= 0:
@@ -70,57 +70,7 @@ class TicketCreateView(LoginRequiredMixin, View):
 
         # Пренасочваме към детайлите за партито
         return redirect('details_party', slug=party_slug)
-    # def get(self, request, party_slug):
-    #     # Намираме партито по slug
-    #     party = get_object_or_404(Party, slug=party_slug)
-    #
-    #     # Проверка дали партито е private и дали потребителят следва организатора
-    #     if not party.is_public:
-    #         if not request.user.is_following(party.organizer) or not party.organizer.is_following(request.user):
-    #             return redirect('error')
-    #
-    #     if party.registration_deadline and party.registration_deadline < timezone.now():
-    #         return redirect('error')  # Може да добавиш съобщение за изтекъл срок
-    #
-    #     if party.date and party.date < timezone.now():
-    #         return redirect('error')  # Може да добавиш съобщение за започнало парти
-    #
-    #     if party.get_free_spots() <= 0:
-    #         return redirect('error')
-    #     # Проверка дали потребителят вече има билет за това парти
-    #     if Ticket.objects.filter(participant=request.user, party=party).exists():
-    #         return redirect('error')  # Може да добавиш съобщение за вече закупен билет
-    #
-    #     # Показваме бутон за закупуване на билет
-    #     return render(request, 'Ticket/ticket_create.html', {'party': party})
-    #
-    # def post(self, request, party_slug):
-    #     # Намираме партито по slug
-    #     party = get_object_or_404(Party, slug=party_slug)
-    #
-    #     # Проверка дали партито е private и дали потребителят следва организатора
-    #     if not party.is_public:
-    #         if not request.user.is_following(party.organizer) or not party.organizer.is_following(request.user):
-    #             return redirect('error')
-    #
-    #     if party.registration_deadline and party.registration_deadline < timezone.now():
-    #         return redirect('error')  # Може да добавиш съобщение за изтекъл срок
-    #
-    #         # Проверка дали партито вече е започнало
-    #     if party.date and party.date < timezone.now():
-    #         return redirect('error')
-    #
-    #     if party.get_free_spots() <= 0:
-    #         return redirect('error')
-    #
-    #     # Проверка дали потребителят вече има билет за това парти
-    #     if Ticket.objects.filter(participant=request.user, party=party).exists():
-    #         return redirect('error')
-    #
-    #     ticket = Ticket.objects.create(participant=request.user, party=party, is_vip=request.user.is_vip())
-    #     ticket.save()
-    #     # Пренасочваме към списъка с билети на потребителя
-    #     return redirect('details_party', slug=party_slug)
+
 
 class TicketDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Ticket

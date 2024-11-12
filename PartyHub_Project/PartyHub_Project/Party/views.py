@@ -1,4 +1,4 @@
-from PartyHub_Project.Party.forms import PartyCreateForm
+from PartyHub_Project.Party.forms import PartyCreateForm, PartyEditForm
 from PartyHub_Project.Party.mixins import LivePartyAccessMixin
 from PartyHub_Project.Party.models import Party
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import ListView, CreateView, DetailView, DeleteView
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
 
 #not a View a function that get the right parties for the users!!!!
@@ -85,8 +85,8 @@ class MyPartiesView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         now = timezone.localtime(timezone.now())
 
-        context['upcoming_parties'] = self.get_queryset().filter(date__gte=now)
-        context['past_parties'] = self.get_queryset().filter(end_date__lt=now)
+        context['upcoming_parties'] = self.get_queryset().filter(start_time__gte=now)
+        context['past_parties'] = self.get_queryset().filter(end_time__lt=now)
 
         return context
 
@@ -108,7 +108,7 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
         party = self.get_object()
         now = timezone.localtime(timezone.now())
 
-        if party.date <= now:
+        if party.end_time <= now:
             return False
 
         if not party.is_public:
@@ -144,16 +144,15 @@ class LivePartyDetailView(LoginRequiredMixin, LivePartyAccessMixin, DetailView):
     model = Party
     template_name = 'Party/live_party_details.html'
 
-    # def get_context_data(self):
-    #     context = super().get_context_data()
-    #
-    #     return context
 
-    # def test_func(self):
-    #     party = get_object_or_404(Party, pk=self.kwargs.get('pk'))
-    #     current_time = timezone.now()
-    #
-    #     # Проверка дали потребителят е организаторът и дали партито е активно в момента
-    #     if self.request.user == party.organizer and party.date <= current_time <= party.end_date:
-    #         return True
-    #     return False
+class PartyEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Party
+    form_class = PartyEditForm
+    template_name = 'Party/party_edit.html'
+
+    def get_success_url(self):
+            return reverse_lazy('details_party', kwargs={'slug': self.object.slug})
+
+    def test_func(self):
+        party = self.get_object()
+        return self.request.user == party.organizer and party.start_time > timezone.now()

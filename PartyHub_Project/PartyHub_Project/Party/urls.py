@@ -8,4 +8,5 @@ urlpatterns = [
     path('create/', views.PartyCreateView.as_view(), name='create_party'),
     path('details/<slug:slug>/', views.PartyDetailsView.as_view(), name='details_party'),
     path('delete/<slug:slug>/', views.PartyDeleteView.as_view(), name='delete_party'),
+    path('edit/<slug:slug>/', views.PartyEditView.as_view(), name='edit_party'),
 ]

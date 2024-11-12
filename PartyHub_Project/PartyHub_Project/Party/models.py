@@ -47,16 +47,16 @@ class Party(models.Model):
         max_length=300,
     )
 
-    date = models.DateTimeField(
+    start_time = models.DateTimeField(
         blank=False,
         null=False,
-        help_text="Set the start date and time for the event.",
+        help_text="Set the start date and time for the party.",
     )
 
-    end_date = models.DateTimeField(
+    end_time = models.DateTimeField(
         blank=False,
         null=False,
-        help_text="Set the end date and time for the event.",
+        help_text="Set the end date and time for the party.",
     )
 
     location = models.TextField(
@@ -122,17 +122,17 @@ class Party(models.Model):
             if self.registration_deadline > now:
                 return True
         else:
-            return self.date > now
+            return self.start_time > now
 
     def clean(self):
         super().clean()
-        if self.date < timezone.now():
+        if self.start_time < timezone.now():
             raise ValidationError("The event date cannot be in the past.")
 
-        if self.end_date <= self.date:
+        if self.end_time <= self.start_time:
             raise ValidationError("The end date must be after the start date.")
 
-        if self.registration_deadline and self.registration_deadline > self.date:
+        if self.registration_deadline and self.registration_deadline > self.start_time:
             raise ValidationError("The registration deadline cannot be after the event date.")
 
     def save(self, *args, **kwargs):
@@ -146,5 +146,5 @@ class Party(models.Model):
     objects = PartyManager()
 
     class Meta:
-        ordering = ['-date'] #// TODO da ne moze da ima 2 partita po edno i sushto vreme!!!
+        ordering = ['-start_time']
 

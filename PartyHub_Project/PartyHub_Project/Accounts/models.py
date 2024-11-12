@@ -33,7 +33,7 @@ class UserProfile(AbstractUser):
 
     def get_valid_tickets(self):
         now = timezone.now()
-        return self.tickets.filter(party__end_date__gt=now).exclude(checked=True)
+        return self.tickets.filter(party__end_time__gt=now).exclude(checked=True)
 
     def get_followers(self):
         return self.follower_set.all()
@@ -58,12 +58,12 @@ class UserProfile(AbstractUser):
 
     def get_live_party(self):
         now = timezone.now()
-        party = self.organized_parties.filter(date__lte=now, end_date__gte=now).first()
+        party = self.organized_parties.filter(start_time__lte=now, end_time__gte=now).first()
         return party
 
     def get_not_started_parties(self):
         now = timezone.now()
-        return self.organized_parties.filter(date__gte=now)
+        return self.organized_parties.filter(start_time__gte=now)
 
     # def get_parties(self):
     #     return self.organized_parties

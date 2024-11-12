@@ -15,7 +15,7 @@ class LivePartyAccessMixin:
         # Проверка дали потребителят е организаторът и партито е на живо
         if request.user == party.organizer:
 
-            if party.date <= current_time <= party.end_date:
+            if party.start_time <= current_time <= party.end_time:
                 return super().dispatch(request, *args, **kwargs)
             else:
                 return render(request, 'Party/party_inactive.html', {'party': party})

@@ -30,7 +30,7 @@ class Ticket(models.Model):
 
     def is_party_live(self):
         now = timezone.now()
-        return self.party.end_date > now
+        return self.party.end_time > now
 
     def __str__(self):
         ticket_type = "VIP" if self.is_vip else "Standard"

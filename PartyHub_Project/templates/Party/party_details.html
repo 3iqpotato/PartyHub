@@ -16,7 +16,8 @@
         {% endif %}
 
         <div class="party-info">
-            <p><strong>Date:</strong> {{ party.date }}</p>
+            <p><strong>Start:</strong> {{ party.date }}</p>
+            <p><strong>End:</strong> {{ party.end_date }}</p>
             <p><strong>Title:</strong> {{ party.title }}</p>
             <p><strong>Location:</strong> {{ party.location }}</p>
             <p><strong>Organizer:</strong> {{ party.organizer.username }}</p>
@@ -27,6 +28,9 @@
             {% if user.is_authenticated %}
                 {% if party.organizer == user %}
                     <a href="{% url 'delete_party' party.slug %}" class="details-link">Delete Party</a>
+                    {% if can_buy %}
+                        <a href="{% url 'edit_party' party.slug %}" class="details-link">Edit Party</a>
+                        {% endif %}
 
                 {% else %}
                     {% if can_buy %}
