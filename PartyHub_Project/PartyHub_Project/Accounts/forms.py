@@ -35,6 +35,7 @@ class UserProfileEditForm(RemoveHelpTextMixin, models.ModelForm):
         model = get_user_model()
         fields = ['username', 'first_name', 'last_name', 'profile_picture', 'bio',]
 
+
     def clean(self):
         cleaned_data = super().clean()
         if not cleaned_data.get('profile_picture'):
