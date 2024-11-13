@@ -19,6 +19,8 @@
                 {% get_tickets_for_party_by_check_variable party False as unchecked_tickets %}
                 {% for ticket in unchecked_tickets %}
                     <li class="attendee-card">
+                        <img src="{{ ticket.participant.profile_image.url }}" alt="{{ ticket.participant.username }}'s profile picture" class="profile-image">
+
                         <img src="{{ ticket.participant.profile_image.url }}" alt="Profile Picture" class="attendee-image">
                         <span class="attendee-name">{{ ticket.participant.username }}</span>
                         <span class="attendee-points">{{ ticket.participant.points }} points</span>

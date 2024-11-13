@@ -11,11 +11,8 @@
     {% for follower in following_followers %}
                 <ul class="friends-list">
                         <li class="friend-item">
-                            {% if follower.profile_picture %}
                                 <img src="{{ follower.profile_picture.url }}" alt="{{ follower.username }}'s profile picture" class="profile-image">
-                            {% else %}
-                                <img src="{% static 'images/profiles/default_img.jpg' %}" alt="{{ follower.username }}'s profile picture" class="profile-image">
-                            {% endif %}
+
                             <div class="friend-info">
                                 <h3>{{ follower.username }}</h3>
                                 <p>Points: {{ follower.points }}</p>

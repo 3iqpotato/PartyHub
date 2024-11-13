@@ -8,11 +8,8 @@
         <div class="profile-header">
             <!-- Профилна снимка и VIP статус -->
             <div class="profile-picture-wrapper">
-                {% if other_user.profile_picture %}
                 <img src="{{ other_user.profile_picture.url }}" alt="Profile Picture" class="profile-picture {% if other_user.is_vip %}vip{% endif %}">
-                {% else %}
-                <img src="{% static 'images/profiles/default_img.jpg' %}" alt="Profile Picture" class="profile-picture {% if other_user.is_vip %}vip{% endif %}">
-            {% endif %}
+
                 {% if other_user.is_vip %}
                     <div class="vip-badge">VIP</div>
                 {% endif %}

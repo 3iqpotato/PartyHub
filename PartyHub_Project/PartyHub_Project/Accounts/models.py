@@ -19,7 +19,12 @@ class UserProfile(AbstractUser):
         max_length=300,
     )
 
-    profile_picture = models.ImageField(upload_to='profiles/', blank=True, null=True)
+    profile_picture = models.ImageField(
+        upload_to='profiles/',
+        default='profiles/default_img.jpg',
+        blank=False,
+        null=False,
+    )
 
     bio = models.TextField(blank=True, null=True)
 

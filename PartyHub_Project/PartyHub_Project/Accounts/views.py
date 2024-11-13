@@ -1,4 +1,4 @@
-from PartyHub_Project.Accounts.forms import UserProfileCreateForm, UserProfileLoginForm
+from PartyHub_Project.Accounts.forms import UserProfileCreateForm, UserProfileLoginForm, UserProfileEditForm
 from PartyHub_Project.Accounts.models import FollowTable
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -40,7 +40,7 @@ class ProfileDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = UserModel
     template_name = 'Accounts/profile_edit.html'
-    fields = ['profile_picture', 'bio', 'first_name', 'last_name', 'username']
+    form_class = UserProfileEditForm
 
     def test_func(self):
         profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
@@ -49,6 +49,7 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('profile_details', kwargs={'pk': self.request.user.pk})
                                                                      #TODO: fix the view to edit username too
+
 
 
 class CustomLoginView(LoginView):

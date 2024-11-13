@@ -18,11 +18,8 @@
         <ul class="user-list">
             {% for user in users %}
                 <li class="user-item">
-                {% if user.profile_picture %}
-                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-image">
-                    {% else %}
-                        <img src="{% static 'images/profiles/default_img.jpg' %}" alt="{{ user.username }}'s profile picture" class="profile-image">
-                    {% endif %}
+                    <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-image">
+
                     <div class="user-info">
                         <h3>{{ user.username }}</h3>
                         <p>Points: {{ user.points }}</p>
