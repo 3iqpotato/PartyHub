@@ -97,12 +97,33 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        can_buy = False
-        if self.object.get_free_spots() > 0 and self.object.not_late_for_tickets():
-            if not self.object.tickets.filter(participant=self.request.user):
-                can_buy = True
-        context['can_buy'] = can_buy
+
+        status = False
+        if self.request.user.is_authenticated:
+            # Проверка за налични места
+            match True:
+                case True if self.object.get_free_spots() == 0:
+                    status = "no_spots"
+                case True if self.object.not_late_for_tickets() == False:
+                    status = "late_for_tickets"  # Вече е късно за билети
+                case True if self.object.organizer == self.request.user:
+                    status = "owner"  # Потребителят е собственик на партито
+                case True if not self.object.tickets.filter(participant=self.request.user):
+                    status = "can_buy"
+                case True if self.object.tickets.filter(participant=self.request.user):
+                    status = "have_ticket"
+        # print(status)
+        context['status'] = status  # Добавяме статус към контекста
         return context
+        # can_buy = False
+        # if self.request.user.is_authenticated:
+        #
+        #     if self.object.get_free_spots() > 0 and self.object.not_late_for_tickets():
+        #         if not self.object.tickets.filter(participant=self.request.user):
+        #             can_buy = True
+        # context['can_buy'] = can_buy
+        # # print(self.object.picture.url)
+        # return context
 
     def test_func(self):
         party = self.get_object()

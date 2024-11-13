@@ -17,6 +17,13 @@
             <!-- Потребителско име и точки -->
             <div class="profile-info">
                 <h2>{{ user.username }}</h2>
+                {% if user.first_name or user.last_name %}
+                    <p class="name">
+                        {% if user.first_name %}{{ user.first_name }}{% endif %}
+                        {% if user.first_name and user.last_name %} {% endif %}
+                        {% if user.last_name %}{{ user.last_name }}{% endif %}
+                    </p>
+                {% endif %}
                 <p class="points">Points: {{ user.points }} </p>
             </div>
         </div>
@@ -25,19 +32,17 @@
         <div class="profile-links">
             <p> <a href="{% url 'following_list' user.pk %}">{{ user.get_following.count }} Following</a></p>
             <p> <a href="{% url 'followers_list' user.pk %}">{{ user.get_followers.count }} Followers</a></p>
-            <p> <a href="">{{ user.get_valid_tickets.count }} Tickets</a></p>
-{#            {% if live_party %}#}
-{#            <p> <a href="">{{ live_party.title }} Yes</a></p>#}
-{#                {% else %}#}
-{#                <p>No</p>#}
-{#            {% endif %}#}
-
+            <p> <a href="{%  url 'user_tickets' user.pk %}">{{ user.get_valid_tickets.count }} Tickets</a></p>
         </div>
 
         <!-- Информация за потребителя -->
         <div class="profile-info-details">
             <h3>About Me: </h3>
+            {% if user.bio %}
             <p>{{ user.bio }}</p>
+                {% else %}
+                <p>Oops! Looks like you haven't set your party vibe yet! 🎉 Add a little sparkle to your bio!</p>
+            {% endif %}
         </div>
 
         <!-- Бутон за редактиране на профила -->

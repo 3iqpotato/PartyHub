@@ -1,13 +1,36 @@
 {% extends 'Common/base.html' %}
 {% load static %}
+
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock %}
+
 {% block content %}
-<div class="welcome-container">
-    <h2>Welcome to EventHub</h2>
-    <p>Your ultimate platform for discovering and managing events.</p>
-    <p>Join us to explore exciting events and connect with organizers!</p>
-    <img src="{% static 'images/welcome_image.jpg' %}" alt="Welcome Image" class="welcome-image">
-</div>
+    <div class="welcome-container" >
+        <h2>Welcome to PartyHub!</h2>
+        <p>Your go-to platform for finding epic parties, making new friends, and having a blast!</p>
+
+        <div class="intro-text">
+            <p>🎉 Looking for exciting events? You're in the right place! 🕺</p>
+            <p>🎁 Join our awesome parties, collect points, and unlock exclusive rewards! 🎉</p>
+            <p>🌟 Make new friends, discover the hottest spots, and become a Party Legend! 🌟</p>
+        </div>
+
+        <div class="features">
+            <h3>Why PartyHub?</h3>
+            <ul>
+                <li>🔥 <strong>Find amazing parties</strong> happening near you</li>
+                <li>💃 <strong>Meet new friends</strong> and connect with fellow party-goers</li>
+                <li>🏆 <strong>Earn points</strong> for attending events and level up your PartyHub profile</li>
+                <li>🎶 <strong>Track your favorite events</strong> and never miss the next big bash</li>
+            </ul>
+        </div>
+
+        <div class="call-to-action">
+            <p>Ready to dance the night away? 🥳 <strong>Register</strong> and let the good times roll!</p>
+            <a href="{% url 'register' %}" class="btn-signup">Join the Party</a>
+        </div>
+
+{#        <img src="{% static 'images/welcome_img.png' %}" alt="PartyHub Welcome Image" class="welcome-image">#}
+    </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CommentConfig(AppConfig):
+class QuestionsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'PartyHub_Project.Comment'
+    name = 'PartyHub_Project.Questions'

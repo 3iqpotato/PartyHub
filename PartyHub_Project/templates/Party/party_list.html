@@ -1,17 +1,76 @@
+{#{% extends 'Common/base.html' %}#}
+{#{% load static %}#}
+{#{% block styles %}#}
+{#    <link rel="stylesheet" href="{% static 'css/Parties_css/list_display.css' %}">#}
+{#{% endblock %}#}
+{#{% block content %}#}
+{#    <body>#}
+{#<div class="events-page-container">#}
+{##}
+{#    <!-- Търсачка в центъра -->#}
+{#    <div class="search-bar-container">#}
+{#        <form class="search-form" method="GET"#}
+{#              action="{% url 'event_search' %}"#}
+{#        >#}
+{#            <label>#}
+{#                <input type="text" name="q" value="{{ request.GET.q }}" class="search-input" placeholder="Search for events...">#}
+{#            </label>#}
+{#            <button type="submit" class="search-button">Search</button>#}
+{#        </form>#}
+{#    </div>#}
+{##}
+{#</div>#}
+{#            {% if parties %}#}
+{#            <!-- Контейнер за събития -->#}
+{#            <div class="events-container">#}
+{#                {% for party in parties %}#}
+{#                <div class="event-card">#}
+{#                    <!-- Снимка на събитието -->#}
+{#                    <img src="{{ party.image.url }}" alt="{{ party.title }}" class="event-image">#}
+{##}
+{#                    <!-- Заглавие на събитието -->#}
+{#                    <h2 class="event-title">{{ party.title }}</h2>#}
+{##}
+{#                    <!-- Бутон за детайли -->#}
+{#                    <a href="{% url 'details_party' party.slug %}" class="details-button">View Details</a>#}
+{#                </div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        {% else %}#}
+{#                <h1>No parties!!!</h1>#}
+{##}
+{#        {% endif %}#}
+{#    </body>#}
+{##}
+{#    <div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if parties.has_previous %}#}
+{#            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">First</a>#}
+{#            <a href="?page={{ parties.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ parties.number }} of {{ parties.paginator.num_pages }}#}
+{#        </span>#}
+{##}
+{#        {% if parties.has_next %}#}
+{#            <a href="?page={{ parties.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>#}
+{#            <a href="?page={{ parties.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Last</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}
+{#{% endblock %}#}
 {% extends 'Common/base.html' %}
 {% load static %}
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/Parties_css/list_display.css' %}">
 {% endblock %}
 {% block content %}
-    <body>
 <div class="events-page-container">
 
     <!-- Търсачка в центъра -->
     <div class="search-bar-container">
-        <form class="search-form" method="GET"
-{#              action="{% url 'event_search' %}"#}
-        >
+        <form class="search-form" method="GET">
             <label>
                 <input type="text" name="q" value="{{ request.GET.q }}" class="search-input" placeholder="Search for events...">
             </label>
@@ -19,34 +78,40 @@
         </form>
     </div>
 
+    <!-- Контейнер за събития -->
+    {% if parties %}
+    <div class="events-container">
+        {% for party in parties %}
+        <div class="event-card">
+            <!-- Снимка на събитието или дефолтна -->
+            {% if party.image %}
+                <img src="{{ party.picture.url }}"  alt="{{ party.title }}" class="event-image">
+            {% else %}
+                <img src="{% static 'images/img.png' %}" alt="{{ party.title }}">
+            {% endif %}
+
+            <!-- Заглавие на събитието -->
+            <h2 class="event-title">{{ party.title }}</h2>
+
+            <!-- Информация за създателя на събитието -->
+            <p class="event-creator">Created by: {{ party.organizer.username }}</p>
+
+            <!-- Бутон за детайли -->
+            <a href="{% url 'details_party' party.slug %}" class="details-button">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <h1>Oops! No parties yet! 🎉</h1>
+    {% endif %}
 </div>
-            {% if parties %}
-            <!-- Контейнер за събития -->
-            <div class="events-container">
-                {% for party in parties %}
-                <div class="event-card">
-                    <!-- Снимка на събитието -->
-                    <img src="{{ party.image.url }}" alt="{{ party.title }}" class="event-image">
 
-                    <!-- Заглавие на събитието -->
-                    <h2 class="event-title">{{ party.title }}</h2>
-
-                    <!-- Бутон за детайли -->
-                    <a href="{% url 'details_party' party.slug %}" class="details-button">View Details</a>
-                </div>
-                {% endfor %}
-            </div>
-        {% else %}
-                <h1>No parties!!!</h1>
-
-        {% endif %}
-    </body>
-
-    <div class="pagination">
+<!-- Пагинация - Центрирана -->
+<div class="pagination">
     <span class="step-links">
         {% if parties.has_previous %}
-            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">First</a>
-            <a href="?page={{ parties.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
+            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">First</a>
+            <a href="?page={{ parties.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Previous</a>
         {% endif %}
 
         <span class="current">
@@ -54,9 +119,10 @@
         </span>
 
         {% if parties.has_next %}
-            <a href="?page={{ parties.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
-            <a href="?page={{ parties.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Last</a>
+            <a href="?page={{ parties.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Next</a>
+            <a href="?page={{ parties.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Last</a>
         {% endif %}
     </span>
 </div>
 {% endblock %}
+

@@ -171,3 +171,8 @@
         margin-top: 15px;
     }
 }
+/* Стилизация на името и фамилията */
+.profile-info .name {
+    font-size: 18px;
+    color: #555;
+}

@@ -8,46 +8,72 @@
     <h2>Create a Party 🎉</h2>
     <p class="description">Fill in the details below to set up your unforgettable event.</p>
 
-<form method="post" enctype="multipart/form-data" class="party-form">
-    {% csrf_token %}
+    <form method="post" enctype="multipart/form-data" class="party-form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-    <!-- Задължителни полета -->
-    <div class="form-section">
-        <h3>Required Information</h3>
+        <!-- Задължителни полета -->
+        <div class="form-section">
+            <h3>Required Information</h3>
 
-        {% for field in form %}
-            {% if field.field.required %}
+            {% for field in form %}
+                {% if field.field.required %}
+                    <div class="form-group">
+                        {{ field.label }}<span class="required"></span>
+                        {{ field }}
 
-                <div class="form-group">
-                    {{ field.label }}<span class="required"></span>
-                    {{ field }}
-                    {% if field.help_text %}
-                        <small class="help-text">{{ field.help_text }}</small>
-                    {% endif %}
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+                        <!-- Покажи грешки за съответното поле -->
+                        {% if field.errors %}
+                            <ul class="error-list">
+                                {% for error in field.errors %}
+                                    <li class="error">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
 
-    <!-- Незадължителни полета -->
-    <div class="form-section">
-        <h3>Optional Information</h3>
+                        {% if field.help_text %}
+                            <small class="help-text">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
-        {% for field in form %}
-            {% if not field.field.required %}
-                <div class="form-group">
-                    {{ field.label }}
-                    {{ field }}
-                    {% if field.help_text %}
-                        <small class="help-text">{{ field.help_text }}</small>
-                    {% endif %}
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+        <!-- Незадължителни полета -->
+        <div class="form-section">
+            <h3>Optional Information</h3>
 
-    <!-- Submit Button -->
-    <button type="submit" class="submit-btn">Create Party</button>
-</form>
+            {% for field in form %}
+                {% if not field.field.required %}
+                    <div class="form-group">
+                        {{ field.label }}
+                        {{ field }}
+
+                        <!-- Покажи грешки за съответното поле -->
+                        {% if field.errors %}
+                            <ul class="error-list">
+                                {% for error in field.errors %}
+                                    <li class="error">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        {% if field.help_text %}
+                            <small class="help-text">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">Create Party</button>
+    </form>
 </div>
 {% endblock %}

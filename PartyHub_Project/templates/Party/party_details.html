@@ -10,15 +10,15 @@
     <div class="party-details-content">
         <!-- Изображение на партито -->
         {% if party.image %}
-            <img src="{{ party.image.url }}" alt="Party Image" class="party-image">
+            <img src="{{ party.picture.url }}" alt="Party Image" class="party-image">
         {% else %}
-            <img src="{% static 'default_party_image.jpg' %}" alt="Default Party Image" class="party-image">
+            <img src="{% static 'images/img.png' %}" alt="Default Party Image" class="party-image">
         {% endif %}
 
         <div class="party-info">
-            <p><strong>Start:</strong> {{ party.date }}</p>
-            <p><strong>End:</strong> {{ party.end_date }}</p>
             <p><strong>Title:</strong> {{ party.title }}</p>
+            <p><strong>Start:</strong> {{ party.start_time }}</p>
+            <p><strong>End:</strong> {{ party.end_time }}</p>
             <p><strong>Location:</strong> {{ party.location }}</p>
             <p><strong>Organizer:</strong> {{ party.organizer.username }}</p>
             <p><strong>Description:</strong> {{ party.description }}</p>
@@ -26,28 +26,30 @@
             
             <!-- Бутон за участие или напускане на партито -->
             {% if user.is_authenticated %}
-                {% if party.organizer == user %}
+{#                {% if party.organizer == user %}#}
+                {% if status == 'owner' %}
                     <a href="{% url 'delete_party' party.slug %}" class="details-link">Delete Party</a>
-                    {% if can_buy %}
+{#                    {% if can_buy %}#}
                         <a href="{% url 'edit_party' party.slug %}" class="details-link">Edit Party</a>
-                    {% endif %}
+{#                    {% endif %}#}
 
                 {% else %}
-                    {% if can_buy %}
+                    {% if  status == 'can_buy'%}
                         <button type="submit" class="join-party-button" onclick="window.location.href='{% url 'get_ticket' party.slug %}'">Buy Ticket</button>
-                        {% else %}
+                    {% else %}
                         <div class="no-ticket-message">
-{#                                {% if party.is_full %}#}
-{#                                    <p>🎟️ Sorry, party's all packed! No tickets left. 🎉</p>#}
-{#                                {% elif party.has_started %}#}
+                                {% if status == 'no_spots' %}
+                                    <p>🎟️ Sorry, party's all packed! No tickets left. 🎉</p>
+                                    {% elif status == 'have_ticket' %}
+                                        <p>Owlready have a ticket</p>
 {#                                    <p>⏰ Oh no, you missed it! The party has already started! 🕺💃</p>#}
 {#                                {% elif party.has_ended %}#}
 {#                                    <p>🚪 The party's over, and the dance floor is closed. Hope to see you at the next one! 🥳</p>#}
-{#                                {% elif party.registration_deadline %}#}
-{#                                    <p>⏳ Oops! Ticket sales closed on {{ party.registration_deadline }}. Better luck next time! 😉</p>#}
-{#                                {% else %}#}
-                            <p>🚫 Unfortunately, tickets are unavailable for this event. Stay tuned for more!</p>
-{#                                {% endif %}#}
+                                {% elif status == late_for_tickets %}
+                                    <p>⏳ Oops! Ticket sales closed on {{ party.registration_deadline }}. Better luck next time! 😉</p>
+                                {% else %}
+                                    <p>🚫 Unfortunately, tickets are unavailable for this event. Stay tuned for more!</p>
+                                {% endif %}
                         </div>
 
                         {% endif %}

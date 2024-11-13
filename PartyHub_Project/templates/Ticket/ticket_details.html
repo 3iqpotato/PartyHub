@@ -7,7 +7,7 @@
 <div class="ticket-container">
     <div class="ticket-header">
         <h2>🎉 Билет за Партито: "{{ ticket.party.title }}" 🎉</h2>
-        <p class="ticket-date">Дата на партито: {{ ticket.party.date|date:"d M Y, H:i" }}</p>
+        <p class="ticket-date">Дата на партито: {{ ticket.party.start_time|date:"d M Y, H:i" }}</p>
     </div>
 
     <div class="ticket-info">

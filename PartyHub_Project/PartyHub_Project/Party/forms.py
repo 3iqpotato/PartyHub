@@ -3,6 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms import DateTimeInput, TextInput, Select, CheckboxInput
+from django.utils import timezone
 
 
 class PartyBaseForm(forms.ModelForm):
@@ -56,21 +57,7 @@ class PartyBaseForm(forms.ModelForm):
             })
         }
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #
-    #     # Пример за добавяне на атрибути за полетата
-    #     self.fields['title'].widget.attrs.update({'placeholder': 'Enter party title', 'class': 'form-control'})
-    #     self.fields['description'].widget.attrs.update(
-    #         {'placeholder': 'Enter event description', 'class': 'form-control', 'rows': 3})
-    #     self.fields['date'].widget.attrs.update({'type': 'datetime-local', 'class': 'form-control'})
-    #     self.fields['location'].widget.attrs.update({'placeholder': 'Enter location', 'class': 'form-control'})
-    #     self.fields['party_type'].widget.attrs.update({'class': 'form-control'})
-    #     self.fields['available_spots'].widget.attrs.update({'class': 'form-control', 'min': 2})
-    #     self.fields['picture'].widget.attrs.update({'class': 'form-control-file'})
-    #     self.fields['registration_deadline'].widget.attrs.update({'type': 'datetime-local', 'class': 'form-control'})
-    #     self.fields['end_date'].widget.attrs.update({'type': 'datetime-local', 'class': 'form-control'})
-    #     self.fields['is_public'].widget.attrs.update({'class': 'form-control'})
+
 
 
 
@@ -80,16 +67,33 @@ class PartyCreateForm(PartyBaseForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        start_date = cleaned_data.get("start_time")
-        end_date = cleaned_data.get("end_time")
+        start_time = cleaned_data.get("start_time")
+        end_time = cleaned_data.get("end_time")
+        registration_deadline = cleaned_data.get("registration_deadline")
+
+        if not start_time or not end_time:
+            raise ValidationError("Both start and end times must be provided.")
+
+        if start_time < timezone.now():
+            raise ValidationError({"start_time": "The event date cannot be in the past."})
+
+            # Проверка дали края на събитието е след началото
+        if end_time <= start_time:
+                raise ValidationError({"end_time": "The end date must be after the start date."})
+
+            # Проверка за срок на регистрация
+        if registration_deadline and registration_deadline > start_time:
+            raise ValidationError(
+                    {"registration_deadline": "The registration deadline cannot be after the event date."})
+
             # Проверка за конфликти с други партита
         conflicting_parties = Party.objects.filter(
                 # Условие 1: Съществуващо парти започва преди края на новото и свършва след началото на новото
-                Q(start_time__lt=end_date, end_time__gt=start_date) |
+                Q(start_time__lt=end_time, end_time__gt=start_time) |
                 # Условие 2: Съществуващо парти започва преди началото на новото и свършва след началото на новото
-                Q(start_time__lt=start_date, end_time__gt=start_date) |
+                Q(start_time__lt=start_time, end_time__gt=start_time) |
                 # Условие 3: Съществуващо парти свършва след началото на новото и започва преди края на новото
-                Q(end_time__gt=start_date, start_time__lt=end_date)
+                Q(end_time__gt=start_time, start_time__lt=end_time)
             )
 
         # .exclude(id=self.id))  # Изключваме текущото парти, ако редактираме // TODO ako pravq forma za editvane da dobavq towa!!!

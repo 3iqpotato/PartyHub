@@ -24,21 +24,21 @@
         <!-- Линкове към приятели и билети -->
         <div class="profile-links">
             <p>
-{#                <a href="{% url 'following_list_user' object.pk %}">#}
                 {{ other_user.get_following.count }} Following
-{#            </a>#}
             </p>
             <p>
-{#                <a href="{% url 'followers_list_user' object.pk %}">#}
-                    {{ other_user.get_followers.count }} Followers
-{#                </a>#}
+                {{ other_user.get_followers.count }} Followers
             </p>
         </div>
 
         <!-- Информация за потребителя -->
         <div class="profile-info-details">
             <h3>About Me: </h3>
+            {% if other_user.bio %}
             <p>{{ other_user.bio }}</p>
+            {% else %}
+                <p><p>Hmm... This party animal is still working on their bio! 🧐</p>
+            {% endif %}
         </div>
     {% if request.user.is_authenticated %}
     {% if i_follow_him %}

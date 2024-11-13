@@ -82,7 +82,7 @@ class Party(models.Model):
     )
 
     picture = models.ImageField(
-        upload_to='images/', #TODO to make right path to the place to upload the images
+        upload_to='party_imgs/', #TODO to make right path to the place to upload the images
         blank=True,
         null=True,
         help_text="Upload an image with a maximum size of 6MB.",
@@ -119,21 +119,21 @@ class Party(models.Model):
     def not_late_for_tickets(self):
         now = timezone.now()
         if self.registration_deadline:
-            if self.registration_deadline > now:
-                return True
+            return self.registration_deadline > now
         else:
             return self.start_time > now
 
-    def clean(self):
-        super().clean()
-        if self.start_time < timezone.now():
-            raise ValidationError("The event date cannot be in the past.")
-
-        if self.end_time <= self.start_time:
-            raise ValidationError("The end date must be after the start date.")
-
-        if self.registration_deadline and self.registration_deadline > self.start_time:
-            raise ValidationError("The registration deadline cannot be after the event date.")
+    # def clean(self):
+    #
+    #     super().clean()
+    #     if self.start_time < timezone.now():
+    #         raise ValidationError("The event date cannot be in the past.")
+    #
+    #     if self.end_time <= self.start_time:
+    #         raise ValidationError("The end date must be after the start date.")
+    #
+    #     if self.registration_deadline and self.registration_deadline > self.start_time:
+    #         raise ValidationError("The registration deadline cannot be after the event date.")
 
     def save(self, *args, **kwargs):
         if not self.slug:
