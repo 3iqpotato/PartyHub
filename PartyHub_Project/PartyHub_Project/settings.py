@@ -36,6 +36,7 @@ MY_APPS = [
     'PartyHub_Project.Common.apps.CommonConfig',
     'PartyHub_Project.Party.apps.EventConfig',
     'PartyHub_Project.Ticket.apps.TicketConfig',
+    'PartyHub_Project.Questions.apps.QuestionsConfig',
 ]
 
 INSTALLED_APPS = [

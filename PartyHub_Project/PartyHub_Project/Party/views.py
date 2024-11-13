@@ -1,6 +1,7 @@
 from PartyHub_Project.Party.forms import PartyCreateForm, PartyEditForm
 from PartyHub_Project.Party.mixins import LivePartyAccessMixin
 from PartyHub_Project.Party.models import Party
+from PartyHub_Project.Questions.forms import AnswerForm, QuestionForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
@@ -100,21 +101,26 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
 
         status = False
         if self.request.user.is_authenticated:
-            # Проверка за налични места
+            context['question_form'] = QuestionForm()
             match True:
                 case True if self.object.get_free_spots() == 0:
                     status = "no_spots"
                 case True if self.object.not_late_for_tickets() == False:
                     status = "late_for_tickets"  # Вече е късно за билети
                 case True if self.object.organizer == self.request.user:
+                    context['question_form'] = None
+                    context['answer_form'] = AnswerForm()
                     status = "owner"  # Потребителят е собственик на партито
                 case True if not self.object.tickets.filter(participant=self.request.user):
                     status = "can_buy"
                 case True if self.object.tickets.filter(participant=self.request.user):
                     status = "have_ticket"
         # print(status)
-        context['status'] = status  # Добавяме статус към контекста
+        context['status'] = status
+
         return context
+
+
         # can_buy = False
         # if self.request.user.is_authenticated:
         #

@@ -57,6 +57,29 @@
             {% else %}
                 <p>Please <a href="{% url 'login' %}">log in</a> to join this party.</p>
             {% endif %}
+        {% if user.is_authenticated %}
+            {% if question_form %}
+                <form method="post" action="{% url 'question_create' party.slug %}">
+                    {% csrf_token %}
+                    {{ question_form }}
+                <button>Post question</button>
+                </form>
+                {% endif %}
+        {% endif %}
+        {% for question in party.questions.all %}
+            {{ question.author }}{{ question.text }}
+            {% if question.answer %}
+                {{  question.answer.text }} from  {{  question.answer.author }}
+                {% else %}
+                {% if answer_form %}
+                    <form method="post" action="{% url 'answer_create' question.pk party.slug %}">
+                        {% csrf_token %}
+                        {{ answer_form }}
+                        <button>Post answer</button>
+                    </form>
+                    {% endif %}
+            {% endif %}
+        {% endfor %}
         </div>
     </div>
 </div>
