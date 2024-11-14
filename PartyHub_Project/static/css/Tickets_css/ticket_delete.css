@@ -1,0 +1,71 @@
+.ticket-delete-container {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 25px;
+    background-color: #fff3f3;
+    border: 2px solid #ffcccc;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.ticket-delete-header h2 {
+    font-size: 28px;
+    color: #d9534f;
+    margin-bottom: 10px;
+}
+
+.ticket-delete-header p {
+    font-size: 18px;
+    color: #444;
+}
+
+.ticket-delete-body p {
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.vip-label {
+    font-size: 16px;
+    color: #ff9900;
+    font-weight: bold;
+}
+
+.ticket-delete-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.btn-delete-confirm {
+    background-color: #ff4d4d;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-delete-confirm:hover {
+    background-color: #e60000;
+}
+
+.btn-cancel {
+    background-color: #5bc0de;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #31b0d5;
+}

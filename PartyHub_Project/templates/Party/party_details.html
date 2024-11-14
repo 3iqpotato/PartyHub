@@ -28,10 +28,9 @@
             {% if user.is_authenticated %}
 {#                {% if party.organizer == user %}#}
                 {% if status == 'owner' %}
-                    <a href="{% url 'delete_party' party.slug %}" class="details-link">Delete Party</a>
-{#                    {% if can_buy %}#}
-                        <a href="{% url 'edit_party' party.slug %}" class="details-link">Edit Party</a>
-{#                    {% endif %}#}
+                    <a href="{% url 'delete_party' party.slug %}" class="details-link delete-party">Delete Party</a>
+                    <a href="{% url 'edit_party' party.slug %}" class="details-link edit-party">Edit Party</a>
+
 
                 {% else %}
                     {% if  status == 'can_buy'%}
@@ -58,28 +57,61 @@
                 <p>Please <a href="{% url 'login' %}">log in</a> to join this party.</p>
             {% endif %}
         {% if user.is_authenticated %}
-            {% if question_form %}
-                <form method="post" action="{% url 'question_create' party.slug %}">
-                    {% csrf_token %}
-                    {{ question_form }}
-                <button>Post question</button>
-                </form>
+                {% if question_form %}
+                    <div class="questions-section">
+                        <h3>Ask a Question:</h3>
+                        <form method="post" action="{% url 'question_create' party.slug %}">
+                            {% csrf_token %}
+                            {{ question_form.as_p }}
+                            <button type="submit" class="question-button">Post Question</button>
+                        </form>
+                    </div>
                 {% endif %}
-        {% endif %}
-        {% for question in party.questions.all %}
-            {{ question.author }}{{ question.text }}
-            {% if question.answer %}
-                {{  question.answer.text }} from  {{  question.answer.author }}
-                {% else %}
-                {% if answer_form %}
-                    <form method="post" action="{% url 'answer_create' question.pk party.slug %}">
-                        {% csrf_token %}
-                        {{ answer_form }}
-                        <button>Post answer</button>
-                    </form>
-                    {% endif %}
             {% endif %}
-        {% endfor %}
+
+            <div class="questions-list">
+                {% for question in party.questions.all %}
+                    <div class="question">
+                        <p><strong>{{ question.author.username }}:</strong> {{ question.text }}</p>
+                        {% if question.answer %}
+                            <div class="answer">
+                                <p><strong>Answer from {{ question.answer.author.username }}:</strong> {{ question.answer.text }}</p>
+                            </div>
+                        {% else %}
+                            {% if user.is_authenticated and answer_form %}
+                                <form method="post" action="{% url 'answer_create' question.pk party.slug %}">
+                                    {% csrf_token %}
+                                    {{ answer_form.as_p }}
+                                    <button type="submit" class="answer-button">Post Answer</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+{#        {% if user.is_authenticated %}#}
+{#            {% if question_form %}#}
+{#                <form method="post" action="{% url 'question_create' party.slug %}">#}
+{#                    {% csrf_token %}#}
+{#                    {{ question_form }}#}
+{#                <button>Post question</button>#}
+{#                </form>#}
+{#                {% endif %}#}
+{#        {% endif %}#}
+{#        {% for question in party.questions.all %}#}
+{#            {{ question.author }}{{ question.text }}#}
+{#            {% if question.answer %}#}
+{#                {{  question.answer.text }} from  {{  question.answer.author }}#}
+{#                {% else %}#}
+{#                {% if answer_form %}#}
+{#                    <form method="post" action="{% url 'answer_create' question.pk party.slug %}">#}
+{#                        {% csrf_token %}#}
+{#                        {{ answer_form }}#}
+{#                        <button>Post answer</button>#}
+{#                    </form>#}
+{#                    {% endif %}#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
         </div>
     </div>
 </div>

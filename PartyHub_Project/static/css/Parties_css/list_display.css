@@ -142,11 +142,14 @@
 
 .event-image {
     width: 100%;
-    height: 200px;
+    /*height: 100px;*/
     object-fit: cover;
     border-bottom: 3px solid #eee;
 }
-
+img {
+    width: 100%;
+    height: 200px;
+}
 .event-title {
     font-size: 1.6em;
     margin: 15px 0;
