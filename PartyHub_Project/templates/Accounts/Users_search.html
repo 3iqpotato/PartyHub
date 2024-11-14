@@ -9,7 +9,9 @@
 
     <!-- Търсачка за потребители -->
     <form method="get" action="" class="search-form">
-        <input type="text" name="query" placeholder="Search users..." value="{{ request.GET.query }}" class="search-input">
+        <label>
+            <input type="text" name="query" placeholder="Search users..." value="{{ request.GET.query }}" class="search-input">
+        </label>
         <button type="submit" class="search-btn">Search</button>
     </form>
 
@@ -35,7 +37,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>No users found.</p>
+        <p>🔍 Oops! No users found here… Maybe they’re hiding? 🕵️‍♂️ Try searching again! 🌐</p>
     {% endif %}
 </div>
 {% endblock %}

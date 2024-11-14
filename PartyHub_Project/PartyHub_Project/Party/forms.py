@@ -71,20 +71,20 @@ class PartyCreateForm(PartyBaseForm):
         end_time = cleaned_data.get("end_time")
         registration_deadline = cleaned_data.get("registration_deadline")
 
-        if not start_time or not end_time:
-            raise ValidationError("Both start and end times must be provided.")
-
-        if start_time < timezone.now():
-            raise ValidationError({"start_time": "The event date cannot be in the past."})
-
-            # Проверка дали края на събитието е след началото
-        if end_time <= start_time:
-                raise ValidationError({"end_time": "The end date must be after the start date."})
-
-            # Проверка за срок на регистрация
-        if registration_deadline and registration_deadline > start_time:
-            raise ValidationError(
-                    {"registration_deadline": "The registration deadline cannot be after the event date."})
+        # if not start_time or not end_time:
+        #     raise ValidationError("Both start and end times must be provided.")
+        #
+        # if start_time < timezone.now():
+        #     raise ValidationError({"start_time": "The event date cannot be in the past."})
+        #
+        #     # Проверка дали края на събитието е след началото
+        # if end_time <= start_time:
+        #         raise ValidationError({"end_time": "The end date must be after the start date."})
+        #
+        #     # Проверка за срок на регистрация
+        # if registration_deadline and registration_deadline > start_time:
+        #     raise ValidationError(
+        #             {"registration_deadline": "The registration deadline cannot be after the event date."})
 
             # Проверка за конфликти с други партита
         conflicting_parties = Party.objects.filter(

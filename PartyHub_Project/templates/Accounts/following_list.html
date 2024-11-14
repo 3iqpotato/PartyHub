@@ -14,10 +14,7 @@
                         <img src="{{ following_user.following.profile_picture.url }}" alt="{{ following_user.following.username }}'s profile picture" class="profile-image">
 
                     <div class="friend-info">
-{#                        <a href="{%  url 'user_details' following_user.following.id %}" >#}
                             <h3>{{ following_user.following.username }}</h3>
-{#                        </a>#}
-
                         <p>Points: {{ following_user.following.points }}</p>
                     </div>
                     <div class="user-actions">
@@ -31,7 +28,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>You aren't Following any Users.</p>
+        <p>🚶‍♂️ Looks like you’re on a solo adventure! You’re not following anyone... yet! 🌍✨</p>
     {% endif %}
 </div>
 {% endblock %}

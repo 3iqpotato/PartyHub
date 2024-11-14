@@ -50,39 +50,7 @@
 
     {% endfor %}
 {% else %}
-        <p>No one is following you yet.</p>
+        <p>👀 It’s a bit quiet here… No followers for now, but don’t worry, they’ll find you soon! 🎉</p>
 {% endif %}
-
-
-
-
-{##}
-{#    {% if followers_list %}#}
-{#        <ul class="friends-list">#}
-{#            {% for follower in followers_list %}#}
-{#                <li class="friend-item">#}
-{#                    {% if follower.user.profile_picture %}#}
-{#                        <img src="{{ follower.user.profile_picture.url }}" alt="{{ follower.user.username }}'s profile picture" class="profile-image">#}
-{#                    {% else %}#}
-{#                        <img src="{% static 'images/profiles/default_img.jpg' %}" alt="{{ follower.user.username }}'s profile picture" class="profile-image">#}
-{#                    {% endif %}#}
-{#                    <div class="friend-info">#}
-{#                        <h3>{{ follower.user.username }}</h3>#}
-{#                        <p>Points: {{ follower.user.points }}</p>#}
-{#                    </div>#}
-{#                        <div class="user-actions">#}
-{#                        <a href="{%  url 'user_details' follower.user.pk %}" class="view-profile-btn">View Profile</a>#}
-{##}
-{#                        <form method="post" action="{% url 'follow' follower.user.pk %}">#}
-{#                            {% csrf_token %}#}
-{#                            <button type="submit" class="add-friend-btn">Follow Back</button>#}
-{#                        </form>#}
-{#                    </div>#}
-{#                </li>#}
-{#            {% endfor %}#}
-{#        </ul>#}
-{#    {% else %}#}
-{#        <p>No one is following you!.</p>#}
-{#    {% endif %}#}
 </div>
 {% endblock %}

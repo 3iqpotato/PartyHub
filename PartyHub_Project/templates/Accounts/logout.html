@@ -11,7 +11,7 @@
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit" class="confirm-logout">Logout</button>
-        <a href="{% url 'profile_details' %}" class="cancel-logout">Cancel</a>
+        <a href="{% url 'profile_details' user.pk %}" class="cancel-logout">Cancel</a>
     </form>
 </div>
 {% endblock %}
