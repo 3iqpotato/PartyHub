@@ -82,3 +82,8 @@
         width: 90%;
     }
 }
+ul li {
+    color: red;
+    marker: none;
+    list-style-type: none;
+}

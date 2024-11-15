@@ -136,10 +136,10 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
         now = timezone.localtime(timezone.now())
 
         if party.end_time <= now:
+            print('here')
             return False
 
         if not party.is_public:
-
             user = self.request.user
 
             if not user.is_authenticated:

@@ -101,3 +101,9 @@
 .submit-btn:hover {
     background-color: #2980b9;
 }
+
+ul .error{
+    color: red;
+    marker: none;
+    list-style-type: none;
+}

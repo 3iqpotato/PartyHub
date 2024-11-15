@@ -4,9 +4,9 @@ from PartyHub_Project.Ticket.models import Ticket
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views import View
 from django.views.generic import ListView, DetailView, DeleteView
@@ -85,6 +85,7 @@ class TicketDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 class TicketDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Ticket
     template_name = 'Ticket/ticket_delete.html'
+
     def get_success_url(self):
         return reverse_lazy('user_tickets', kwargs={'pk': self.request.user.pk})
 
@@ -93,14 +94,45 @@ class TicketDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return ticket.participant == self.request.user
 
 
-class MarkAsArrivedView(LoginRequiredMixin, View):
-    def post(self, request, pk):
-        ticket = get_object_or_404(Ticket, pk=pk,)
-        ticket.mark_as_arrived()
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+# class MarkAsArrivedView(LoginRequiredMixin, View):
+    # def post(self, request, pk):
+    #     ticket = get_object_or_404(Ticket, pk=pk,)
+    #     ticket.mark_as_arrived()
+    #     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+def mark_as_arrived(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
 
-class MarkAsNotArrivedView(LoginRequiredMixin, View):
-    def post(self, request, pk):
-        ticket = get_object_or_404(Ticket, pk=pk,)
+    if request.user == ticket.party.organizer and request.method == 'POST':
+
+        ticket.mark_as_arrived()
+
+        return JsonResponse({
+            'ticket': {
+                'id': ticket.id,
+                'new_action_url': reverse('mark_as_not_arrived', args=[ticket.id]),
+                'new_button_text': "Mark as Not Arrived"
+            }
+        })
+    return HttpResponseForbidden("You are not authorized to perform this action.")
+
+# class MarkAsNotArrivedView(LoginRequiredMixin, View):
+#     def post(self, request, pk):
+#         ticket = get_object_or_404(Ticket, pk=pk,)
+#         ticket.mark_as_not_arrived()
+#         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+def mark_as_not_arrived(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+
+    if request.user == ticket.party.organizer and request.method == 'POST':
         ticket.mark_as_not_arrived()
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+        return JsonResponse({
+            'ticket': {
+                'id': ticket.id,
+                'new_action_url': reverse('mark_as_arrived', args=[ticket.id]),
+                'new_button_text': "Mark as Arrived"
+            }
+        })
+    return HttpResponseForbidden("You are not authorized to perform this action.")

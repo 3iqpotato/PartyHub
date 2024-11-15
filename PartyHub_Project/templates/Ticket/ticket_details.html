@@ -6,27 +6,27 @@
 {% block content %}
 <div class="ticket-container">
     <div class="ticket-header">
-        <h2>🎉 Билет за Партито: "{{ ticket.party.title }}" 🎉</h2>
-        <p class="ticket-date">Дата на партито: {{ ticket.party.start_time|date:"d M Y, H:i" }}</p>
+        <h2>🎉 Ticket for the Party: "{{ ticket.party.title }}" 🎉</h2>
+        <p class="ticket-date">Party Date: {{ ticket.party.start_time|date:"d M Y, H:i" }}</p>
     </div>
 
     <div class="ticket-info">
-        <h3>Информация за Билета:</h3>
+        <h3>Ticket Information:</h3>
         <ul>
-            <li><strong>Участник:</strong> {{ ticket.participant.username }}</li>
-            <li><strong>Тип билет:</strong> 
+            <li><strong>Participant:</strong> {{ ticket.participant.username }}</li>
+            <li><strong>Ticket Type:</strong>
                 {% if ticket.is_vip %}
                     <span class="vip-label">VIP</span>
                 {% else %}
-                    Стандартен
+                    Standard
                 {% endif %}
             </li>
         </ul>
     </div>
 
     <div class="ticket-actions">
-        <a href="{% url 'delete_ticket' ticket.pk %}" class="btn-cancel">❌ Отказване на Билета</a>
-        <a href="{% url 'details_party' ticket.party.slug %}" class="btn-party-details">🔎 Детайли за Партито</a>
+        <a href="{% url 'delete_ticket' ticket.pk %}" class="btn-cancel">❌ Cancel Ticket</a>
+        <a href="{% url 'details_party' ticket.party.slug %}" class="btn-party-details">🔎 Party Details</a>
     </div>
 </div>
 {% endblock %}

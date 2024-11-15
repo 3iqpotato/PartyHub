@@ -6,25 +6,25 @@
 {% block content %}
 <div class="ticket-delete-container">
     <div class="ticket-delete-header">
-        <h2>🚨 О, Не! 🚨</h2>
-        <p>Искаш ли да изтриеш този билет? Това ще го махне за винаги! 😱</p>
+        <h2>🚨 Oh No! 🚨</h2>
+        <p>Are you sure you want to delete this ticket? This action is permanent! 😱</p>
     </div>
 
     <div class="ticket-delete-body">
-        <p>Преди да натиснеш бутона, бъди сигурен! Възможно е да се чувстваш малко тъжно след това... 😢</p>
-        <p><strong>Парти:</strong> "{{ ticket.party.title }}"</p>
-        <p><strong>Участник:</strong> {{ ticket.participant.username }}</p>
+        <p>Before clicking the button, be absolutely sure! You might feel a little sad afterward... 😢</p>
+        <p><strong>Party:</strong> "{{ ticket.party.title }}"</p>
+        <p><strong>Participant:</strong> {{ ticket.participant.username }}</p>
         {% if ticket.is_vip %}
-            <p class="vip-label">VIP Билет! 🌟</p>
+            <p class="vip-label">VIP Ticket! 🌟</p>
         {% endif %}
     </div>
 
     <div class="ticket-delete-actions">
         <form action="{% url 'delete_ticket' ticket.pk %}" method="POST">
             {% csrf_token %}
-            <button type="submit" class="btn-delete-confirm">Да, изтрий билета! 😱</button>
+            <button type="submit" class="btn-delete-confirm">Yes, delete the ticket! 😱</button>
         </form>
-        <a href="{% url 'user_tickets' request.user.pk %}" class="btn-cancel">Не, не съм сигурен! 🙈</a>
+        <a href="{% url 'user_tickets' request.user.pk %}" class="btn-cancel">No, I'm not sure! 🙈</a>
     </div>
 </div>
 {% endblock %}

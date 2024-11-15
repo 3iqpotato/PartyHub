@@ -1,3 +1,4 @@
+
 {% extends "Common/base.html" %}
 {% load static %}
 {% block styles %}
@@ -6,22 +7,22 @@
 {% block content %}
 <div class="ticket-container">
     <div class="ticket-info">
-        <h2 class="party-title">🎉 Готови ли сте за партито? 🎉</h2>
-        <p class="party-details">Присъединете се към партито "{{ party.title }}"!</p>
-        <p class="party-date">Дата на партито: {{ party.date|date:"d M Y, H:i" }}</p>
-        <p class="party-location">Локация: {{ party.location }}</p>
-        
+        <h2 class="party-title">🎉 Ready for the Party? 🎉</h2>
+        <p class="party-details">Join the party "{{ party.title }}"!</p>
+        <p class="party-date">Party Date: {{ party.start_time|date:"d M Y, H:i" }}</p>
+        <p class="party-location">Location: {{ party.location }}</p>
+
         <div class="ticket-actions">
             <form action="{% url 'get_ticket' party.slug %}" method="POST">
                 {% csrf_token %}
                 <button class="btn-buy">
-                🎟️ Купи Билет
+                🎟️ Buy Ticket
             </button>
 
             </form>
 
             <button class="btn-cancel" onclick="window.location.href='{% url 'details_party' party.slug %}'">
-                ❌ Отказвам се
+                ❌ Cancel
             </button>
         </div>
     </div>

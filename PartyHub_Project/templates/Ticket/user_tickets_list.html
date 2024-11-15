@@ -6,28 +6,28 @@
 {% block content %}
 
 <div class="tickets-container">
-    <h2 class="tickets-title">🎟️ Моите Билети за Парти 🎟️</h2>
+    <h2 class="tickets-title">🎟️ My Party Tickets 🎟️</h2>
 
     {% if user_tickets %}
         <div class="tickets-list">
             {% for ticket in user_tickets %}
                 <div class="ticket-card">
                     <h3 class="ticket-title">{{ ticket.party.title }}</h3>
-                    <p class="ticket-date">Дата на партито: {{ ticket.party.date|date:"d M Y, H:i" }}</p>
-                    <p class="ticket-location">Локация: {{ ticket.party.location }}</p>
+                    <p class="ticket-date">Party Date: {{ ticket.party.start_time|date:"d M Y, H:i" }}</p>
+                    <p class="ticket-location">Location: {{ ticket.party.location }}</p>
                     <div class="ticket-actions">
                         <button class="btn-view" onclick="window.location.href='{% url 'party_ticket_detail' ticket.pk %}'">
-                            🔍 Прегледай Билета
+                            🔍 View Ticket
                         </button>
                         <a class="btn-delete" href="{% url 'delete_ticket' ticket.pk %}">
-                            <button type="submit" class="btn-delete">🗑️ Премахни Билета</button>
+                            <button type="submit" class="btn-delete">🗑️ Remove Ticket</button>
                         </a>
                     </div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <p class="no-tickets">Нямате добавени билети за парти в момента. Вижте наличните партита и се включете!</p>
+        <p class="no-tickets">You don’t have any party tickets at the moment. Check out available parties and join in!</p>
     {% endif %}
 </div>
 {% endblock %}

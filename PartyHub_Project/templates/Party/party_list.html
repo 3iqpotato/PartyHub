@@ -22,7 +22,7 @@
         {% for party in parties %}
         <div class="event-card">
             <!-- Снимка на събитието или дефолтна -->
-            {% if party.image %}
+            {% if party.picture %}
                 <img src="{{ party.picture.url }}"  alt="{{ party.title }}" class="event-image">
             {% else %}
                 <img src="{% static 'images/img.png' %}" alt="{{ party.title }}">

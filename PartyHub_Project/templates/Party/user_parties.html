@@ -12,7 +12,7 @@
         <div class="parties-list">
             {% for party in upcoming_parties %}
                 <div class="party-card">
-                    {% if party.image %}
+                    {% if party.picture %}
                         <img src="{{ party.picture.url }}" alt="Party Image" class="party-image">
                     {% else %}
                         <img src="{% static 'images/img.png' %}" alt="Default Party Image" class="party-image">
@@ -31,14 +31,14 @@
         <div class="parties-list">
             {% for party in past_parties %}
                 <div class="party-card">
-                    {% if party.image %}
-                        <img src="{{ party.image.url }}" alt="Party Image" class="party-image">
+                    {% if party.picture %}
+                        <img src="{{ party.picture.url }}" alt="Party Image" class="party-image">
                     {% else %}
                         <img src="{% static 'images/img.png' %}" alt="Default Party Image" class="party-image">
                     {% endif %}
                     <div class="party-details">
                         <h3>{{ party.name }}</h3>
-                        <p><strong>Date:</strong> {{ party.date }}</p>
+                        <p><strong>Date:</strong> {{ party.start_time }}</p>
                         <p><strong>Location:</strong> {{ party.location }}</p>
                         <p>{{ party.description|truncatewords:20 }}</p>
                         <a href="{% url 'delete_party' party.slug %}" class="details-link">Delete Party</a>
