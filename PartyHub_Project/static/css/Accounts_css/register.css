@@ -82,3 +82,10 @@
         width: 90%;
     }
 }
+ul li {
+    color: red;
+    marker: none;
+}
+ul li::marker {
+    marker: none;
+}

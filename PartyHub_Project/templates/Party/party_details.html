@@ -9,7 +9,7 @@
     
     <div class="party-details-content">
         <!-- Изображение на партито -->
-        {% if party.image %}
+        {% if party.picture %}
             <img src="{{ party.picture.url }}" alt="Party Image" class="party-image">
         {% else %}
             <img src="{% static 'images/img.png' %}" alt="Default Party Image" class="party-image">

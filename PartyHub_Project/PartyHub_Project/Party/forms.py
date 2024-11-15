@@ -70,24 +70,25 @@ class PartyCreateForm(PartyBaseForm):
         start_time = cleaned_data.get("start_time")
         end_time = cleaned_data.get("end_time")
         registration_deadline = cleaned_data.get("registration_deadline")
+        organizer = cleaned_data.get("organizer")
 
-        # if not start_time or not end_time:
-        #     raise ValidationError("Both start and end times must be provided.")
-        #
-        # if start_time < timezone.now():
-        #     raise ValidationError({"start_time": "The event date cannot be in the past."})
-        #
-        #     # Проверка дали края на събитието е след началото
-        # if end_time <= start_time:
-        #         raise ValidationError({"end_time": "The end date must be after the start date."})
-        #
-        #     # Проверка за срок на регистрация
-        # if registration_deadline and registration_deadline > start_time:
-        #     raise ValidationError(
-        #             {"registration_deadline": "The registration deadline cannot be after the event date."})
+        if not start_time or not end_time:
+            raise ValidationError("Both start and end times must be provided.")
+
+        if start_time < timezone.now():
+            raise ValidationError({"start_time": "The party start cannot be in the past."})
+
+            # Проверка дали края на събитието е след началото
+        if end_time <= start_time:
+                raise ValidationError({"end_time": "The end time must be after the start time."})
+
+            # Проверка за срок на регистрация
+        if registration_deadline and registration_deadline > start_time:
+            raise ValidationError(
+                    {"registration_deadline": "The registration deadline cannot be after the event date."})
 
             # Проверка за конфликти с други партита
-        conflicting_parties = Party.objects.filter(
+        conflicting_parties = Party.objects.filter(organizer=organizer).filter(
                 # Условие 1: Съществуващо парти започва преди края на новото и свършва след началото на новото
                 Q(start_time__lt=end_time, end_time__gt=start_time) |
                 # Условие 2: Съществуващо парти започва преди началото на новото и свършва след началото на новото
@@ -95,6 +96,9 @@ class PartyCreateForm(PartyBaseForm):
                 # Условие 3: Съществуващо парти свършва след началото на новото и започва преди края на новото
                 Q(end_time__gt=start_time, start_time__lt=end_time)
             )
+        for p in conflicting_parties:
+            print(p.organizer, p.start_time)
+        print(conflicting_parties)
 
         # .exclude(id=self.id))  # Изключваме текущото парти, ако редактираме // TODO ako pravq forma za editvane da dobavq towa!!!
 

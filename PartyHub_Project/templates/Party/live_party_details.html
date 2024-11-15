@@ -8,8 +8,11 @@
 <div class="party-container">
     <!-- Заглавие и снимка на партито -->
     <h1 class="party-title">{{ party.title }}</h1>
-    <img src="{{ party.image.url }}" alt="Party Image" class="party-image">
-
+        {% if party.picture %}
+            <img src="{{ party.picture.url }}" alt="Party Image" class="party-image">
+        {% else %}
+            <img src="{% static 'images/img.png' %}" alt="Default Party Image" class="party-image">
+        {% endif %}
     <div class="attendance-lists">
 
         <!-- Списък с хора, които още не са дошли -->
@@ -19,18 +22,21 @@
                 {% get_tickets_for_party_by_check_variable party False as unchecked_tickets %}
                 {% for ticket in unchecked_tickets %}
                     <li class="attendee-card">
-                        <img src="{{ ticket.participant.profile_image.url }}" alt="{{ ticket.participant.username }}'s profile picture" class="profile-image">
-
-                        <img src="{{ ticket.participant.profile_image.url }}" alt="Profile Picture" class="attendee-image">
+                        <img src="{{ ticket.participant.profile_picture.url }}" alt="Profile Picture" class="attendee-image">
                         <span class="attendee-name">{{ ticket.participant.username }}</span>
-                        <span class="attendee-points">{{ ticket.participant.points }} points</span>
-                        <form method="post" action="{% url 'mark_as_arrived' ticket.pk %}">
+{#                        <span class="attendee-points">{{ ticket.participant.points }} points</span>#}
+                        <form method="post" class="attendance-form" data-ticket-id="{{ ticket.pk }}" data-action="{% url 'mark_as_arrived' ticket.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="status-button">Mark as Arrived</button>
+                            <button type="button" class="status-button">Mark as Arrived</button>
                         </form>
+
+{#                        <form method="post" action="{% url 'mark_as_arrived' ticket.pk %}">#}
+{#                            {% csrf_token %}#}
+{#                        <button type="submit" class="status-button">Mark as Arrived</button>#}
+{#                        </form>#}
                     </li>
                 {% empty %}
-                    <p>All guests have arrived!</p>
+{#                    <p>All guests have arrived!</p>#}
                 {% endfor %}
             </ul>
         </div>
@@ -41,19 +47,186 @@
                 {% get_tickets_for_party_by_check_variable party True as checked_tickets %}
                 {% for ticket in checked_tickets %}
                     <li class="attendee-card">
-                        <img src="{{ ticket.participant.profile_image.url }}" alt="Profile Picture" class="attendee-image">
+
+                        <img src="{{ ticket.participant.profile_picture.url }}" alt="Profile Picture" class="attendee-image">
                         <span class="attendee-name">{{ ticket.participant.username }}</span>
-                        <span class="attendee-points">{{ ticket.participant.points }} points</span>
-                        <form method="post" action="{% url 'mark_as_not_arrived' ticket.pk %}">
+{#                        <span class="attendee-points">{{ ticket.participant.points }} points</span>#}
+{#                        <form method="post" action="{% url 'mark_as_not_arrived' ticket.pk %}">#}
+{#                            {% csrf_token %}#}
+{#                            <button type="submit" class="status-button1">Mark as Not Arrived</button>#}
+{#                        </form>#}
+                        <form method="post" class="attendance-form" data-ticket-id="{{ ticket.pk }}" data-action="{% url 'mark_as_not_arrived' ticket.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="status-button">Mark as Not Arrived</button>
+                            <button type="submit" class="status-button1">Mark as Not Arrived</button>
                         </form>
                     </li>
                 {% empty %}
-                    <p>No attendees yet.</p>
+{#                    <p>No attendees yet.</p>#}
                 {% endfor %}
             </ul>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const csrfToken = '{{ csrf_token }}';
+
+        async function handleButtonClick(event) {
+            event.preventDefault();
+
+            const button = event.target;
+            const form = button.closest('.attendance-form');
+            const ticketId = form.dataset.ticketId;
+            const actionUrl = form.dataset.action;
+
+            try {
+                const response = await fetch(actionUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ ticket_id: ticketId }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    moveTicket(data.ticket, button);
+                } else {
+                    console.error('Error:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Request failed:', error);
+            }
+        }
+
+        function moveTicket(ticket, button) {
+            const currentList = button.closest('ul');
+            const otherList = currentList.closest('.attendance-list').nextElementSibling?.querySelector('ul')
+                || currentList.closest('.attendance-list').previousElementSibling?.querySelector('ul');
+            if (!otherList) return;
+
+            // Премахваме текущия елемент
+            const listItem = button.closest('li');
+            currentList.removeChild(listItem);
+
+            {#if (currentList.children.length === 0) { // Проверяваме дали списъкът е празен#}
+            {#    let paragraph = document.createElement('p'); // Създаване на нов параграф#}
+            {#    console.log("dadada");#}
+            {#    if (currentList.previousElementSibling('h2').textContent === "Attendees") {#}
+            {#        paragraph.textContent = "No attendees yet."; // Текст за Attendees#}
+            {#    } else if (currentList.previousElementSibling('h2').textContent === "Not Arrived") {#}
+            {#        paragraph.textContent = "All guests have arrived!"; // Текст за Not Arrived#}
+            {#    }#}
+            {##}
+            {#    currentList.appendChild(paragraph); // Добавяме параграфа към списъка#}
+
+            // Променяме атрибутите на формата и бутона
+            const form = listItem.querySelector('.attendance-form');
+            form.dataset.action = ticket.new_action_url;
+
+            const newButton = form.querySelector('button');
+            newButton.textContent = ticket.new_button_text;
+
+            // Проверка на класовете
+            const oldButton = listItem.querySelector('button');
+
+            if (oldButton.classList.contains('status-button')) {
+                newButton.classList.add('status-button1');
+                newButton.classList.remove('status-button');
+            } else {
+                newButton.classList.add('status-button');
+                newButton.classList.remove('status-button1');
+            }
+
+            // Добавяме елемента към другия списък
+            otherList.appendChild(listItem);
+        }
+
+        function attachButtonListeners() {
+            const buttons = document.querySelectorAll('.attendance-form button');
+            buttons.forEach(button => {
+                button.removeEventListener('click', handleButtonClick); // Премахваме стари слушатели
+                button.addEventListener('click', handleButtonClick);   // Добавяме нови слушатели
+            });
+        }
+
+        // Присвояваме слушатели при първоначално зареждане
+        attachButtonListeners();
+    });
+</script>
+
+{#<script>#}
+{#    document.addEventListener('DOMContentLoaded', () => {#}
+{#        // Прихващаме всички форми с клас "attendance-form"#}
+{#        const forms = document.querySelectorAll('.attendance-form');#}
+{##}
+{#        forms.forEach(form => {#}
+{#            form.addEventListener('submit', event => event.preventDefault());#}
+{##}
+{#            const button = form.querySelector('button');#}
+{#            button.addEventListener('click', async () => {#}
+{#                const ticketId = form.dataset.ticketId;#}
+{#                const actionUrl = form.dataset.action;#}
+{##}
+{#                try {#}
+{#                    const response = await fetch(actionUrl, {#}
+{#                        method: 'POST',#}
+{#                        headers: {#}
+{#                            'X-CSRFToken': '{{ csrf_token }}',#}
+{#                            'Content-Type': 'application/json'#}
+{#                        },#}
+{#                        body: JSON.stringify({ ticket_id: ticketId })#}
+{#                    });#}
+{##}
+{#                    if (response.ok) {#}
+{#                        const data = await response.json();#}
+{#                        updateLists(data);#}
+{#                    } else {#}
+{#                        console.error('Error:', response.statusText);#}
+{#                    }#}
+{#                } catch (error) {#}
+{#                    console.error('Request failed:', error);#}
+{#                }#}
+{#            });#}
+{#        });#}
+{##}
+{#        function updateLists(data) {#}
+{#            // Актуализираме списъците за присъстващи и неприсъстващи#}
+{#            const notArrivedList = document.querySelector('.attendance-list:nth-child(1) ul');#}
+{#            const arrivedList = document.querySelector('.attendance-list:nth-child(2) ul');#}
+{##}
+{#            notArrivedList.innerHTML = '';#}
+{#            arrivedList.innerHTML = '';#}
+{##}
+{#            data.unchecked_tickets.forEach(ticket => {#}
+{#                notArrivedList.innerHTML += `#}
+{#                    <li class="attendee-card">#}
+{#                        <img src="${ticket.profile_picture_url}" alt="Profile Picture" class="attendee-image">#}
+{#                        <span class="attendee-name">${ticket.username}</span>#}
+{#                        <span class="attendee-points">${ticket.points} points</span>#}
+{#                        <form method="post" class="attendance-form" data-ticket-id="${ticket.id}" data-action="/mark_as_arrived/${ticket.id}/">#}
+{#                            {% csrf_token %}#}
+{#                            <button type="button" class="status-button">Mark as Arrived</button>#}
+{#                        </form>#}
+{#                    </li>`;#}
+{#            });#}
+{##}
+{#            data.checked_tickets.forEach(ticket => {#}
+{#                arrivedList.innerHTML += `#}
+{#                    <li class="attendee-card">#}
+{#                        <img src="${ticket.profile_picture_url}" alt="Profile Picture" class="attendee-image">#}
+{#                        <span class="attendee-name">${ticket.username}</span>#}
+{#                        <span class="attendee-points">${ticket.points} points</span>#}
+{#                        <form method="post" class="attendance-form" data-ticket-id="${ticket.id}" data-action="/mark_as_not_arrived/${ticket.id}/">#}
+{#                            {% csrf_token %}#}
+{#                            <button type="button" class="status-button1">Mark as Not Arrived</button>#}
+{#                        </form>#}
+{#                    </li>`;#}
+{#            });#}
+{#        }#}
+{#    });#}
+{#</script>#}
+
+
 {% endblock %}
