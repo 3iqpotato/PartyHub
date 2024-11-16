@@ -30,11 +30,11 @@ class UserProfileLoginForm(RemoveHelpTextMixin, AuthenticationForm):
         widget=forms.TextInput(attrs={'placeholder': 'Enter your username or email...'}),
     )
 
+
 class UserProfileEditForm(RemoveHelpTextMixin, models.ModelForm):
-    class Meta():
+    class Meta:
         model = get_user_model()
         fields = ['username', 'first_name', 'last_name', 'profile_picture', 'bio',]
-
 
     def clean(self):
         cleaned_data = super().clean()

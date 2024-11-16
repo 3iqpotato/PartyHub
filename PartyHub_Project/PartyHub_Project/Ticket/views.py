@@ -18,6 +18,7 @@ UserModel = get_user_model()
 class UserTicketsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Ticket
     template_name = 'Ticket/user_tickets_list.html'
+
     def test_func(self):
         profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
         return self.request.user == profile
@@ -29,57 +30,50 @@ class UserTicketsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class TicketCreateView(LoginRequiredMixin, View):
+
     def check_conditions(self, request, party):
-        """Проверява условията за достъп до партито и наличност на билетите, хвърляйки грешка 403 при неуспешни проверки."""
         if not party.is_public:
             if not request.user.is_following(party.organizer) or not party.organizer.is_following(request.user):
-                raise PermissionDenied("Нямате право да се регистрирате за това парти.")
+                raise PermissionDenied("you are not allowed to come to this party.")
 
         if party.registration_deadline and party.registration_deadline < timezone.now():
-            raise PermissionDenied("Срокът за регистрация е изтекъл.")
+            raise PermissionDenied("too late to buy.")
 
         if party.start_time and party.start_time < timezone.now():
-            raise PermissionDenied("Партито вече е започнало.")
+            raise PermissionDenied("The party already started.")
 
         if party.get_free_spots() <= 0:
-            raise PermissionDenied("Няма свободни места за това парти.")
+            raise PermissionDenied("no free spaces.")
 
         if Ticket.objects.filter(participant=request.user, party=party).exists():
-            raise PermissionDenied("Вече сте регистриран за това парти.")
+            raise PermissionDenied("already have a ticket.")
 
     def get(self, request, party_slug):
-        # Намираме партито по slug
         party = get_object_or_404(Party, slug=party_slug)
 
-        # Извършваме проверките
         self.check_conditions(request, party)
 
-        # Показваме бутон за закупуване на билет
         return render(request, 'Ticket/ticket_create.html', {'party': party})
 
     def post(self, request, party_slug):
-        # Намираме партито по slug
         party = get_object_or_404(Party, slug=party_slug)
 
-        # Извършваме проверките
         self.check_conditions(request, party)
 
-        # Създаваме билет за потребителя
         ticket = Ticket.objects.create(participant=request.user, party=party, is_vip=request.user.is_vip())
         ticket.save()
 
-        # Пренасочваме към детайлите за партито
         return redirect('details_party', slug=party_slug)
 
 
 class TicketDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Ticket
     template_name = 'Ticket/ticket_details.html'
-    context_object_name = 'ticket'  # За да е удобно да използваме в темплейта
+    context_object_name = 'ticket'
 
     def test_func(self):
-        ticket = self.get_object()  # Вземаме билета чрез id от URL
-        return ticket.participant == self.request.user  # Ако билета е за текущия потребител
+        ticket = self.get_object()
+        return ticket.participant == self.request.user
 
 
 class TicketDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -90,7 +84,7 @@ class TicketDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return reverse_lazy('user_tickets', kwargs={'pk': self.request.user.pk})
 
     def test_func(self):
-        ticket = self.get_object()  # Вземаме билета чрез id от URL
+        ticket = self.get_object()
         return ticket.participant == self.request.user
 
 

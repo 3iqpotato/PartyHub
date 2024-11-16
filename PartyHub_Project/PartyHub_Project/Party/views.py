@@ -10,9 +10,9 @@ from django.utils import timezone
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
 
-#not a View a function that get the right parties for the users!!!!
+# not a View a function that get the right parties for the users!!!!
 def return_parties_for_user(request):
-    public_parties = Party.objects.get_public_parties()
+    public_parties = Party.objects.get_public_parties().select_related('organizer')
 
     all_parties = public_parties
 
@@ -41,7 +41,7 @@ def return_parties_for_user(request):
 
 class PartyListView(ListView):
     model = Party
-    paginate_by = 1 #TODO fix
+    paginate_by = 1  # TODO fix
     template_name = 'Party/party_list.html'
 
     def get_context_data(self, **kwargs):
@@ -96,6 +96,9 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
     model = Party
     template_name = 'Party/party_details.html'
 
+    def get_queryset(self):
+        return Party.objects.select_related('organizer').prefetch_related('tickets', 'questions', 'questions__answer')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
 
@@ -115,28 +118,16 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
                     status = "can_buy"
                 case True if self.object.tickets.filter(participant=self.request.user):
                     status = "have_ticket"
-        # print(status)
+
         context['status'] = status
 
         return context
-
-
-        # can_buy = False
-        # if self.request.user.is_authenticated:
-        #
-        #     if self.object.get_free_spots() > 0 and self.object.not_late_for_tickets():
-        #         if not self.object.tickets.filter(participant=self.request.user):
-        #             can_buy = True
-        # context['can_buy'] = can_buy
-        # # print(self.object.picture.url)
-        # return context
 
     def test_func(self):
         party = self.get_object()
         now = timezone.localtime(timezone.now())
 
         if party.end_time <= now:
-            print('here')
             return False
 
         if not party.is_public:
@@ -171,6 +162,9 @@ class LivePartyDetailView(LoginRequiredMixin, LivePartyAccessMixin, DetailView):
     model = Party
     template_name = 'Party/live_party_details.html'
 
+    def get_queryset(self):
+        return Party.objects.select_related('organizer').prefetch_related('tickets__participant')
+
 
 class PartyEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Party
@@ -178,7 +172,7 @@ class PartyEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'Party/party_edit.html'
 
     def get_success_url(self):
-            return reverse_lazy('details_party', kwargs={'slug': self.object.slug})
+        return reverse_lazy('details_party', kwargs={'slug': self.object.slug})
 
     def test_func(self):
         party = self.get_object()

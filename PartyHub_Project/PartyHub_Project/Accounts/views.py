@@ -48,8 +48,6 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('profile_details', kwargs={'pk': self.request.user.pk})
-                                                                     #TODO: fix the view to edit username too
-
 
 
 class CustomLoginView(LoginView):
@@ -77,12 +75,12 @@ class ShowFollowingView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return super().get_context_data(**context)
 
 
-class UsersListView(ListView):
+class UsersListView(LoginRequiredMixin, ListView):
     model = UserModel
     template_name = 'Accounts/Users_search.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-
+        context = super().get_context_data(**kwargs)
         users_list = self.request.user.get_users_not_in_followers()
 
         query = self.request.GET.get('query', '')
@@ -93,7 +91,7 @@ class UsersListView(ListView):
         context = {
             'users': users_list
         }
-        return super().get_context_data(**context)
+        return context
 
 
 class AddFollowView(LoginRequiredMixin, View):
@@ -104,6 +102,7 @@ class AddFollowView(LoginRequiredMixin, View):
         self.request.user.follow(other)
         return redirect(request.META.get('HTTP_REFERER'))
 
+
 class RemoveFollowView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         other = get_object_or_404(UserModel, pk=kwargs.get('pk'))
@@ -111,17 +110,16 @@ class RemoveFollowView(LoginRequiredMixin, View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class UsersDetailView(DetailView):
+class UsersDetailView(LoginRequiredMixin, DetailView):
     model = UserModel
     template_name = 'Accounts/user_details.html'
     context_object_name = 'other_user'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        if self.request.user.is_authenticated:
-            i_follow_him = self.request.user.is_following(self.object)
+        i_follow_him = self.request.user.is_following(self.object)
 
-            context['i_follow_him'] = i_follow_him
+        context['i_follow_him'] = i_follow_him
         return context
 
 

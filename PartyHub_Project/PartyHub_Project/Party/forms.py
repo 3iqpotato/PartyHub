@@ -58,9 +58,6 @@ class PartyBaseForm(forms.ModelForm):
         }
 
 
-
-
-
 class PartyCreateForm(PartyBaseForm):
     class Meta(PartyBaseForm.Meta):
         pass

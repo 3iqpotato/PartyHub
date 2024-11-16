@@ -37,7 +37,7 @@
                         <img src="{% static 'images/img.png' %}" alt="Default Party Image" class="party-image">
                     {% endif %}
                     <div class="party-details">
-                        <h3>{{ party.name }}</h3>
+                        <h3>{{ party.title }}</h3>
                         <p><strong>Date:</strong> {{ party.start_time }}</p>
                         <p><strong>Location:</strong> {{ party.location }}</p>
                         <p>{{ party.description|truncatewords:20 }}</p>
