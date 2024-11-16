@@ -1,0 +1,85 @@
+/* Контейнер за билетите */
+.ticket-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 25px;
+    background-color: #f3f4f6;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Информация за партито */
+.party-title {
+    font-size: 28px;
+    color: #2b6cb0;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.party-details {
+    font-size: 20px;
+    color: #4a5568;
+    margin-bottom: 10px;
+}
+
+.party-date, .party-location {
+    font-size: 18px;
+    color: #718096;
+    margin: 5px 0;
+}
+
+/* Действия с билет */
+.ticket-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Бутон за купуване на билет */
+.btn-buy {
+    background-color: #38a169;
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-buy:hover {
+    background-color: #2f855a;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Бутон за отказване */
+.btn-cancel {
+    background-color: #e53e3e;
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-cancel:hover {
+    background-color: #c53030;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.no-ticket-message {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffefc3;
+    border: 2px solid #ffad33;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #5a5a5a;
+    text-align: center;
+}

@@ -1,0 +1,31 @@
+.error-container {
+    text-align: center; /* Центрираме текста */
+    padding: 100px 20px; /* Отстъпи отгоре и отдолу */
+}
+
+.error-container h1 {
+    font-family: 'Roboto', sans-serif; /* Използваме Roboto шрифта */
+    font-size: 48px; /* Увеличаваме размера на заглавието */
+    color: #d9534f; /* Червен цвят за акцент */
+}
+
+.error-container p {
+    font-family: 'Roboto', sans-serif; /* Използваме Roboto шрифта */
+    font-size: 24px; /* Размер на текста */
+    color: #333; /* Тъмен цвят за четимост */
+    margin: 10px 0; /* Отстъп между параграфите */
+}
+
+.back-home-link {
+    display: inline-block; /* Превръщаме линка в блок за бутон */
+    margin-top: 20px; /* Отстъп отгоре */
+    padding: 10px 20px; /* Отстъп в бутон */
+    background-color: #5bc0de; /* Светло син фон */
+    color: white; /* Бял текст */
+    text-decoration: none; /* Без подчертаване */
+    border-radius: 5px; /* Оформяне на ъглите */
+}
+
+.back-home-link:hover {
+    background-color: #31b0d5; /* Потъмняване при hover */
+}

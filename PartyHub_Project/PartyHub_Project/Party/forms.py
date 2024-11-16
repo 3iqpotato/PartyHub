@@ -96,11 +96,6 @@ class PartyCreateForm(PartyBaseForm):
                 # Условие 3: Съществуващо парти свършва след началото на новото и започва преди края на новото
                 Q(end_time__gt=start_time, start_time__lt=end_time)
             )
-        for p in conflicting_parties:
-            print(p.organizer, p.start_time)
-        print(conflicting_parties)
-
-        # .exclude(id=self.id))  # Изключваме текущото парти, ако редактираме // TODO ako pravq forma za editvane da dobavq towa!!!
 
         if conflicting_parties.exists():
             raise ValidationError("There is another party scheduled during this time. Please choose a different time period.")

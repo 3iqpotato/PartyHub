@@ -1,0 +1,68 @@
+.delete-party-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fef7f7;
+    border: 2px solid #ffcccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.delete-party-container h2 {
+    font-size: 24px;
+    color: #ff5e5e;
+    margin-bottom: 10px;
+}
+
+.delete-party-container p {
+    font-size: 18px;
+    color: #555;
+}
+
+.warning-message {
+    font-size: 16px;
+    color: #b30000;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.delete-form {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.confirm-delete-button {
+    background-color: #ff4c4c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-delete-button:hover {
+    background-color: #e60000;
+}
+
+.cancel-delete-link {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-delete-link:hover {
+    background-color: #388e3c;
+}

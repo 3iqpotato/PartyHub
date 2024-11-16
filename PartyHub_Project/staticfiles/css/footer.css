@@ -1,0 +1,32 @@
+#footer_section {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#footer_content {
+    margin-bottom: 10px;
+}
+
+#footer_content p {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+#social_media_links a {
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+#social_media_links a:hover {
+    text-decoration: underline;
+}
+
+#social_media_links a:nth-child(1) {
+    color: #3b5998; /* Facebook */
+}
+
+#social_media_links a:nth-child(2) {
+    color: #C13584; /* Instagram */
+}

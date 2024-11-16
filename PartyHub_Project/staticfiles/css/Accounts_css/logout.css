@@ -1,0 +1,49 @@
+.logout-container {
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logout-container h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.logout-container p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.confirm-logout, .cancel-logout {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+.confirm-logout {
+    background-color: #d9534f; /* Червен бутон за излизане */
+    border: none;
+}
+
+.cancel-logout {
+    background-color: #5bc0de; /* Син бутон за отказ */
+    color: white;
+}
+
+.confirm-logout:hover {
+    background-color: #c9302c;
+}
+
+.cancel-logout:hover {
+    background-color: #31b0d5;
+}

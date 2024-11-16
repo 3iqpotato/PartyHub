@@ -110,17 +110,6 @@
             const listItem = button.closest('li');
             currentList.removeChild(listItem);
 
-            {#if (currentList.children.length === 0) { // Проверяваме дали списъкът е празен#}
-            {#    let paragraph = document.createElement('p'); // Създаване на нов параграф#}
-            {#    console.log("dadada");#}
-            {#    if (currentList.previousElementSibling('h2').textContent === "Attendees") {#}
-            {#        paragraph.textContent = "No attendees yet."; // Текст за Attendees#}
-            {#    } else if (currentList.previousElementSibling('h2').textContent === "Not Arrived") {#}
-            {#        paragraph.textContent = "All guests have arrived!"; // Текст за Not Arrived#}
-            {#    }#}
-            {##}
-            {#    currentList.appendChild(paragraph); // Добавяме параграфа към списъка#}
-
             // Променяме атрибутите на формата и бутона
             const form = listItem.querySelector('.attendance-form');
             form.dataset.action = ticket.new_action_url;
@@ -155,78 +144,4 @@
         attachButtonListeners();
     });
 </script>
-
-{#<script>#}
-{#    document.addEventListener('DOMContentLoaded', () => {#}
-{#        // Прихващаме всички форми с клас "attendance-form"#}
-{#        const forms = document.querySelectorAll('.attendance-form');#}
-{##}
-{#        forms.forEach(form => {#}
-{#            form.addEventListener('submit', event => event.preventDefault());#}
-{##}
-{#            const button = form.querySelector('button');#}
-{#            button.addEventListener('click', async () => {#}
-{#                const ticketId = form.dataset.ticketId;#}
-{#                const actionUrl = form.dataset.action;#}
-{##}
-{#                try {#}
-{#                    const response = await fetch(actionUrl, {#}
-{#                        method: 'POST',#}
-{#                        headers: {#}
-{#                            'X-CSRFToken': '{{ csrf_token }}',#}
-{#                            'Content-Type': 'application/json'#}
-{#                        },#}
-{#                        body: JSON.stringify({ ticket_id: ticketId })#}
-{#                    });#}
-{##}
-{#                    if (response.ok) {#}
-{#                        const data = await response.json();#}
-{#                        updateLists(data);#}
-{#                    } else {#}
-{#                        console.error('Error:', response.statusText);#}
-{#                    }#}
-{#                } catch (error) {#}
-{#                    console.error('Request failed:', error);#}
-{#                }#}
-{#            });#}
-{#        });#}
-{##}
-{#        function updateLists(data) {#}
-{#            // Актуализираме списъците за присъстващи и неприсъстващи#}
-{#            const notArrivedList = document.querySelector('.attendance-list:nth-child(1) ul');#}
-{#            const arrivedList = document.querySelector('.attendance-list:nth-child(2) ul');#}
-{##}
-{#            notArrivedList.innerHTML = '';#}
-{#            arrivedList.innerHTML = '';#}
-{##}
-{#            data.unchecked_tickets.forEach(ticket => {#}
-{#                notArrivedList.innerHTML += `#}
-{#                    <li class="attendee-card">#}
-{#                        <img src="${ticket.profile_picture_url}" alt="Profile Picture" class="attendee-image">#}
-{#                        <span class="attendee-name">${ticket.username}</span>#}
-{#                        <span class="attendee-points">${ticket.points} points</span>#}
-{#                        <form method="post" class="attendance-form" data-ticket-id="${ticket.id}" data-action="/mark_as_arrived/${ticket.id}/">#}
-{#                            {% csrf_token %}#}
-{#                            <button type="button" class="status-button">Mark as Arrived</button>#}
-{#                        </form>#}
-{#                    </li>`;#}
-{#            });#}
-{##}
-{#            data.checked_tickets.forEach(ticket => {#}
-{#                arrivedList.innerHTML += `#}
-{#                    <li class="attendee-card">#}
-{#                        <img src="${ticket.profile_picture_url}" alt="Profile Picture" class="attendee-image">#}
-{#                        <span class="attendee-name">${ticket.username}</span>#}
-{#                        <span class="attendee-points">${ticket.points} points</span>#}
-{#                        <form method="post" class="attendance-form" data-ticket-id="${ticket.id}" data-action="/mark_as_not_arrived/${ticket.id}/">#}
-{#                            {% csrf_token %}#}
-{#                            <button type="button" class="status-button1">Mark as Not Arrived</button>#}
-{#                        </form>#}
-{#                    </li>`;#}
-{#            });#}
-{#        }#}
-{#    });#}
-{#</script>#}
-
-
 {% endblock %}

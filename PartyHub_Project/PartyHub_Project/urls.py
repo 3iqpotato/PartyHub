@@ -26,6 +26,8 @@ urlpatterns = [
     path('accounts/', include('PartyHub_Project.Accounts.urls')),
     path('tickets/', include('PartyHub_Project.Ticket.urls')),
     path('questions_and_answers/', include('PartyHub_Project.Questions.urls')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

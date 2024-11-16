@@ -1,0 +1,83 @@
+/* Контейнер за съобщение за край на партито */
+.party-ended-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px;
+    text-align: center;
+    background-color: #fdf2e9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.6s ease-in;
+}
+
+/* Анимация за плавно появаване */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Заглавие на съобщението */
+.party-ended-title {
+    font-size: 28px;
+    color: #f96d3b;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-shadow: 1px 1px #f9c1a7;
+}
+
+/* Основен текст */
+.party-ended-text {
+    font-size: 18px;
+    color: #d45128;
+    margin-bottom: 15px;
+}
+
+/* Текст за организатора */
+.party-organizer-reflection {
+    font-size: 16px;
+    color: #bf5f2f;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+/* Текст за следващите стъпки */
+.party-next-steps {
+    font-size: 16px;
+    color: #a54d28;
+    margin-bottom: 30px;
+}
+
+/* Контейнер за снимките от партито */
+.party-photos {
+    background-color: #fff5f0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Снимка от партито */
+.party-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 15px;
+    border-radius: 10px;
+}
+
+/* Бутон за създаване на ново парти */
+.next-party-button {
+    background-color: #f96d3b;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.next-party-button:hover {
+    background-color: #d55530;
+}

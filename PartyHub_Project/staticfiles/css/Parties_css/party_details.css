@@ -1,0 +1,144 @@
+/* Контейнер за страницата с детайли на партито */
+.party-details-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.party-details-container h2 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Съдържание на детайлите за партито */
+.party-details-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.party-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.party-info {
+    text-align: left;
+    width: 100%;
+    max-width: 500px;
+}
+
+.party-info p {
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0;
+}
+
+/* Бутони за присъединяване и напускане */
+.join-party-button,
+.leave-party-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.leave-party-button {
+    background-color: #e74c3c;
+}
+
+.join-party-button:hover {
+    background-color: #45a049;
+}
+
+.leave-party-button:hover {
+    background-color: #c0392b;
+}
+
+.no-ticket-message p {
+    color: #d9534f;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.questions-section {
+    margin-top: 30px;
+}
+
+.questions-section h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.questions-list {
+    margin-top: 20px;
+}
+
+.question, .answer {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.question {
+    border-left: 4px solid #007bff;
+}
+
+.answer {
+    border-left: 4px solid #28a745;
+    margin-left: 20px;
+}
+
+.details-link {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Delete Party Button Style */
+.details-link.delete-party {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: 2px solid #ff4d4d;
+}
+
+.details-link.delete-party:hover {
+    background-color: #e60000;
+    border-color: #e60000;
+    color: #fff;
+}
+
+/* Edit Party Button Style */
+.details-link.edit-party {
+    background-color: #5bc0de;
+    color: #fff;
+    border: 2px solid #5bc0de;
+}
+
+.details-link.edit-party:hover {
+    background-color: #31b0d5;
+    border-color: #31b0d5;
+    color: #fff;
+}

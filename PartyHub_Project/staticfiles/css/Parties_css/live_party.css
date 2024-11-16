@@ -1,0 +1,114 @@
+/* Основен контейнер за партито */
+.party-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Заглавие на партито */
+.party-title {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Снимка на партито */
+.party-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+/* Контейнер за списъците с гости */
+.attendance-lists {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Стилове за всеки списък с гости */
+.attendance-list {
+    width: 48%;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.attendance-list h2 {
+    font-size: 22px;
+    color: #555;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Стилове за всеки гост */
+.attendee-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.attendee-card:last-child {
+    border-bottom: none;
+}
+
+/* Снимка на гост */
+.attendee-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Име на госта */
+.attendee-name {
+    font-size: 18px;
+    color: #333;
+    flex-grow: 1;
+}
+
+/* Точки на госта */
+.attendee-points {
+    font-size: 14px;
+    color: #888;
+    margin-right: 10px;
+}
+
+/* Бутон за промяна на статуса */
+.status-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.status-button1 {
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #ea0d0d;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.status-button1:hover {
+    background-color: #ea0d0d;
+}
+
+.status-button:hover {
+    background-color: #45a049;
+}
