@@ -4,6 +4,7 @@ html, body {
 }
 
 body {
+    /*!*background-color: #324345;    !* maybe this*/
     display: flex; /* Използваме Flexbox за подредба */
     flex-direction: column; /* Подреждаме елементите по колонен начин */
 }

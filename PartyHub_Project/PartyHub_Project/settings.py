@@ -29,10 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'sincere-gnat-crucial.ngrok-free.app',
+    '2784-77-70-24-15.ngrok-free.app',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://sincere-gnat-crucial.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://2784-77-70-24-15.ngrok-free.app']
 
 # Application definition
 MY_APPS = [

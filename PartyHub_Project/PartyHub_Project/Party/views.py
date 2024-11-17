@@ -18,7 +18,7 @@ def return_parties_for_user(request):
 
     if request.user.is_authenticated:
         all_parties = all_parties.exclude(
-            id__in=request.user.organized_pagitrrties.values_list('id', flat=True))
+            id__in=request.user.organized_parties.values_list('id', flat=True))
 
         users_following = request.user.get_following()
 
