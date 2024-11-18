@@ -6,6 +6,7 @@ from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from unidecode import unidecode
 
 
 # Create your models here.
@@ -136,8 +137,11 @@ class Party(models.Model):
     #         raise ValidationError("The registration deadline cannot be after the party start time.")
 
     def save(self, *args, **kwargs):
+
         if not self.slug:
-            self.slug = slugify(self.title)
+            transliterated_title = unidecode(self.title)
+            self.slug = slugify(transliterated_title)
+
         super().save(*args, **kwargs)
 
     def __str__(self):
