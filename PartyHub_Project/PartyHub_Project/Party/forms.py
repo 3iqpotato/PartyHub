@@ -110,10 +110,20 @@ class PartyCreateForm(PartyBaseForm):
 class PartyEditForm(PartyBaseForm):
     class Meta(PartyBaseForm.Meta):
         model = Party
-        fields = ['title', 'description', 'location', 'party_type', 'picture']
+        fields = ['title', 'description', 'location', 'party_type', 'picture', 'available_spots']
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
         if Party.objects.exclude(id=self.instance.id).filter(title=title).exists():
             raise forms.ValidationError("An event with this title already exists.")
         return title
+
+    def clean_available_spots(self):
+        available_spots = self.cleaned_data.get('available_spots')
+        if available_spots is not None:
+            current_tickets_sold = self.instance.tickets.count()
+            if available_spots < current_tickets_sold:
+                raise forms.ValidationError(
+                    f"The maximum tickets cannot be less than the number of already sold tickets ({current_tickets_sold})."
+                )
+        return available_spots

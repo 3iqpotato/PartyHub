@@ -26,7 +26,7 @@
         {% endfor %}
 
         <button type="submit" class="save-button">Save Changes</button>
-        <a href="{% url 'details_party' party.pk %}" class="cancel-button">Cancel</a>
+        <a href="{% url 'details_party' party.slug %}" class="cancel-button">Cancel</a>
     </form>
 </div>
 {% endblock %}
