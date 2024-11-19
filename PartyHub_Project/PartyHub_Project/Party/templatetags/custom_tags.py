@@ -1,13 +1,12 @@
 from django import template
-
+from django.contrib.auth import get_user_model
 
 register = template.Library()
-
+UserProfile = get_user_model()
 @register.simple_tag
 def get_live_events(request):
     user = request.user
-
-    live_event = user.get_live_party()
+    live_event = UserProfile.objects.get_user_live_party(user)
     return live_event
 
 @register.simple_tag

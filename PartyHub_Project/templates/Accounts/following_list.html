@@ -11,15 +11,15 @@
         <ul class="friends-list">
             {% for following_user in following_list %}
                 <li class="friend-item">
-                        <img src="{{ following_user.following.profile_picture.url }}" alt="{{ following_user.following.username }}'s profile picture" class="profile-image">
+                        <img src="{{ following_user.profile_picture.url }}" alt="{{ following_user.username }}'s profile picture" class="profile-image">
 
                     <div class="friend-info">
-                            <h3>{{ following_user.following.username }}</h3>
-                        <p>Points: {{ following_user.following.points }}</p>
+                            <h3>{{ following_user.username }}</h3>
+                        <p>Points: {{ following_user.points }}</p>
                     </div>
                     <div class="user-actions">
-                        <a href="{%  url 'user_details' following_user.following.pk %}" class="view-profile-btn">View Profile</a>
-                        <form method="post" action="{% url 'unfollow' following_user.following.pk %}">
+                        <a href="{%  url 'user_details' following_user.pk %}" class="view-profile-btn">View Profile</a>
+                        <form method="post" action="{% url 'unfollow' following_user.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="remove-friend-btn">Unfollow</button>
                         </form>

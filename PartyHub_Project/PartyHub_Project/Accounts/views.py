@@ -14,14 +14,13 @@ UserModel = get_user_model()
 class RegisterView(CreateView):
     form_class = UserProfileCreateForm
     template_name = 'Accounts/register.html'
-     # Пренасочване след успешна регистрация
 
     def form_valid(self, form):
         response = super().form_valid(form)
         user = self.object
         user.backend = 'django.contrib.auth.backends.ModelBackend'
-        login(self.request, user)  # Логване на потребителя след регистрация
-        return response  # Връща успешен отговор потребител
+        login(self.request, user)
+        return response
 
     def get_success_url(self):
         return reverse_lazy('profile_details', kwargs={'pk': self.object.pk})
@@ -68,7 +67,7 @@ class ShowFollowingView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return self.request.user == profile
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        following_list = self.request.user.get_following()
+        following_list = UserModel.objects.get_user_following(user=self.request.user)
         context = {
             'following_list': following_list
         }
@@ -81,7 +80,7 @@ class UsersListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        users_list = self.request.user.get_users_not_in_followers()
+        users_list = UserModel.objects.get_users_not_following_user(self.request.user)
 
         query = self.request.GET.get('query', '')
 
@@ -97,7 +96,6 @@ class UsersListView(LoginRequiredMixin, ListView):
 class AddFollowView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
-
         other = get_object_or_404(UserModel, pk=kwargs.get('pk'))
         self.request.user.follow(other)
         return redirect(request.META.get('HTTP_REFERER'))
@@ -110,7 +108,7 @@ class RemoveFollowView(LoginRequiredMixin, View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class UsersDetailView(LoginRequiredMixin, DetailView):
+class UsersDetailView(LoginRequiredMixin,UserPassesTestMixin, DetailView):
     model = UserModel
     template_name = 'Accounts/user_details.html'
     context_object_name = 'other_user'
@@ -121,6 +119,10 @@ class UsersDetailView(LoginRequiredMixin, DetailView):
 
         context['i_follow_him'] = i_follow_him
         return context
+
+    def test_func(self):
+        profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
+        return self.request.user != profile
 
 
 class ShowFollowersView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -133,23 +135,13 @@ class ShowFollowersView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         user = self.request.user
-        followers = user.get_followers()
-        followers_list_ids = [f.user.id for f in followers]
-        followers_objs = UserModel.objects.filter(id__in=followers_list_ids)
-        #here afther 10 tries and 1 hour with chat gpt i find out how stupid he is and after 2 hours i mane if working!!!
+        followers = UserModel.objects.get_user_followers(user)
 
-        # Потребители, които аз също следвам
-        following_followers = followers_objs.filter(
-            id__in=followers_list_ids,  # Те ме следват
-            follower_set__user=user  # Аз ги следвам обратно
+        following_followers = UserModel.objects.get_user_friends(self.request.user)
+
+        non_following_followers = followers.exclude(
+            follower_set__user=user
         )
-
-        # Потребители, които ме следват, но аз не ги следвам обратно
-        non_following_followers = (followers_objs.filter(
-            id__in=followers_list_ids  # Те ме следват
-        ).exclude(
-            follower_set__user=user  # Аз не ги следвам
-        ))
 
         context = {
             'user': user,

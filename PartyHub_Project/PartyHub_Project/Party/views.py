@@ -10,55 +10,28 @@ from django.utils import timezone
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
 
-# not a View a function that get the right parties for the users!!!!
-def return_parties_for_user(request):
-    public_parties = Party.objects.get_public_parties().select_related('organizer')
-
-    all_parties = public_parties
-
-    if request.user.is_authenticated:
-        all_parties = all_parties.exclude(
-            id__in=request.user.organized_parties.values_list('id', flat=True))
-
-        users_following = request.user.get_following()
-
-        friends_parties = Party.objects.none()
-
-        for follower in users_following:
-            if follower.following.is_following(request.user):
-                friends_parties = friends_parties | follower.following.get_not_started_parties()
-
-        if friends_parties:
-            all_parties = all_parties | friends_parties
-
-    query = request.GET.get('q', '')
-
-    if query:
-        all_parties = all_parties.filter(title__icontains=query)
-
-    return all_parties
-
-
 class PartyListView(ListView):
     model = Party
     paginate_by = 1  # TODO fix
     template_name = 'Party/party_list.html'
 
+    def get_queryset(self):
+        query = self.request.GET.get('q', '')
+        return Party.objects.get_parties_for_user(self.request.user, query=query)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        all_parties = return_parties_for_user(self.request)
-
-        paginator = Paginator(all_parties, self.paginate_by)
+        # adding paginator here because we modify the queryset
+        paginator = Paginator(self.get_queryset(), self.paginate_by)
         page_number = self.request.GET.get('page', 1)
         page_obj = paginator.get_page(page_number)
 
-        # Актуализиране на контекста с страничните резултати
         context.update({
-            'parties': page_obj,  # парти страницата с резултати
-            'page_obj': page_obj,  # самият обект на страницата за навигация
-            'paginator': paginator,  # обекта на пагинатора за общия брой страници
-            'is_paginated': page_obj.has_other_pages(),  # проверка за повече страници
+            'parties': page_obj,
+            'page_obj': page_obj,
+            'paginator': paginator,
+            'is_paginated': page_obj.has_other_pages(),
         })
 
         return context
@@ -71,6 +44,7 @@ class PartyCreateView(LoginRequiredMixin, CreateView):
     form_class = PartyCreateForm
 
     def form_valid(self, form):
+        # making the party organizer the user who created the party
         form.instance.organizer = self.request.user
         return super().form_valid(form)
 
@@ -80,12 +54,14 @@ class MyPartiesView(LoginRequiredMixin, ListView):
     template_name = 'Party/user_parties.html'
 
     def get_queryset(self):
+        # getting only parties witch are created by the user
         return Party.objects.filter(organizer=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         now = timezone.localtime(timezone.now())
 
+        # making tho types of parties not started and already ended
         context['upcoming_parties'] = self.get_queryset().filter(start_time__gte=now)
         context['past_parties'] = self.get_queryset().filter(end_time__lt=now)
 
@@ -97,33 +73,42 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
     template_name = 'Party/party_details.html'
 
     def get_queryset(self):
+        # optimization because we show them to the user :)
         return Party.objects.select_related('organizer').prefetch_related('tickets', 'questions', 'questions__answer')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
 
         status = False
+
         if self.request.user.is_authenticated:
-            context['question_form'] = QuestionForm()
+
+            context['question_form'] = QuestionForm() # adding form hor authenticated users to ask questions
+
+            # getting the status for the user to see why he can/cant biy ticket for the party!!
             match True:
-                case True if self.object.get_free_spots() == 0:
-                    status = "no_spots"
-                case True if self.object.not_late_for_tickets() == False:
-                    status = "late_for_tickets"  # Вече е късно за билети
-                case True if self.object.organizer == self.request.user:
-                    context['question_form'] = None
-                    context['answer_form'] = AnswerForm()
-                    status = "owner"  # Потребителят е собственик на партито
-                case True if not self.object.tickets.filter(participant=self.request.user):
-                    status = "can_buy"
                 case True if self.object.tickets.filter(participant=self.request.user):
-                    status = "have_ticket"
+                    status = "have_ticket"  # the user already have a ticket
+
+                case True if self.object.get_free_spots() == 0:
+                    status = "no_spots"  # the party is full all tickets are sold
+
+                case True if self.object.not_late_for_tickets() == False:
+                    status = "late_for_tickets"  # the party deadline or start have passed
+
+                case True if self.object.organizer == self.request.user:  # if the user is creator of the party
+                    context['question_form'] = None  # removing the question form
+                    context['answer_form'] = AnswerForm()  # adding form for answers
+                    status = "owner"
+
+                case True if not self.object.tickets.filter(participant=self.request.user):
+                    status = "can_buy"  # means everithing is okey and we can buy a ticket
 
         context['status'] = status
 
         return context
 
-    def test_func(self):
+    def test_func(self): # making sure the party is not started and the user can see it
         party = self.get_object()
         now = timezone.localtime(timezone.now())
 
@@ -152,7 +137,7 @@ class PartyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'Party/party_delete.html'
     success_url = reverse_lazy('user_parties')
 
-    def test_func(self):
+    def test_func(self): # making sure the user is the organizer
         user = self.request.user
         party = get_object_or_404(Party, slug=self.kwargs.get('slug'))
         return user == party.organizer
@@ -162,7 +147,7 @@ class LivePartyDetailView(LoginRequiredMixin, LivePartyAccessMixin, DetailView):
     model = Party
     template_name = 'Party/live_party_details.html'
 
-    def get_queryset(self):
+    def get_queryset(self):  # getting the tickets because we use them in the template!!!
         return Party.objects.select_related('organizer').prefetch_related('tickets__participant')
 
 
@@ -174,6 +159,6 @@ class PartyEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('details_party', kwargs={'slug': self.object.slug})
 
-    def test_func(self):
+    def test_func(self):  # testing if the user is the creator of the party
         party = self.get_object()
         return self.request.user == party.organizer and party.start_time > timezone.now()

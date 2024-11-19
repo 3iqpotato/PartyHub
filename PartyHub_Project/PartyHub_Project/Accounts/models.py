@@ -61,17 +61,9 @@ class UserProfile(AbstractUser):
         not_following = all_users.exclude(id__in=self.get_following().values_list('following_id', flat=True))
         return not_following
 
-    def get_live_party(self):
-        now = timezone.now()
-        party = self.organized_parties.filter(start_time__lte=now, end_time__gte=now).first()
-        return party
-
     def get_not_started_parties(self):
         now = timezone.now()
         return self.organized_parties.filter(start_time__gte=now)
-
-    # def get_parties(self):
-    #     return self.organized_parties
 
 
 class FollowTable(models.Model):
