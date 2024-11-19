@@ -124,18 +124,6 @@ class Party(models.Model):
         else:
             return self.start_time > now
 
-    # def clean(self):
-    #
-    #     super().clean()
-    #     if self.start_time < timezone.now():
-    #         raise ValidationError("The party start time cannot be in the past.")
-    #
-    #     if self.end_time <= self.start_time:
-    #         raise ValidationError("The end time must be after the start time.")
-    #
-    #     if self.registration_deadline and self.registration_deadline > self.start_time:
-    #         raise ValidationError("The registration deadline cannot be after the party start time.")
-
     def save(self, *args, **kwargs):
 
         if not self.slug:

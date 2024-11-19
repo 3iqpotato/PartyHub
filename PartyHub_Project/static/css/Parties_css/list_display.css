@@ -1,77 +1,4 @@
-/*!* Търсачка и филтри под навигацията *!*/
-/*.events-page-container {*/
-/*    !*display: flex;*!*/
-/*    !*justify-content: center;*!*/
-/*    margin-top: 66px; !* Отстъп, за да не се припокриват с навигацията *!*/
-/*}*/
 
-/*!* Центрирана и по-широка търсачка *!*/
-/*.search-bar-container {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    padding: 15px;*/
-/*}*/
-
-/*.search-form {*/
-/*    display: flex;*/
-/*    width: 100%;*/
-/*    max-width: 270px;*/
-/*}*/
-
-/*.search-input {*/
-/*    flex: 1;*/
-/*    padding: 10px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 4px 0 0 4px;*/
-/*}*/
-
-/*.search-button {*/
-/*    padding: 10px 20px;*/
-/*    background-color: #2b8a3e;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    border-radius: 0 4px 4px 0;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.search-button:hover {*/
-/*    background-color: #239f3c;*/
-/*}*/
-
-/*!* Филтри - позициониране в ляво и падащо меню *!*/
-/*.filters-container {*/
-/*    position: relative;*/
-/*    display: inline-block;*/
-/*    margin-left: 20px; !* Позиционираме го в лявата част на страницата *!*/
-/*}*/
-
-/*.filter-button {*/
-/*    background-color: #f0f0f0;*/
-/*    color: #333;*/
-/*    padding: 10px;*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 4px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.filter-dropdown {*/
-/*    display: none; !* Скрито по подразбиране *!*/
-/*    position: absolute;*/
-/*    background-color: white;*/
-/*    min-width: 200px;*/
-/*    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);*/
-/*    z-index: 1;*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 4px;*/
-/*    padding: 10px;*/
-/*}*/
-
-/*.filters-container:hover .filter-dropdown {*/
-/*    display: block; !* Показва се при задържане *!*/
-/*}*/
-/* Основни стилове за контейнера */
-/* Основни стилове за контейнера */
-/* Основни стилове за контейнера */
 .events-page-container {
     padding: 20px;
     background-color: #f4f4f9;
@@ -117,11 +44,13 @@
 
 /* Контейнер за събития */
 .events-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    justify-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-between;
     padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .event-card {

@@ -6,8 +6,8 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),  # за регистрация
     path('login/', views.CustomLoginView.as_view(), name='login'),       # за логване
     path('logout/', LogoutView.as_view(), name='logout'),    # за излизане
-    path('users/', views.UsersListView.as_view(), name='users'),    # за излизане
-    path('users/<int:pk>', views.UsersDetailView.as_view(), name='user_details'),    # за излизане
+    path('users/', views.UsersListView.as_view(), name='users'),
+    path('users/<int:pk>', views.UsersDetailView.as_view(), name='user_details'),
     path('profile/', include([
         path('details/<int:pk>', views.ProfileDetailsView.as_view(), name='profile_details'),
         path('edit/<int:pk>', views.ProfileEditView.as_view(), name='profile_edit'),

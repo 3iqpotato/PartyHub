@@ -12,7 +12,7 @@ from django.views.generic import ListView, CreateView, DetailView, DeleteView, U
 
 class PartyListView(ListView):
     model = Party
-    paginate_by = 1  # TODO fix
+    paginate_by = 18  # TODO fix
     template_name = 'Party/party_list.html'
 
     def get_queryset(self):
