@@ -23,5 +23,7 @@ PartyHub е модерна уеб платформа, създадена да с
 
 🛠️ Технологии
 Backend: Django (Python)
+
 Frontend: Django Templates, CSS
+
 База данни: PostgreSQL
