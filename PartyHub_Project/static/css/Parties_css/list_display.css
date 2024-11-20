@@ -137,43 +137,9 @@ img {
     color: #333;
 }
 
-/*.filters-panel {*/
-/*    width: 250px;*/
-/*    padding: 15px;*/
-/*    background-color: #f9f9f9;*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 8px;*/
-/*    position: fixed;*/
-/*    top: 120px; !* Над header-а *!*/
-/*    left: 20px; !* Отдалечен от лявата страна *!*/
-/*}*/
 
-/*.filters-panel h4 {*/
-/*    margin-bottom: 15px;*/
-/*    font-size: 1.2rem;*/
-/*    color: #333;*/
-/*}*/
 
-/*.filters-panel .form-group {*/
-/*    margin-bottom: 10px;*/
-/*}*/
 
-/*.filters-panel label {*/
-/*    margin-left: 5px;*/
-/*    font-size: 1rem;*/
-/*    color: #333;*/
-/*}*/
-
-/*.filters-panel button {*/
-/*    margin-top: 10px;*/
-/*    padding: 8px 16px;*/
-/*    background-color: #007bff;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    border-radius: 4px;*/
-/*    cursor: pointer;*/
-/*    font-size: 1rem;*/
-/*}*/
 
 .search-bar-container {
     display: flex;
@@ -202,18 +168,7 @@ img {
 .filters {
     position: relative;
 }
-/*.filters-dropdown {*/
-/*    !*position: absolute;*!*/
-/*    !*top: 100%;*!*/
-/*    !*left: 0;*!*/
-/*    background-color: white;*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 5px;*/
-/*    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
-/*    width: 200px;*/
-/*    display: none;*/
-/*    z-index: 10;*/
-/*}*/
+
 
 .filters-dropdown {
     position: absolute; /* Позиционира падащото меню спрямо родителя */
@@ -253,4 +208,60 @@ img {
 
 .filters-dropdown button:hover {
     background-color: #0056b3;
+}
+
+.filters-button:focus + .filters-dropdown {
+    display: block;
+}
+
+/* Стилове за филтрите */
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.checkbox-label {
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+/* Стилове за търсачката */
+.search-input {
+    width: 250px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Стилове за чекбоксовете */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #3498db;
+    border-radius: 4px;
+    position: relative;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 2px;
 }

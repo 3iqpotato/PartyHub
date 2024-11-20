@@ -30,8 +30,7 @@ class PartyManager(models.Manager):
 
 
     def get_parties_for_user(self, user, query=None, user_filter=None): # returns public parties and parties of the user friends!!!
-        public_parties = self.get_public_parties().select_related('organizer')
-
+        public_parties = self.get_public_parties().select_related('organizer').order_by('organizer')
         if not user.is_authenticated:
             if user_filter == 'available':
                 public_parties = self.filter_available_parties(public_parties)

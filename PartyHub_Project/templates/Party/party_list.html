@@ -1,4 +1,5 @@
 {% extends 'Common/base.html' %}
+{% load custom_tags %}
 {% load static %}
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/Parties_css/list_display.css' %}">
@@ -7,40 +8,41 @@
 <div class="events-page-container">
     <h1 class="events-title">Events</h1>
 
-    <!-- Търсачка в центъра -->
-    <div class="search-bar-container">
-        <div class="filters">
-            <button class="filters-button" id="filtersButton" tabindex="0">Filters</button>
-            <div class="filters-dropdown" id="filtersDropdown">
-                <form method="GET">
+            <!-- Търсачка в центъра -->
+            <div class="search-bar-container">
+                <div class="filters">
+                    <button class="filters-button" id="filtersButton" tabindex="0">Filters</button>
+                    <div class="filters-dropdown" id="filtersDropdown">
+                        <form method="GET">
+                            <label>
+                                <input type="checkbox" name="filter" value="public" {% if request.GET.filter == "public" %}checked{% endif %}>
+                                Public parties
+                            </label>
+                        {% if user.is_authenticated %}
+                            <label>
+                                <input type="checkbox" name="filter" value="friends" {% if request.GET.filter == "friends" %}checked{% endif %}>
+                                Friends' parties
+                            </label>
+                        {% endif %}
+                            <label>
+                                <input type="checkbox" name="filter" value="available" {% if request.GET.filter == "available" %}checked{% endif %}>
+                                Available parties
+                            </label>
+                        </form>
+                    </div>
+                </div>
+                <form class="search-form" method="GET" id="searchForm" action="">
                     <label>
-                        <input type="checkbox" name="filter" value="public" {% if request.GET.filter == "public" %}checked{% endif %}>
-                        Public parties
+                        <input type="text" name="q" value="{{ request.GET.q }}" class="search-input" placeholder="Search for parties...">
                     </label>
-                {% if user.is_authenticated %}
-                    <label>
-                        <input type="checkbox" name="filter" value="friends" {% if request.GET.filter == "friends" %}checked{% endif %}>
-                        Friends' parties
-                    </label>
-                {% endif %}
-                    <label>
-                        <input type="checkbox" name="filter" value="available" {% if request.GET.filter == "available" %}checked{% endif %}>
-                        Available parties
-                    </label>
-                    <button type="submit">Apply Filters</button>
+        
+                    <button type="submit" class="search-button">Search</button>
+                    
+                    <script src="{% static 'JS/filter_button_functionality.js' %}"></script>
+                    
                 </form>
             </div>
-        </div>
-        <form class="search-form" method="GET">
-            <label>
-                <input type="text" name="q" value="{{ request.GET.q }}" class="search-input" placeholder="Search for parties...">
-            </label>
-            <button type="submit" class="search-button">Search</button>
-        </form>
-        
 
-        
-    </div>
 
     <!-- Контейнер за събития -->
     {% if parties %}
@@ -68,14 +70,11 @@
     {% else %}
         <h1>Oops! No parties yet! 🎉</h1>
     {% endif %}
-</div>
-
-<!-- Пагинация - Центрирана -->
 <div class="pagination">
     <span class="step-links">
         {% if parties.has_previous %}
-            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">First</a>
-            <a href="?page={{ parties.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Previous</a>
+            <a href="{% build_url request page=1 q=request.GET.q filter=request.GET.filter %}" class="pagination-button">First</a>
+            <a href="{% build_url request page=parties.previous_page_number q=request.GET.q filter=request.GET.filter %}" class="pagination-button">Previous</a>
         {% endif %}
 
         <span class="current">
@@ -83,44 +82,29 @@
         </span>
 
         {% if parties.has_next %}
-            <a href="?page={{ parties.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Next</a>
-            <a href="?page={{ parties.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Last</a>
+            <a href="{% build_url request page=parties.next_page_number q=request.GET.q filter=request.GET.filter %}" class="pagination-button">Next</a>
+            <a href="{% build_url request page=parties.paginator.num_pages q=request.GET.q filter=request.GET.filter %}" class="pagination-button">Last</a>
         {% endif %}
     </span>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const filtersButton = document.getElementById('filtersButton');
-    const filtersDropdown = document.getElementById('filtersDropdown');
 
-    filtersButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        filtersDropdown.style.display = 
-            filtersDropdown.style.display === 'block' ? 'none' : 'block';
-    });
-
-    document.addEventListener('click', function (e) {
-        if (!filtersButton.contains(e.target) && !filtersDropdown.contains(e.target)) {
-            filtersDropdown.style.display = 'none';
-        }
-    });
-});
-    
-    document.addEventListener('DOMContentLoaded', function () {
-    const filtersCheckboxes = document.querySelectorAll('input[type="checkbox"][name="filter"]');
-
-    filtersCheckboxes.forEach((checkbox) => {
-        checkbox.addEventListener('change', function () {
-            if (this.checked) {
-                filtersCheckboxes.forEach((otherCheckbox) => {
-                    if (otherCheckbox !== this) {
-                        otherCheckbox.checked = false;
-                    }
-                });
-            }
-        });
-    });
-});
-</script>
+{#<!-- Пагинация - Центрирана -->#}
+{#<div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if parties.has_previous %}#}
+{#            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">First</a>#}
+{#            <a href="?page={{ parties.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ parties.number }} of {{ parties.paginator.num_pages }}#}
+{#        </span>#}
+{##}
+{#        {% if parties.has_next %}#}
+{#            <a href="?page={{ parties.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Next</a>#}
+{#            <a href="?page={{ parties.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Last</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}
+</div>
 {% endblock %}
-
