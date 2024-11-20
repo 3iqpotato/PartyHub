@@ -88,23 +88,5 @@
     </span>
 </div>
 
-{#<!-- Пагинация - Центрирана -->#}
-{#<div class="pagination">#}
-{#    <span class="step-links">#}
-{#        {% if parties.has_previous %}#}
-{#            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">First</a>#}
-{#            <a href="?page={{ parties.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Previous</a>#}
-{#        {% endif %}#}
-{##}
-{#        <span class="current">#}
-{#            Page {{ parties.number }} of {{ parties.paginator.num_pages }}#}
-{#        </span>#}
-{##}
-{#        {% if parties.has_next %}#}
-{#            <a href="?page={{ parties.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Next</a>#}
-{#            <a href="?page={{ parties.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-button">Last</a>#}
-{#        {% endif %}#}
-{#    </span>#}
-{#</div>#}
 </div>
 {% endblock %}
