@@ -8,7 +8,6 @@
 .search-bar-container {
     text-align: center;
     margin-bottom: 40px;
-    padding-top: 70px;
 }
 
 .search-form {
@@ -200,21 +199,35 @@ img {
     background-color: #0056b3;
 }
 
+.filters {
+    position: relative;
+}
+/*.filters-dropdown {*/
+/*    !*position: absolute;*!*/
+/*    !*top: 100%;*!*/
+/*    !*left: 0;*!*/
+/*    background-color: white;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 5px;*/
+/*    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+/*    width: 200px;*/
+/*    display: none;*/
+/*    z-index: 10;*/
+/*}*/
 
 .filters-dropdown {
-    /*position: absolute;*/
-    /*top: 100%;*/
-    /*left: 0;*/
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 200px;
-    display: none; /* Скрита по подразбиране */
-    z-index: 10;
+    position: absolute; /* Позиционира падащото меню спрямо родителя */
+    top: 100%; /* Позиционира го точно под бутона */
+    left: 0; /* Подравнява го спрямо лявата част на родителя */
+    z-index: 1000; /* Уверява се, че е най-отгоре */
+    background-color: white; /* Бял фон за контраст */
+    border: 1px solid #ccc; /* Граница за по-добра видимост */
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Леко сенчесто очертание */
+    display: none; /* Скрито по подразбиране */
+    width: 200px; /* Ширина на падащото меню */
 }
 
-        /* Стилизация на чекбоксовете */
 .filters-dropdown label {
     display: flex;
     align-items: center;
