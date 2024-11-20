@@ -87,6 +87,11 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
 
             # getting the status for the user to see why he can/cant biy ticket for the party!!
             match True:
+                case True if self.object.organizer == self.request.user:  # if the user is creator of the party
+                    context['question_form'] = None  # removing the question form
+                    context['answer_form'] = AnswerForm()  # adding form for answers
+                    status = "owner"
+
                 case True if self.object.tickets.filter(participant=self.request.user):
                     status = "have_ticket"  # the user already have a ticket
 
@@ -96,10 +101,7 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
                 case True if self.object.not_late_for_tickets() == False:
                     status = "late_for_tickets"  # the party deadline or start have passed
 
-                case True if self.object.organizer == self.request.user:  # if the user is creator of the party
-                    context['question_form'] = None  # removing the question form
-                    context['answer_form'] = AnswerForm()  # adding form for answers
-                    status = "owner"
+
 
                 case True if not self.object.tickets.filter(participant=self.request.user):
                     status = "can_buy"  # means everithing is okey and we can buy a ticket
