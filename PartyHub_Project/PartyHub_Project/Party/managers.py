@@ -9,7 +9,7 @@ class PartyManager(models.Manager):
     def get_not_started_parties(self):
         return self.filter(start_time__gte=timezone.now())
 
-    def get_parties_for_user(self, user, query=None): # returns public parties and parties of the user friends!!!
+    def get_parties_for_user(self, user, query=None, user_filter=None): # returns public parties and parties of the user friends!!!
         public_parties = self.get_public_parties().select_related('organizer')
 
         if not user.is_authenticated:

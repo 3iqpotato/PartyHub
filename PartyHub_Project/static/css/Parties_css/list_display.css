@@ -137,3 +137,107 @@ img {
     font-weight: bold;
     color: #333;
 }
+
+/*.filters-panel {*/
+/*    width: 250px;*/
+/*    padding: 15px;*/
+/*    background-color: #f9f9f9;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 8px;*/
+/*    position: fixed;*/
+/*    top: 120px; !* Над header-а *!*/
+/*    left: 20px; !* Отдалечен от лявата страна *!*/
+/*}*/
+
+/*.filters-panel h4 {*/
+/*    margin-bottom: 15px;*/
+/*    font-size: 1.2rem;*/
+/*    color: #333;*/
+/*}*/
+
+/*.filters-panel .form-group {*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.filters-panel label {*/
+/*    margin-left: 5px;*/
+/*    font-size: 1rem;*/
+/*    color: #333;*/
+/*}*/
+
+/*.filters-panel button {*/
+/*    margin-top: 10px;*/
+/*    padding: 8px 16px;*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*    font-size: 1rem;*/
+/*}*/
+
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+        /* Бутон Filters */
+.filters-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+}
+
+.filters-button:hover {
+    background-color: #0056b3;
+}
+
+
+.filters-dropdown {
+    /*position: absolute;*/
+    /*top: 100%;*/
+    /*left: 0;*/
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    display: none; /* Скрита по подразбиране */
+    z-index: 10;
+}
+
+        /* Стилизация на чекбоксовете */
+.filters-dropdown label {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filters-dropdown input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.filters-dropdown button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 0 5px 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filters-dropdown button:hover {
+    background-color: #0056b3;
+}

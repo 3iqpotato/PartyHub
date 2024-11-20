@@ -39,6 +39,7 @@
                             {% csrf_token %}
                             <button type="submit" class="logout-link"><a>Logout</a></button>
                         </form>
+                        <script src="{% static 'JS/Nav_buttons_functionality.js' %}"></script>
                     </div>
                 </div>
             </div>
@@ -46,5 +47,5 @@
     {% endif %}
     </div>
 </nav>
-<script src="{% static 'JS/Nav_buttons_functionality.js' %}"></script>
+
 

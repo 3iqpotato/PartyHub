@@ -17,7 +17,8 @@ class PartyListView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q', '')
-        return Party.objects.get_parties_for_user(self.request.user, query=query)
+        user_filter = self.request.GET.get('filter', '')
+        return Party.objects.get_parties_for_user(self.request.user, query=query, user_filter=user_filter)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

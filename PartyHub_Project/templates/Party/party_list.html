@@ -5,15 +5,39 @@
 {% endblock %}
 {% block content %}
 <div class="events-page-container">
+    <h1 class="events-title">Events</h1>
 
     <!-- Търсачка в центъра -->
     <div class="search-bar-container">
+        <div class="filters">
+            <button class="filters-button" id="filtersButton" tabindex="0">Filters</button>
+            <div class="filters-dropdown" id="filtersDropdown">
+                <form method="GET">
+                    <label>
+                        <input type="checkbox" name="filter" value="public" {% if request.GET.filter == "public" %}checked{% endif %}>
+                        Public parties
+                    </label>
+                    <label>
+                        <input type="checkbox" name="filter" value="friends" {% if request.GET.filter == "friends" %}checked{% endif %}>
+                        Friends' parties
+                    </label>
+                    <label>
+                        <input type="checkbox" name="filter" value="available" {% if request.GET.filter == "available" %}checked{% endif %}>
+                        Available parties
+                    </label>
+                    <button type="submit">Apply Filters</button>
+                </form>
+            </div>
+        </div>
         <form class="search-form" method="GET">
             <label>
                 <input type="text" name="q" value="{{ request.GET.q }}" class="search-input" placeholder="Search for parties...">
             </label>
             <button type="submit" class="search-button">Search</button>
         </form>
+        
+
+        
     </div>
 
     <!-- Контейнер за събития -->
@@ -62,5 +86,39 @@
         {% endif %}
     </span>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const filtersButton = document.getElementById('filtersButton');
+    const filtersDropdown = document.getElementById('filtersDropdown');
+
+    filtersButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        filtersDropdown.style.display = 
+            filtersDropdown.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!filtersButton.contains(e.target) && !filtersDropdown.contains(e.target)) {
+            filtersDropdown.style.display = 'none';
+        }
+    });
+});
+    
+    document.addEventListener('DOMContentLoaded', function () {
+    const filtersCheckboxes = document.querySelectorAll('input[type="checkbox"][name="filter"]');
+
+    filtersCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                filtersCheckboxes.forEach((otherCheckbox) => {
+                    if (otherCheckbox !== this) {
+                        otherCheckbox.checked = false;
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
 
