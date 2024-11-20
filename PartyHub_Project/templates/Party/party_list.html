@@ -17,10 +17,12 @@
                         <input type="checkbox" name="filter" value="public" {% if request.GET.filter == "public" %}checked{% endif %}>
                         Public parties
                     </label>
+                {% if user.is_authenticated %}
                     <label>
                         <input type="checkbox" name="filter" value="friends" {% if request.GET.filter == "friends" %}checked{% endif %}>
                         Friends' parties
                     </label>
+                {% endif %}
                     <label>
                         <input type="checkbox" name="filter" value="available" {% if request.GET.filter == "available" %}checked{% endif %}>
                         Available parties

@@ -14,14 +14,28 @@ class PartyManager(models.Manager):
     def filter_with_query(parties, query):
         # if he is searching for a specific party here we filter it!!!
         if query:
-            return parties.filter(title__icontains=query)
+            parties = parties.filter(title__icontains=query)
         return parties
+
+    @staticmethod
+    def filter_available_parties(parties):
+        now = timezone.now()
+
+        parties = parties.annotate(tickets_count=Count('tickets')).filter(
+            Q(registration_deadline__isnull=True, start_time__gt=now) |  # If not deadline
+            Q(registration_deadline__gt=now)  # if deadline
+        ).filter(available_spots__gt=F('tickets_count')) # if party not full
+
+        return parties
+
 
     def get_parties_for_user(self, user, query=None, user_filter=None): # returns public parties and parties of the user friends!!!
         public_parties = self.get_public_parties().select_related('organizer')
 
         if not user.is_authenticated:
-            return public_parties # for not authenticated users are only public parties
+            if user_filter == 'available':
+                public_parties = self.filter_available_parties(public_parties)
+            return self.filter_with_query(public_parties, query) # for not authenticated users are only public parties
 
 
         # for authenticated user we filter the parties to remove his parties and he see only public parties
@@ -42,11 +56,7 @@ class PartyManager(models.Manager):
 
 
         if user_filter == 'available': # TODO: Test because not shure if everything will be okey
-            now = timezone.now()
-            parties = parties.annotate(tickets_count=Count('tickets')).filter(
-                Q(registration_deadline__isnull=True, start_time__gt=now) |  # If not deadline
-                Q(registration_deadline__gt=now)  # if deadline
-            ).filter(available_spots__gt=F('tickets'))  # if free space
+            parties = self.filter_available_parties(parties)
             return self.filter_with_query(parties, query)
 
         return self.filter_with_query(parties, query)
