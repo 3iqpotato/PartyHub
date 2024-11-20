@@ -23,11 +23,26 @@ class UserProfileCreateForm(RemoveHelpTextMixin, UserProfileBaseForm):
         widget=forms.TextInput(attrs={'placeholder': 'Enter your email...'}),
     )
 
+    password1 = forms.CharField(
+        label="Password",
+        widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password...'}),
+    )
+
+    password2 = forms.CharField(
+        label="Confirm Password",
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password...'}),
+    )
+
 
 class UserProfileLoginForm(RemoveHelpTextMixin, AuthenticationForm):
     username = forms.CharField(
         label="Username or email ",
         widget=forms.TextInput(attrs={'placeholder': 'Enter your username or email...'}),
+    )
+
+    password = forms.CharField(
+        label="Password",
+        widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password...'}),
     )
 
 
