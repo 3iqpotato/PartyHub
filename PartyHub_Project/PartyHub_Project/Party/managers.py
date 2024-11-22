@@ -53,9 +53,9 @@ class PartyManager(models.Manager):
 
         parties |= friends_parties
 
-
         if user_filter == 'available': # TODO: Test because not shure if everything will be okey
             parties = self.filter_available_parties(parties)
+            parties = parties.exclude(tickets__participant=user) # removing the parties that user already has tickets
             return self.filter_with_query(parties, query)
 
         return self.filter_with_query(parties, query)
