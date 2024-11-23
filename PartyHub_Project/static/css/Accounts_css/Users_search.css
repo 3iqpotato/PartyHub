@@ -111,3 +111,34 @@
 .add-friend-btn:hover {
     background-color: #007BB5;
 }
+
+/* Пагинация */
+.pagination {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.pagination .step-links {
+    display: inline-block;
+    margin: 10px;
+}
+
+.pagination .pagination-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: background-color 0.3s;
+}
+
+.pagination .pagination-button:hover {
+    background-color: #0056b3;
+}
+
+.pagination .current {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}

@@ -3,6 +3,7 @@ from PartyHub_Project.Accounts.models import FollowTable
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
@@ -76,20 +77,29 @@ class ShowFollowingView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 class UsersListView(LoginRequiredMixin, ListView):
     model = UserModel
+    paginate_by = 10
     template_name = 'Accounts/Users_search.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        users_list = UserModel.objects.get_users_not_following_user(self.request.user)
+
+        users_list = UserModel.objects.get_users_not_following_user(self.request.user).order_by('username')
 
         query = self.request.GET.get('query', '')
-
         if query:
             users_list = users_list.filter(username__icontains=query)
 
-        context = {
-            'users': users_list
-        }
+        paginator = Paginator(users_list, self.paginate_by)
+        page_number = self.request.GET.get('page', 1)
+        page_obj = paginator.get_page(page_number)
+
+        context.update({
+            'users': page_obj,
+            'page_obj': page_obj,
+            'paginator': paginator,
+            'is_paginated': page_obj.has_other_pages(),
+        })
+
         return context
 
 

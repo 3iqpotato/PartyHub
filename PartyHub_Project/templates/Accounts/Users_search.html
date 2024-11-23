@@ -1,4 +1,5 @@
 {% extends "Common/base.html" %}
+{% load custom_tags %}
 {% load static %}
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/Accounts_css/Users_search.css' %}">
@@ -39,5 +40,23 @@
     {% else %}
         <p>🔍 Oops! No users found here… Maybe they’re hiding? 🕵️‍♂️ Try searching again! 🌐</p>
     {% endif %}
+
+</div>
+    <div class="pagination">
+    <span class="step-links">
+        {% if users.has_previous %}
+            <a href="{% build_url request page=1 q=request.GET.q %}" class="pagination-button">First</a>
+            <a href="{% build_url request page=users.previous_page_number q=request.GET.q %}" class="pagination-button">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ users.number }} of {{ users.paginator.num_pages }}
+        </span>
+
+        {% if users.has_next %}
+            <a href="{% build_url request page=users.next_page_number q=request.GET.q %}" class="pagination-button">Next</a>
+            <a href="{% build_url request page=users.paginator.num_pages q=request.GET.q%}" class="pagination-button">Last</a>
+        {% endif %}
+    </span>
 </div>
 {% endblock %}
