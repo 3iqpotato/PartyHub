@@ -8,8 +8,16 @@ from django.http import HttpResponseForbidden
 class LivePartyAccessMixin:
 
     def dispatch(self, request, *args, **kwargs):
-        # Намираме партито по `pk`
-        party = get_object_or_404(Party, slug=self.kwargs.get('slug'))
+
+        party = (
+            Party.objects
+            .select_related('organizer')
+            .prefetch_related('tickets__participant')
+            .get(slug=self.kwargs.get('slug'))
+        ) # optimization because we use the tickets and the organizer and the tickets user
+
+        # party = get_object_or_404(Party, slug=self.kwargs.get('slug'))
+
         current_time = timezone.now()
 
         # Проверка дали потребителят е организаторът и партито е на живо

@@ -25,11 +25,12 @@
                 <li>🎶 <strong>Track your favorite events</strong> and never miss the next big bash</li>
             </ul>
         </div>
-
+        {% if not user.is_authenticated %}
         <div class="call-to-action">
             <p>Ready to dance the night away? 🥳 <strong>Register</strong> and let the good times roll!</p>
             <a href="{% url 'register' %}" class="btn-signup">Join the Party</a>
         </div>
+        {% endif %}
 
 {#        <img src="{% static 'images/welcome_img.png' %}" alt="PartyHub Welcome Image" class="welcome-image">#}
     </div>

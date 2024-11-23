@@ -150,9 +150,6 @@ class LivePartyDetailView(LoginRequiredMixin, LivePartyAccessMixin, DetailView):
     model = Party
     template_name = 'Party/live_party_details.html'
 
-    def get_queryset(self):  # getting the tickets because we use them in the template!!!
-        return Party.objects.select_related('organizer').prefetch_related('tickets__participant')
-
 
 class PartyEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Party
