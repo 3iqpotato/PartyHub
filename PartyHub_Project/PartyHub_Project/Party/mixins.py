@@ -14,19 +14,17 @@ class LivePartyAccessMixin:
             .select_related('organizer')
             .prefetch_related('tickets__participant')
             .get(slug=self.kwargs.get('slug'))
-        ) # optimization because we use the tickets and the organizer and the tickets user
-
-        # party = get_object_or_404(Party, slug=self.kwargs.get('slug'))
+        )  # optimization because we use the tickets and the organizer and the tickets user
 
         current_time = timezone.now()
 
-        # Проверка дали потребителят е организаторът и партито е на живо
+        # checks if the party is organized by the current user
         if request.user == party.organizer:
-
+            #  checks iif the party is live
             if party.start_time <= current_time <= party.end_time:
                 return super().dispatch(request, *args, **kwargs)
-            else:
+            else:  # if not live
                 return render(request, 'Party/party_inactive.html', {'party': party})
 
-        # Ако партито не е на живо, показваме съобщение или шаблон
+        # if not the organizer
         raise PermissionDenied("You do not have permission to access this party.")

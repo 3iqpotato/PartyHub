@@ -30,8 +30,8 @@ class UserTicketsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class TicketCreateView(LoginRequiredMixin, View):
-
-    def check_conditions(self, request, party):
+    @staticmethod
+    def check_conditions(request, party):
         if not party.is_public:
             if not request.user.is_following(party.organizer) or not party.organizer.is_following(request.user):
                 raise PermissionDenied("you are not allowed to come to this party.")

@@ -66,7 +66,7 @@
     border-radius: 5px;
     font-size: 14px;
     color: #333;
-    width: 100%;
+    width: 95%;
 }
 
 .form-group input[type="datetime-local"] {
@@ -108,19 +108,14 @@ ul .error{
     list-style-type: none;
 }
 
-.form-group input[type="checkbox"] {
-    /*flex: 0; !* За да запази размера си *!*/
-    /*margin-right: 5px;*/
-    /*display: inline;*/
-}
 
 .form-section:last-of-type .form-group:last-of-type {
-    /* Добави стилове за последния .form-group */
     display: inline;
-    /*align-items: center;*/
-    /*background-color: red;*/
+    align-items: center;
 }
 
 #id_is_public {
     width: 20px;
+    height: 20px;
 }
+
