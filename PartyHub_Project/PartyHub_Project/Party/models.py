@@ -87,14 +87,14 @@ class Party(models.Model):
         blank=True,
         null=True,
         help_text="Upload an image with a maximum size of 6MB.",
-        validators=[MaxSizeValidator(6)]
+        validators=[MaxSizeValidator(5)]
     )
 
     registration_deadline = models.DateTimeField(
         blank=True,
         null=True,
         help_text="Optional: Deadline for participant registration.",
-    ) #TODO да направя да не излизат партита на който тази дата е минала и други неща с това!!!
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True,

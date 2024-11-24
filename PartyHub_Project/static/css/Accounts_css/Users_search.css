@@ -142,3 +142,17 @@
     font-weight: bold;
     color: #333;
 }
+
+
+.pagination .current {
+    font-size: 16px; /* Увеличаване на текста */
+    font-weight: bold; /* Подчертан за акцент */
+    color: #4CAF50; /* Зелен цвят за отличаване */
+    background-color: #f9f9f9; /* Лека контрастна фонова цветност */
+    border: 2px solid #ddd; /* Рамка за по-добро разделяне */
+    border-radius: 5px; /* Заоблени краища */
+    padding: 10px 15px; /* Пространство около текста */
+    display: inline-block; /* Центриране на съдържанието вътре */
+    text-align: center; /* Подравняване на текста */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Лека сянка за дълбочина */
+}
