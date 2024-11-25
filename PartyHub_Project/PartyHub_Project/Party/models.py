@@ -125,7 +125,6 @@ class Party(models.Model):
             return self.start_time > now
 
     def save(self, *args, **kwargs):
-
         if not self.slug:
             transliterated_title = unidecode(self.title)
             self.slug = slugify(transliterated_title)
