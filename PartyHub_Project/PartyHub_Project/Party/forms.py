@@ -118,7 +118,7 @@ class PartyCreateForm(PartyBaseForm):
 class PartyEditForm(PartyBaseForm):
     class Meta(PartyBaseForm.Meta):
         model = Party
-        fields = ['title', 'description', 'location', 'party_type', 'picture', 'available_spots']
+        fields = ['title', 'description', 'location', 'party_type', 'picture', 'available_spots', 'is_public']
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
