@@ -151,3 +151,8 @@ input[type="checkbox"]:checked::before {
     background-color: #2ede13;
     border-radius: 2px;
 }
+
+
+.alert {
+    color: red;
+}

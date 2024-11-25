@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from PartyHub_Project.Party.models import Party
 from django import forms
 from django.core.exceptions import ValidationError
@@ -83,6 +85,12 @@ class PartyCreateForm(PartyBaseForm):
         if registration_deadline and registration_deadline > start_time:
             raise ValidationError(
                     {"registration_deadline": "The registration deadline cannot be after the event date."})
+
+        if start_time and end_time:
+            duration = end_time - start_time
+            if duration > timedelta(hours=24):
+                raise ValidationError("The party duration cannot exceed 24 hours.")
+
 
             # Проверка за конфликти с други партита
         conflicting_parties = Party.objects.filter(organizer=organizer).filter(

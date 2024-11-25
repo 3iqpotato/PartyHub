@@ -41,7 +41,10 @@
                         <p><strong>Date:</strong> {{ party.start_time }}</p>
                         <p><strong>Location:</strong> {{ party.location }}</p>
                         <p>{{ party.description|truncatewords:20 }}</p>
-                        <a href="{% url 'delete_party' party.slug %}" class="details-link">Delete Party</a>
+                        <form method="post" action="{% url 'delete_party' party.slug %}">
+                            {% csrf_token %}
+                            <button class="details-link">Delete Party</button>
+                        </form>
 
                     </div>
                 </div>

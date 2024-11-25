@@ -1,7 +1,6 @@
 from PartyHub_Project.Party.managers import PartyManager
 from PartyHub_Project.Party.validators import MaxSizeValidator
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
