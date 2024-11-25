@@ -222,3 +222,26 @@
     font-size: 1rem;
     font-family: Arial, sans-serif;
 }
+
+.delete-button {
+    background-color: #ff4d4d; /* Светло червен цвят */
+    color: #fff; /* Бял текст */
+    border: none;
+    border-radius: 8px; /* Закръглени ъгли */
+    padding: 8px 12px; /* Малко вътрешно отстояние */
+    font-size: 14px; /* Размер на текста */
+    font-weight: bold; /* Удебелен текст */
+    cursor: pointer; /* Показва ръка при задържане */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Лека сянка */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Плавен преход за цветове и размер */
+}
+
+.delete-button:hover {
+    background-color: #e63939; /* По-тъмен червен при задържане */
+    transform: translateY(-2px); /* Лек ефект на "повдигане" */
+}
+
+.delete-button:active {
+    background-color: #cc3333; /* Още по-тъмен червен при натискане */
+    transform: translateY(0); /* Връща се в нормално положение */
+}

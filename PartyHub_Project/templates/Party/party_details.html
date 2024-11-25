@@ -84,9 +84,26 @@
                 {% for question in party.questions.all %}
                     <div class="question">
                         <p><strong>{{ question.author.username }}:</strong> {{ question.text }}</p>
+
+                        {% if user == question.author %}
+
+                        <form method="post" action="{% url 'delete_question' question.pk party.slug %}">
+                            {% csrf_token %}
+                            <button class="delete-button">Delete</button>
+                        </form>
+
+                        {% endif %}
+
                         {% if question.answer %}
+
                             <div class="answer">
                                 <p><strong>Answer from {{ question.answer.author.username }}:</strong> {{ question.answer.text }}</p>
+                                {% if answer_form %}
+                                    <form method="post" action="{% url 'delete_answer' question.answer.pk party.slug %}">
+                                    {% csrf_token %}
+                                    <button class="delete-button">Delete</button>
+                                    </form>
+                                    {% endif %}
                             </div>
                         {% else %}
                             {% if user.is_authenticated and answer_form %}

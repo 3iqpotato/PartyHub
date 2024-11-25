@@ -102,8 +102,6 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
                 case True if self.object.not_late_for_tickets() == False:
                     status = "late_for_tickets"  # the party deadline or start have passed
 
-
-
                 case True if not self.object.tickets.filter(participant=self.request.user):
                     status = "can_buy"  # means everithing is okey and we can buy a ticket
 
