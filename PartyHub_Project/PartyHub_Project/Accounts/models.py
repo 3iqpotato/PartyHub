@@ -24,7 +24,7 @@ class UserProfile(AbstractUser):
         default='profiles/default_img.jpg',
         blank=False,
         null=False,
-    )
+    )  # TODO: da se trie starata!!!
 
     bio = models.TextField(blank=True, null=True)
 
