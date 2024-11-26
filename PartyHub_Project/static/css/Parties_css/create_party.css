@@ -69,6 +69,10 @@
     width: 95%;
 }
 
+.form-group select{
+    width: 98%;
+}
+
 .form-group input[type="datetime-local"] {
     font-size: 14px;
 }
