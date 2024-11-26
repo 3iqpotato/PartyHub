@@ -16,3 +16,7 @@ DATABASES = {
 }
 
 CSRF_TRUSTED_ORIGINS = ['https://a4d5-77-70-24-15.ngrok-free.app']
+
+
+EMAIL_HOST_USER = 'kaloianralchev@gmail.com'  # Твоят имейл адрес
+EMAIL_HOST_PASSWORD = 'gulz wswb sghj winm'  # Паролата за имейл акаунта
