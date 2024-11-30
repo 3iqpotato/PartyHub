@@ -29,7 +29,7 @@ class RegisterView(CreateView):
 
 class ProfileDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = UserModel
-    template_name = 'accounts/profile_details.html'
+    template_name = 'Accounts/profile_details.html'
     context_object_name = 'user'
 
     def test_func(self):
@@ -52,7 +52,7 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class CustomLoginView(LoginView):
     model = UserModel
-    template_name = "accounts/login.html"
+    template_name = "Accounts/login.html"
     form_class = UserProfileLoginForm
 
     def get_success_url(self):

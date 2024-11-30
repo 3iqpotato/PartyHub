@@ -1,11 +1,12 @@
 {% extends "Common/base.html" %}
+{% load custom_tags %}
 {% load static %}
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/Parties_css/party_details.css' %}">
 {% endblock %}
 {% block content %}
 <div class="party-details-container">
-    <h2>{{ party.name }}</h2>
+    <h2>{{ party.title }}</h2>
     
     <div class="party-details-content">
         <!-- Изображение на партито -->
@@ -26,12 +27,14 @@
             
             <!-- Бутон за участие или напускане на партито -->
             {% if user.is_authenticated %}
-
+                {% get_live_events request as live_party %}
                 {% if status == 'owner' %}
-
+{#and live_party#}{% if not live_party %}
                     <a href="{% url 'delete_party' party.slug %}" class="details-link delete-party">Delete Party</a>
                     <a href="{% url 'edit_party' party.slug %}" class="details-link edit-party">Edit Party</a>
-
+                    {% else %}
+                        <p style="color:red">Can not edit or delete live party! </p>
+                    {% endif %}
                 {% else %}
 
                     {% if  status == 'can_buy'%}
