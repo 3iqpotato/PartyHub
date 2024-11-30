@@ -89,7 +89,7 @@ class Party(models.Model):
         null=True,
         help_text="Upload an image with a maximum size of 6MB.",
         validators=[MaxSizeValidator(5)]
-    )
+    )  # TODO: da se trie starata!!!
 
     registration_deadline = models.DateTimeField(
         blank=True,

@@ -3,6 +3,7 @@ from django.urls import path
 
 urlpatterns = [
     path('all/', views.PartyListView.as_view(), name='all_parties'),
+    path('api/parties_for_other_users/', views.PartyAPIListView.as_view(), name='party-list'),
     path('live_party/<slug:slug>', views.LivePartyDetailView.as_view(), name='live_party'),
     path('user_parties/', views.MyPartiesView.as_view(), name='user_parties'),
     path('create/', views.PartyCreateView.as_view(), name='create_party'),

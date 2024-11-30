@@ -1,14 +1,24 @@
+import asyncio
+from http.client import HTTPResponse
+
 from PartyHub_Project.Party.forms import PartyCreateForm, PartyEditForm
 from PartyHub_Project.Party.mixins import LivePartyAccessMixin
 from PartyHub_Project.Party.models import Party
 from PartyHub_Project.Questions.forms import AnswerForm, QuestionForm
+from asgiref.sync import sync_to_async
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
+from rest_framework.generics import ListAPIView
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from .serializers import PartySerializer
 
 class PartyListView(ListView):
     model = Party
@@ -141,7 +151,7 @@ class PartyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self): # making sure the user is the organizer
         user = self.request.user
         party = get_object_or_404(Party, slug=self.kwargs.get('slug'))
-        return user == party.organizer
+        return user == party.organizer and party.start_time > timezone.now()
 
 
 class LivePartyDetailView(LoginRequiredMixin, LivePartyAccessMixin, DetailView):
@@ -160,3 +170,18 @@ class PartyEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):  # testing if the user is the creator of the party
         party = self.get_object()
         return self.request.user == party.organizer and party.start_time > timezone.now()
+
+
+class PartyAPIListView(APIView):
+    def get(self, request, *args, **kwargs):
+        parties = self.get_parties()
+
+        paginator = PageNumberPagination()
+        result_page = paginator.paginate_queryset(parties, request, view=self)
+
+        serializer = PartySerializer(instance=result_page, many=True)
+
+        return paginator.get_paginated_response(serializer.data)
+
+    def get_parties(self):
+        return Party.objects.get_parties_for_user(self.request.user)
