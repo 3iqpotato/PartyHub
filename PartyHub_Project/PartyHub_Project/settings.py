@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+<<<<<<< HEAD
 from decouple import config, Csv
+=======
+from env_settings import SECRET_KEY, DEBUG, DATABASES, CSRF_TRUSTED_ORIGINS, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
+
+>>>>>>> 14e3f0ef5b7c213a13f5a84a3a67a062cf01d3c6
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -165,3 +170,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'Accounts.UserProfile'
 # LOGIN_REDIRECT_URL = 'home'  # URL на главната страница след успешен логин
 LOGOUT_REDIRECT_URL = reverse_lazy('index')
+
+#Email things
+
+# Настройки за имейл сървъра
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Ако използваш Gmail
+EMAIL_PORT = 587  # Порт за изпращане на имейли чрез TLS
+EMAIL_USE_TLS = True  # Използване на TLS
