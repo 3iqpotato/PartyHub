@@ -11,12 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-<<<<<<< HEAD
 from decouple import config, Csv
-=======
-from env_settings import SECRET_KEY, DEBUG, DATABASES, CSRF_TRUSTED_ORIGINS, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
-
->>>>>>> 14e3f0ef5b7c213a13f5a84a3a67a062cf01d3c6
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
