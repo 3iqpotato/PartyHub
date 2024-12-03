@@ -4,7 +4,7 @@ from PartyHub_Project.Ticket.models import Ticket
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseForbidden
+from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
@@ -88,11 +88,6 @@ class TicketDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return ticket.participant == self.request.user
 
 
-# class MarkAsArrivedView(LoginRequiredMixin, View):
-    # def post(self, request, pk):
-    #     ticket = get_object_or_404(Ticket, pk=pk,)
-    #     ticket.mark_as_arrived()
-    #     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 def mark_as_arrived(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
 
@@ -108,12 +103,6 @@ def mark_as_arrived(request, ticket_id):
             }
         })
     return HttpResponseForbidden("You are not authorized to perform this action.")
-
-# class MarkAsNotArrivedView(LoginRequiredMixin, View):
-#     def post(self, request, pk):
-#         ticket = get_object_or_404(Ticket, pk=pk,)
-#         ticket.mark_as_not_arrived()
-#         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 def mark_as_not_arrived(request, ticket_id):

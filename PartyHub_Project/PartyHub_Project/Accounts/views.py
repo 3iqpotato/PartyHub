@@ -1,10 +1,9 @@
 from PartyHub_Project.Accounts.forms import UserProfileCreateForm, UserProfileLoginForm, UserProfileEditForm
-from PartyHub_Project.Accounts.models import FollowTable
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DetailView, UpdateView, CreateView, ListView

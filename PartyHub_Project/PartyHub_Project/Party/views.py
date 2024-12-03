@@ -1,28 +1,21 @@
-import asyncio
-from http.client import HTTPResponse
-
 from PartyHub_Project.Party.forms import PartyCreateForm, PartyEditForm
 from PartyHub_Project.Party.mixins import LivePartyAccessMixin
 from PartyHub_Project.Party.models import Party
-from PartyHub_Project.Questions.forms import AnswerForm, QuestionForm
-from asgiref.sync import sync_to_async
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
-from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from .serializers import PartySerializer
+from .views_helpers import check_party_started_and_request_user_is_organizer, test_user_can_see_party_details, \
+    update_context_and_get_status_for_party_details
+
 
 class PartyListView(ListView):
     model = Party
-    paginate_by = 18  # TODO fix
+    paginate_by = 18
     template_name = 'Party/party_list.html'
 
     def get_queryset(self):
@@ -70,11 +63,6 @@ class PartyCreateView(LoginRequiredMixin, CreateView):
         self.object = None
         return super().form_invalid(form)
 
-    # def form_valid(self, form):
-    #     # making the party organizer the user who created the party
-    #     form.instance.organizer = self.request.user
-    #     return super().form_valid(form)
-
 
 class MyPartiesView(LoginRequiredMixin, ListView):
     model = Party
@@ -105,58 +93,13 @@ class PartyDetailsView(UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        party = self.object
+        return update_context_and_get_status_for_party_details(self.request, party, context)
 
-        status = False
-
-        if self.request.user.is_authenticated:
-
-            context['question_form'] = QuestionForm() # adding form hor authenticated users to ask questions
-
-            # getting the status for the user to see why he can/cant biy ticket for the party!!
-            match True:
-                case True if self.object.organizer == self.request.user:  # if the user is creator of the party
-                    context['question_form'] = None  # removing the question form
-                    context['answer_form'] = AnswerForm()  # adding form for answers
-                    status = "owner"
-
-                case True if self.object.tickets.filter(participant=self.request.user):
-                    status = "have_ticket"  # the user already have a ticket
-
-                case True if self.object.get_free_spots() == 0:
-                    status = "no_spots"  # the party is full all tickets are sold
-
-                case True if self.object.not_late_for_tickets() == False:
-                    status = "late_for_tickets"  # the party deadline or start have passed
-
-                case True if not self.object.tickets.filter(participant=self.request.user):
-                    status = "can_buy"  # means everithing is okey and we can buy a ticket
-
-        context['status'] = status
-
-        return context
 
     def test_func(self): # making sure the party is not started and the user can see it
         party = self.get_object()
-        now = timezone.localtime(timezone.now())
-
-        if party.end_time <= now:
-            return False
-
-        if not party.is_public:
-            user = self.request.user
-
-            if not user.is_authenticated:
-                return False
-
-            organizer = party.organizer
-
-            if organizer == user:
-                return True
-
-            if not (user.is_following(organizer) and organizer.is_following(user)):
-                return False
-
-        return True
+        return test_user_can_see_party_details(party, self.request)
 
 
 class PartyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -165,9 +108,8 @@ class PartyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('user_parties')
 
     def test_func(self): # making sure the user is the organizer
-        user = self.request.user
-        party = get_object_or_404(Party, slug=self.kwargs.get('slug'))
-        return user == party.organizer and party.start_time > timezone.now()
+        party = self.get_object()
+        return check_party_started_and_request_user_is_organizer(party, self.request.user)
 
 
 class LivePartyDetailView(LoginRequiredMixin, LivePartyAccessMixin, DetailView):
@@ -185,7 +127,7 @@ class PartyEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):  # testing if the user is the creator of the party
         party = self.get_object()
-        return self.request.user == party.organizer and party.start_time > timezone.now()
+        return check_party_started_and_request_user_is_organizer(party, self.request.user)
 
 
 class PartyAPIListView(APIView):
