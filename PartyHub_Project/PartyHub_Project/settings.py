@@ -166,10 +166,14 @@ AUTH_USER_MODEL = 'Accounts.UserProfile'
 # LOGIN_REDIRECT_URL = 'home'  # URL на главната страница след успешен логин
 LOGOUT_REDIRECT_URL = reverse_lazy('index')
 
-#Email things
 
-# Настройки за имейл сървъра
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Ако използваш Gmail
-EMAIL_PORT = 587  # Порт за изпращане на имейли чрез TLS
-EMAIL_USE_TLS = True  # Използване на TLS
+
+
+#Email things #TODO DELETE
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'  # Ако използваш Gmail
+# EMAIL_PORT = 587  # Порт за изпращане на имейли чрез TLS
+# EMAIL_USE_TLS = True  # Използване на TLS
+#
+# TEST_RUNNER = 'django.test.runner.DiscoverRunner'

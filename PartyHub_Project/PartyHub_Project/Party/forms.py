@@ -69,7 +69,8 @@ class PartyCreateForm(PartyBaseForm):
         start_time = cleaned_data.get("start_time")
         end_time = cleaned_data.get("end_time")
         registration_deadline = cleaned_data.get("registration_deadline")
-        organizer = cleaned_data.get("organizer")
+        organizer = self.instance.organizer
+
 
         if not start_time or not end_time:
             raise ValidationError("Both start and end times must be provided.")
@@ -90,7 +91,6 @@ class PartyCreateForm(PartyBaseForm):
             duration = end_time - start_time
             if duration > timedelta(hours=24):
                 raise ValidationError("The party duration cannot exceed 24 hours.")
-
 
             # Проверка за конфликти с други партита
         conflicting_parties = Party.objects.filter(organizer=organizer).filter(

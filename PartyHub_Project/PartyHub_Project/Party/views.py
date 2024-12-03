@@ -54,6 +54,23 @@ class PartyCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('all_parties')
     form_class = PartyCreateForm
 
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        form.instance.organizer = self.request.user
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        self.object = None
+        return super().form_invalid(form)
+
+
     def form_valid(self, form):
         # making the party organizer the user who created the party
         form.instance.organizer = self.request.user
