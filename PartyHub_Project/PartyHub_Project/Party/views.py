@@ -70,11 +70,10 @@ class PartyCreateView(LoginRequiredMixin, CreateView):
         self.object = None
         return super().form_invalid(form)
 
-
-    def form_valid(self, form):
-        # making the party organizer the user who created the party
-        form.instance.organizer = self.request.user
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     # making the party organizer the user who created the party
+    #     form.instance.organizer = self.request.user
+    #     return super().form_valid(form)
 
 
 class MyPartiesView(LoginRequiredMixin, ListView):
