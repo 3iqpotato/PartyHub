@@ -11,6 +11,10 @@ from django.views.generic import DetailView, UpdateView, CreateView, ListView
 
 UserModel = get_user_model()
 
+def check_if_user_is_request_user(request, pk):
+    profile = get_object_or_404(UserModel, pk=pk)
+    return request.user == profile
+
 
 class RegisterView(CreateView):
     form_class = UserProfileCreateForm
@@ -33,8 +37,7 @@ class ProfileDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     context_object_name = 'user'
 
     def test_func(self):
-        profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-        return self.request.user == profile
+        return check_if_user_is_request_user(self.request, pk=self.kwargs['pk'])
 
 
 class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -43,8 +46,7 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = UserProfileEditForm
 
     def test_func(self):
-        profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-        return self.request.user == profile
+        return check_if_user_is_request_user(self.request, pk=self.kwargs['pk'])
 
     def get_success_url(self):
         return reverse_lazy('profile_details', kwargs={'pk': self.request.user.pk})
@@ -64,8 +66,8 @@ class ShowFollowingView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'Accounts/following_list.html'
 
     def test_func(self):
-        profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-        return self.request.user == profile
+        return check_if_user_is_request_user(self.request, pk=self.kwargs['pk'])
+        # profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
 
     def get_context_data(self, *, object_list=None, **kwargs):
         following_list = UserModel.objects.get_user_following(user=self.request.user)
@@ -140,8 +142,7 @@ class ShowFollowersView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'Accounts/followers_list.html'
 
     def test_func(self):
-        profile = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-        return self.request.user == profile
+        return check_if_user_is_request_user(self.request, pk=self.kwargs['pk'])
 
     def get_context_data(self, *, object_list=None, **kwargs):
         user = self.request.user
