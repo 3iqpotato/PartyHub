@@ -36,3 +36,10 @@ Backend: Django (Python)
 Frontend: Django Templates, CSS
 
 База данни: PostgreSQL
+
+## Environment Variables
+To run the project locally, you need the following `.env` file:
+
+[Download `.env` file here](https://pastebin.com/je27Ykvg)  
+
+**Note**: Remember to delete this file after reviewing.
