@@ -14,7 +14,6 @@ from django.views.generic import ListView, DetailView, DeleteView
 UserModel = get_user_model()
 
 
-# Create your views here.
 class UserTicketsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Ticket
     template_name = 'Ticket/user_tickets_list.html'

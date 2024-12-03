@@ -10,14 +10,12 @@ User = get_user_model()
 
 class PartyFormTestsBase(TestCase):
     def setUp(self):
-        # Създаваме потребител
         self.user = User.objects.create_user(
             username='testuser',
             email='testuser@example.com',
             password='password123',
         )
 
-        # Основни данни за парти
         self.form_data = {
             'title': 'Test Party',
             'description': 'This is a test party.',
@@ -34,11 +32,10 @@ class PartyFormTestsBase(TestCase):
 class PartyCreateFormTests(PartyFormTestsBase):
     def test_valid_data(self):
         form = PartyCreateForm(data=self.form_data)
-        form.instance.organizer = self.user  # Свързваме с организатор
+        form.instance.organizer = self.user
         self.assertTrue(form.is_valid())
 
     def test_conflicting_party_times(self):
-        # Създаваме съществуващо парти
         Party.objects.create(
             title='Existing Party',
             description='A conflicting party.',
@@ -48,10 +45,9 @@ class PartyCreateFormTests(PartyFormTestsBase):
             available_spots=30,
             party_type='disco',
             is_public=False,
-            organizer=self.user,  # Задаваме организатора
+            organizer=self.user,
         )
 
-        # Добавяме organizer в form_data
         form = PartyCreateForm(data=self.form_data)
         form.instance.organizer = self.user
 
@@ -62,7 +58,6 @@ class PartyCreateFormTests(PartyFormTestsBase):
 class PartyEditFormTests(PartyFormTestsBase):
     def setUp(self):
         super().setUp()
-        # Създаваме първоначално парти
         self.party = Party.objects.create(
             title='Initial Party',
             description='An initial party description.',

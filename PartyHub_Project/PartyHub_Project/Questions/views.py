@@ -12,7 +12,7 @@ def ask_question(request, party_slug):
     party = get_object_or_404(Party, slug=party_slug)
 
     if request.user == party.organizer:
-        return redirect('details_party', slug=party_slug) #TODO NESHTO DRUGO
+        return redirect('details_party', slug=party_slug)
 
     if request.method == 'POST':
         form = QuestionForm(request.POST)
@@ -49,6 +49,7 @@ class QuestionDeleteView(DeleteView):
     def get_success_url(self):
         party_slug = self.kwargs.get('party_slug')
         return reverse_lazy('details_party', kwargs={'slug': party_slug})
+
 
 class AnswerDeleteView(DeleteView):
     model = Answer

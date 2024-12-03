@@ -3,9 +3,9 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 
 urlpatterns = [
-    path('register/', views.RegisterView.as_view(), name='register'),  # за регистрация
-    path('login/', views.CustomLoginView.as_view(), name='login'),       # за логване
-    path('logout/', LogoutView.as_view(), name='logout'),    # за излизане
+    path('register/', views.RegisterView.as_view(), name='register'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('users/', views.UsersListView.as_view(), name='users'),
     path('users/<int:pk>', views.UsersDetailView.as_view(), name='user_details'),
     path('profile/', include([

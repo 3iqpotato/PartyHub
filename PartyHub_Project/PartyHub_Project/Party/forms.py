@@ -71,18 +71,16 @@ class PartyCreateForm(PartyBaseForm):
         registration_deadline = cleaned_data.get("registration_deadline")
         organizer = self.instance.organizer
 
-
         if not start_time or not end_time:
             raise ValidationError("Both start and end times must be provided.")
 
         if start_time < timezone.now():
             raise ValidationError({"start_time": "The party start cannot be in the past."})
 
-            # Проверка дали края на събитието е след началото
         if end_time <= start_time:
                 raise ValidationError({"end_time": "The end time must be after the start time."})
 
-            # Проверка за срок на регистрация
+            # check is registration deadline valid
         if registration_deadline and registration_deadline > start_time:
             raise ValidationError(
                     {"registration_deadline": "The registration deadline cannot be after the event date."})
@@ -92,13 +90,13 @@ class PartyCreateForm(PartyBaseForm):
             if duration > timedelta(hours=24):
                 raise ValidationError("The party duration cannot exceed 24 hours.")
 
-            # Проверка за конфликти с други партита
+            # Check for conflicting parties
         conflicting_parties = Party.objects.filter(organizer=organizer).filter(
-                # Условие 1: Съществуващо парти започва преди края на новото и свършва след началото на новото
+                #  1: Party that starts before curr_party end_time and ends after the curr_party start_time
                 Q(start_time__lt=end_time, end_time__gt=start_time) |
-                # Условие 2: Съществуващо парти започва преди началото на новото и свършва след началото на новото
+                # 2: Party that starts before curr_party start_time and ends after curr_party start_time
                 Q(start_time__lt=start_time, end_time__gt=start_time) |
-                # Условие 3: Съществуващо парти свършва след началото на новото и започва преди края на новото
+                # 3: Party that ends after curr_party start_time and starts before curr_party end_time
                 Q(end_time__gt=start_time, start_time__lt=end_time)
             )
 

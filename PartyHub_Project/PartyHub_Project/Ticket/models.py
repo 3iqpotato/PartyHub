@@ -3,9 +3,6 @@ from django.db import models
 from django.utils import timezone
 
 
-# Create your models here.
-
-
 class Ticket(models.Model):
     party = models.ForeignKey(to='Party.Party', on_delete=models.CASCADE, related_name='tickets')
     participant = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE, related_name='tickets')
@@ -24,7 +21,7 @@ class Ticket(models.Model):
             self.checked = False
             self.participant.points -= 5
             if self.participant.points < 0:
-                self.participant.points = 0  # За да не стават точките отрицателни
+                self.participant.points = 0
             self.participant.save()
             self.save()
 

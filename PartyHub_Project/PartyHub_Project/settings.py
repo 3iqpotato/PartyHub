@@ -27,18 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG = True
 
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
-    }
-}
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=Csv())
 
@@ -58,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
 ] + MY_APPS
 
@@ -97,7 +88,16 @@ WSGI_APPLICATION = 'PartyHub_Project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
+    }
+}
 
 AUTHENTICATION_BACKENDS = [
     'PartyHub_Project.Accounts.authentication.EmailOrUsernameBackend',
@@ -163,17 +163,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'Accounts.UserProfile'
-# LOGIN_REDIRECT_URL = 'home'  # URL на главната страница след успешен логин
 LOGOUT_REDIRECT_URL = reverse_lazy('index')
 
-
-
-
 #Email things #TODO DELETE
-
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'  # Ако използваш Gmail
 # EMAIL_PORT = 587  # Порт за изпращане на имейли чрез TLS
 # EMAIL_USE_TLS = True  # Използване на TLS
-#
-# TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+

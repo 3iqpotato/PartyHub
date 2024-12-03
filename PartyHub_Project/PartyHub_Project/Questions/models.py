@@ -13,7 +13,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    question = models.OneToOneField(Question, on_delete=models.CASCADE, related_name='answer')  # One-to-one relationship
+    question = models.OneToOneField(Question, on_delete=models.CASCADE, related_name='answer')
     author = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
     text = models.TextField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

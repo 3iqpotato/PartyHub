@@ -8,10 +8,6 @@ from django.contrib.auth import get_user_model
 class PartyModelTest(TestCase):
 
     def setUp(self):
-        """
-        Създава базов потребител и примерни данни за парти,
-        които ще се използват в тестовете.
-        """
         self.user = get_user_model().objects.create_user(
             username="testuser",email="testemail@email.com", password="password123"
         )
@@ -29,18 +25,12 @@ class PartyModelTest(TestCase):
         }
 
     def test_slug_generation(self):
-        """
-        Проверява дали slug полето се генерира правилно от заглавие на български.
-        """
         party = Party.objects.create(**self.base_data)
         self.assertEqual(party.slug, "testovo-parti")
 
     def test_title_uniqueness(self):
-        """
-        Проверява дали е невъзможно да се създаде парти с дублирано заглавие.
-        """
         Party.objects.create(**self.base_data)
         with self.assertRaises(ValidationError):
             duplicate_party = Party(**self.base_data)
-            duplicate_party.full_clean()  # Проверява уникалността на заглавието.
+            duplicate_party.full_clean()
 

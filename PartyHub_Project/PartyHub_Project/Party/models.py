@@ -27,9 +27,9 @@ class Party(models.Model):
     ]
 
     organizer = models.ForeignKey(
-        to=get_user_model(),  # Свързване към модела UserProfile
-        on_delete=models.CASCADE,  # Изтриване на събитията при изтриване на потребителя
-        related_name='organized_parties',  # Свързване обратно за лесен достъп до събитията
+        to=get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='organized_parties',
     )
 
     title = models.CharField(

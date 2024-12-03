@@ -1,6 +1,6 @@
 class RemoveHelpTextMixin:
     """
-    Миксин, който премахва помощния текст от полетата на формата.
+    Mixin that removes help_text from forms
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
