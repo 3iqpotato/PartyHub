@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'cloudinary',
+    'cloudinary_storage',
 ] + MY_APPS
 
 
@@ -171,3 +173,16 @@ LOGOUT_REDIRECT_URL = reverse_lazy('index')
 # EMAIL_PORT = 587  # Порт за изпращане на имейли чрез TLS
 # EMAIL_USE_TLS = True  # Използване на TLS
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY = {
+    'cloud_name': config('CLOUD_NAME'),
+    'api_key': config('API_KEY'),
+    'api_secret': config('API_SECRET'),
+}
+
+CLOUDINARY_STORAGE = {
+    'cloud_name': config('CLOUD_NAME'),
+    'api_key': config('API_KEY'),
+    'api_secret': config('API_SECRET'),
+}
