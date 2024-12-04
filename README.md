@@ -40,6 +40,6 @@ Frontend: Django Templates, CSS
 ## Environment Variables
 To run the project locally, you need the following `.env` file:
 
-[Download `.env` file here](https://pastebin.com/je27Ykvg)  
+[Download `.env` file here](https://pastebin.com/t9D2SLic)  
 
 **Note**: Remember to delete this file after reviewing.
