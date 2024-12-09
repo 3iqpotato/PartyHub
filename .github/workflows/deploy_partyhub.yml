@@ -19,6 +19,7 @@ jobs:
 
       - name: Navigate to project directory
         working-directory: ./PartyHub_Project
+        run: echo "In project directory"
 
       - name: Set up Python version
         uses: actions/setup-python@v5
