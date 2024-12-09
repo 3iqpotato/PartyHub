@@ -23,5 +23,8 @@ class MaxSizeValidator():
         return self.size * 1024 * 1024
 
     def __call__(self, value):
-        if value.size > self.mb_to_bytes():
-            raise ValidationError(self.message if self.message else f"File size too big max size {self.size}MB")
+        try:
+            if value.size > self.mb_to_bytes():
+                raise ValidationError(self.message if self.message else f"File size too big max size {self.size}MB")
+        except AttributeError:
+            pass

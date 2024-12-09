@@ -86,20 +86,21 @@ class Party(models.Model):
         validators=[MinValueValidator(2, "Available spots can't be less than 2!")]
     )
 
-    picture = models.ImageField(
-        upload_to='party_imgs/', #TODO to make right path to the place to upload the images
-        blank=True,
-        null=True,
-        help_text="Upload an image with a maximum size of 6MB.",
-        validators=[MaxSizeValidator(5)]
-    )  # TODO: da se trie starata!!!
-
-    # picture = CloudinaryField(
-    # 'image',
-    #     folder="party_imgs",
+    # picture = models.ImageField(
+    #     upload_to='party_imgs/', #TODO to make right path to the place to upload the images
     #     blank=True,
     #     null=True,
-    #     help_text="Upload an image with a maximum size of 6MB.",)
+    #     help_text="Upload an image with a maximum size of 5MB.",
+    #     validators=[MaxSizeValidator(5)]
+    # )  # TODO: da se trie starata!!!
+
+    picture = CloudinaryField(
+    'image',
+        folder="party_imgs",
+        blank=True,
+        null=True,
+        validators=[MaxSizeValidator(5)],
+        help_text="Upload an image with a maximum size of 6MB.",)
 
     registration_deadline = models.DateTimeField(
         blank=True,

@@ -22,14 +22,14 @@ class UserProfile(AbstractUser):
         max_length=300,
     )
 
-    # profile_picture = CloudinaryField('image', default='profiles/ca7ecpl0mbnn27xk5se6.jpg',folder="profiles", blank=False, null=False)
+    profile_picture = CloudinaryField('image', default='profiles/ca7ecpl0mbnn27xk5se6.jpg',folder="profiles", blank=False, null=False)
 
-    profile_picture = models.ImageField(
-        upload_to='profiles/',
-        default='profiles/default_img.jpg',
-        blank=False,
-        null=False,
-    )  # TODO: da se trie starata!!!
+    # profile_picture = models.ImageField(
+    #     upload_to='profiles/',
+    #     default='profiles/default_img.jpg',
+    #     blank=False,
+    #     null=False,
+    # )  # TODO: da se trie starata!!!
 
     bio = models.TextField(blank=True, null=True)
 
@@ -70,31 +70,31 @@ class UserProfile(AbstractUser):
         now = timezone.now()
         return self.organized_parties.filter(start_time__gte=now)
 
+    # def save(self, *args, **kwargs):
+        # try:
+        #     this = UserProfile.objects.get(pk=self.pk)
+        #     if this.profile_picture != self.profile_picture and this.profile_picture.name != 'profiles/default_img.jpg':
+        #         this.profile_picture.delete(save=False)
+        # except UserProfile.DoesNotExist:
+        #     pass
+        #
+        # super().save(*args, **kwargs)
+
     def save(self, *args, **kwargs):
         try:
+            # Fetch the existing object from the database
             this = UserProfile.objects.get(pk=self.pk)
-            if this.profile_picture != self.profile_picture and this.profile_picture.name != 'profiles/default_img.jpg':
-                this.profile_picture.delete(save=False)
+            # Check if the profile picture is changing and is not the default
+            if (
+                    this.profile_picture != self.profile_picture and
+                    this.profile_picture.public_id != 'profiles/ca7ecpl0mbnn27xk5se6'
+            # Adjust this to your default image's public_id
+            ):
+                destroy(this.profile_picture.public_id)
         except UserProfile.DoesNotExist:
+            # No existing object, so nothing to delete
             pass
-
         super().save(*args, **kwargs)
-
-    # def save(self, *args, **kwargs):
-    #     try:
-    #         # Fetch the existing object from the database
-    #         this = UserProfile.objects.get(pk=self.pk)
-    #         # Check if the profile picture is changing and is not the default
-    #         if (
-    #                 this.profile_picture != self.profile_picture and
-    #                 this.profile_picture.public_id != 'profiles/ca7ecpl0mbnn27xk5se6'
-    #         # Adjust this to your default image's public_id
-    #         ):
-    #             destroy(this.profile_picture.public_id)
-    #     except UserProfile.DoesNotExist:
-    #         # No existing object, so nothing to delete
-    #         pass
-    #     super().save(*args, **kwargs)
 
 class FollowTable(models.Model):
     user = models.ForeignKey(to=UserProfile, on_delete=models.CASCADE, related_name='following')
