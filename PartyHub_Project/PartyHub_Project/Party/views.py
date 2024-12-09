@@ -109,7 +109,7 @@ class PartyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self): # making sure the user is the organizer
         party = self.get_object()
-        return check_party_started_and_request_user_is_organizer(party, self.request.user)
+        return self.request.user == party.organizer
 
 
 class LivePartyDetailView(LoginRequiredMixin, LivePartyAccessMixin, DetailView):
