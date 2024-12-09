@@ -66,7 +66,11 @@
     border-radius: 5px;
     font-size: 14px;
     color: #333;
-    width: 100%;
+    width: 95%;
+}
+
+.form-group select{
+    width: 98%;
 }
 
 .form-group input[type="datetime-local"] {
@@ -106,4 +110,53 @@ ul .error{
     color: red;
     marker: none;
     list-style-type: none;
+}
+
+
+.form-section:last-of-type .form-group:last-of-type {
+    display: inline;
+    align-items: center;
+}
+
+#id_is_public {
+    width: 20px;
+    height: 20px;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    position: relative;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+
+input[type="checkbox"]:checked {
+    background-color: #2ede13;
+    border-color: #2ede13;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '✔';
+    font-size: 17px;
+    position: absolute;
+    bottom: 10px;
+    left: 2px;
+    width: 0;
+    height: 10px;
+    background-color: #2ede13;
+    border-radius: 2px;
+}
+
+
+.alert {
+    color: red;
 }
