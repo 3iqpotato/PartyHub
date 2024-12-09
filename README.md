@@ -1,7 +1,5 @@
 # 🎉 PartyHub
 
-# Link https://partyhub-c2bhdpargvgyhkey.italynorth-01.azurewebsites.net
-
 Описание
 
 PartyHub е модерна уеб платформа, създадена да свързва хора, които обичат да организират и посещават партита. С платформата можете лесно да създавате събития, да преглеждате налични партита, да купувате билети и да оставяте коментари за вашите любими събития.
@@ -45,3 +43,5 @@ To run the project locally, you need the following `.env` file:
 [Download `.env` file here](https://pastebin.com/t9D2SLic)  
 
 **Note**: Remember to delete this file after reviewing.
+
+# Link: https://partyhub-c2bhdpargvgyhkey.italynorth-01.azurewebsites.net
