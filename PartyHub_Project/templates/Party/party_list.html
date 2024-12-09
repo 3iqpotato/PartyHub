@@ -10,37 +10,6 @@
 
             <!-- Търсачка в центъра -->
             <div class="search-bar-container">
-{#                <div class="filters">#}
-{#                    <button class="filters-button" id="filtersButton" tabindex="0">Filters</button>#}
-{#                    <div class="filters-dropdown" id="filtersDropdown">#}
-{#                        <form method="GET">#}
-{#                            <label>#}
-{#                                <input type="checkbox" name="filter" value="public" {% if request.GET.filter == "public" %}checked{% endif %}>#}
-{#                                Public parties#}
-{#                            </label>#}
-{#                        {% if user.is_authenticated %}#}
-{#                            <label>#}
-{#                                <input type="checkbox" name="filter" value="friends" {% if request.GET.filter == "friends" %}checked{% endif %}>#}
-{#                                Friends' parties#}
-{#                            </label>#}
-{#                        {% endif %}#}
-{#                            <label>#}
-{#                                <input type="checkbox" name="filter" value="available" {% if request.GET.filter == "available" %}checked{% endif %}>#}
-{#                                Available parties#}
-{#                            </label>#}
-{#                        </form>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <form class="search-form" method="GET" id="searchForm">#}
-{#                    <label>#}
-{#                        <input type="text" name="q" value="{{ request.GET.q }}" class="search-input" placeholder="Search for parties...">#}
-{#                    </label>#}
-{#        #}
-{#                    <button type="submit" class="search-button">Search</button>#}
-{#                    #}
-{#                    <script src="{% static 'JS/filter_button_functionality.js' %}"></script>#}
-{#                    #}
-{#                </form>#}
                 <form class="search-form" method="GET" id="searchForm">
                     <div class="filters-container">
                         <button class="filters-button" id="filtersButton" tabindex="0">Filters</button>

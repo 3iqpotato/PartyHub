@@ -29,7 +29,7 @@
             {% if user.is_authenticated %}
                 {% get_live_events request as live_party %}
                 {% if status == 'owner' %}
-{#and live_party#}{% if not live_party %}
+{#and live_party#}{% if not live_party.slug == party.slug %}
                     <a href="{% url 'delete_party' party.slug %}" class="details-link delete-party">Delete Party</a>
                     <a href="{% url 'edit_party' party.slug %}" class="details-link edit-party">Edit Party</a>
                     {% else %}
