@@ -140,23 +140,24 @@ class Party(models.Model):
         if not self.slug:
             transliterated_title = unidecode(self.title)
             self.slug = slugify(transliterated_title)
-        #
-        try:
-            this = Party.objects.get(pk=self.pk)
-            if this.picture != self.picture and this.picture:
-                this.picture.delete(save=False)
-        except Party.DoesNotExist:
-            pass
 
         # try:
-        # # Fetch the existing object from the database
         #     this = Party.objects.get(pk=self.pk)
-        #         # Check if the profile picture is changing and is not the default
-        #     if this.profile_picture != self.picture:
-        #         destroy(this.picture.public_id)
+        #     if this.picture != self.picture and this.picture:
+        #         this.picture.delete(save=False)
         # except Party.DoesNotExist:
-        #         # No existing object, so nothing to delete
-        #         pass
+        #     pass
+
+
+        try:
+        # Fetch the existing object from the database
+            this = Party.objects.get(pk=self.pk)
+                # Check if the profile picture is changing and is not the default
+            if self.picture and this.picture and this.picture != self.picture:
+                destroy(this.picture.public_id)
+        except Party.DoesNotExist:
+                # No existing object, so nothing to delete
+                pass
 
         super().save(*args, **kwargs)
 
