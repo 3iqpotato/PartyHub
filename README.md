@@ -44,4 +44,5 @@ To run the project locally, you need the following `.env` file:
 
 **Note**: Remember to delete this file after reviewing.
 
-# Link: https://partyhub-c2bhdpargvgyhkey.italynorth-01.azurewebsites.net
+# Link: 
+https://partyhub-c2bhdpargvgyhkey.italynorth-01.azurewebsites.net
