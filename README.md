@@ -1,5 +1,8 @@
 # 🎉 PartyHub
 
+# Link: 
+https://partyhub-c2bhdpargvgyhkey.italynorth-01.azurewebsites.net
+
 Описание
 
 PartyHub е модерна уеб платформа, създадена да свързва хора, които обичат да организират и посещават партита. С платформата можете лесно да създавате събития, да преглеждате налични партита, да купувате билети и да оставяте коментари за вашите любими събития.
@@ -40,9 +43,44 @@ Frontend: Django Templates, CSS
 ## Environment Variables
 To run the project locally, you need the following `.env` file:
 
-[Download `.env` file here](https://pastebin.com/t9D2SLic)  
+[Open `.env` file here](https://pastebin.com/t9D2SLic)  
 
 **Note**: Remember to delete this file after reviewing.
 
-# Link: 
-https://partyhub-c2bhdpargvgyhkey.italynorth-01.azurewebsites.net
+
+# 🚀 Инструкции за стартиране на проекта
+
+1. Клонирай репозитория:
+```bash
+git clone https://github.com/3iqpotato/PartyHub
+```
+```bash
+cd PartyHub_Project
+```
+
+2. Създай виртуална среда:
+```bash
+python -m venv venv
+```
+```bash
+source venv/bin/activate (Windows: venv\Scripts\activate)
+```
+
+3. Създай .env файл и добави необходимите променливи.
+
+
+4. Инсталирай зависимостите:
+```bash
+pip install -r requirements.txt
+```
+
+5. Изпълни миграциите:
+```bash
+python manage.py migrate
+```
+
+
+6. Стартирай сървъра:
+```bash
+python manage.py runserver
+ ```
