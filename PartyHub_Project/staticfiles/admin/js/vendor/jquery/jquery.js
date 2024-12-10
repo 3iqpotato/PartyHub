@@ -5099,7 +5099,7 @@ jQuery.event = {
 		var i, j, ret, matched, handleObj, handlerQueue,
 			args = new Array( arguments.length ),
 
-			// Make a writable jQuery.Party from the native event object
+			// Make a writable jQuery.Event from the native event object
 			event = jQuery.event.fix( nativeEvent ),
 
 			handlers = (
@@ -5107,7 +5107,7 @@ jQuery.event = {
 			)[ event.type ] || [],
 			special = jQuery.event.special[ event.type ] || {};
 
-		// Use the fix-ed jQuery.Party rather than the (read-only) native event
+		// Use the fix-ed jQuery.Event rather than the (read-only) native event
 		args[ 0 ] = event;
 
 		for ( i = 1; i < arguments.length; i++ ) {
@@ -5419,7 +5419,7 @@ jQuery.Event = function( src, props ) {
 		return new jQuery.Event( src, props );
 	}
 
-	// Party object
+	// Event object
 	if ( src && src.type ) {
 		this.originalEvent = src;
 		this.type = src.type;
@@ -5444,7 +5444,7 @@ jQuery.Event = function( src, props ) {
 		this.currentTarget = src.currentTarget;
 		this.relatedTarget = src.relatedTarget;
 
-	// Party type
+	// Event type
 	} else {
 		this.type = src;
 	}
@@ -5461,7 +5461,7 @@ jQuery.Event = function( src, props ) {
 	this[ jQuery.expando ] = true;
 };
 
-// jQuery.Party is based on DOM3 Events as specified by the ECMAScript Language Binding
+// jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
 // https://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
 jQuery.Event.prototype = {
 	constructor: jQuery.Event,
@@ -5742,7 +5742,7 @@ jQuery.fn.extend( {
 		var handleObj, type;
 		if ( types && types.preventDefault && types.handleObj ) {
 
-			// ( event )  dispatched jQuery.Party
+			// ( event )  dispatched jQuery.Event
 			handleObj = types.handleObj;
 			jQuery( types.delegateTarget ).off(
 				handleObj.namespace ?
@@ -8566,7 +8566,7 @@ jQuery.extend( jQuery.event, {
 		}
 		ontype = type.indexOf( ":" ) < 0 && "on" + type;
 
-		// Caller can pass in a jQuery.Party object, Object, or just an event type string
+		// Caller can pass in a jQuery.Event object, Object, or just an event type string
 		event = event[ jQuery.expando ] ?
 			event :
 			new jQuery.Event( type, typeof event === "object" && event );

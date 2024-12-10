@@ -142,3 +142,106 @@
     border-color: #31b0d5;
     color: #fff;
 }
+
+/* Стилове за секцията с въпроси */
+.questions-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.questions-section h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.questions-section form textarea {
+    width: 90%;
+    height: 40px;
+    resize: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+}
+
+.questions-section .question-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #42bebe;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+
+/*!* Стилове за формата за отговор *!*/
+.answer form textarea {
+    width: 100%;
+    height: 40px;
+    resize: none;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+/*.answer*/
+.answer-button {
+    margin-top: 8px;
+    padding: 6px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+/*.answer */
+.answer-button:hover {
+    background-color: #218838;
+}
+
+
+.answer_form {
+    width: 90%;
+    height: 40px;
+    resize: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+}
+
+.delete-button {
+    background-color: #ff4d4d; /* Светло червен цвят */
+    color: #fff; /* Бял текст */
+    border: none;
+    border-radius: 8px; /* Закръглени ъгли */
+    padding: 8px 12px; /* Малко вътрешно отстояние */
+    font-size: 14px; /* Размер на текста */
+    font-weight: bold; /* Удебелен текст */
+    cursor: pointer; /* Показва ръка при задържане */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Лека сянка */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Плавен преход за цветове и размер */
+}
+
+.delete-button:hover {
+    background-color: #e63939; /* По-тъмен червен при задържане */
+    transform: translateY(-2px); /* Лек ефект на "повдигане" */
+}
+
+.delete-button:active {
+    background-color: #cc3333; /* Още по-тъмен червен при натискане */
+    transform: translateY(0); /* Връща се в нормално положение */
+}

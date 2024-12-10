@@ -1,77 +1,4 @@
-/*!* Търсачка и филтри под навигацията *!*/
-/*.events-page-container {*/
-/*    !*display: flex;*!*/
-/*    !*justify-content: center;*!*/
-/*    margin-top: 66px; !* Отстъп, за да не се припокриват с навигацията *!*/
-/*}*/
 
-/*!* Центрирана и по-широка търсачка *!*/
-/*.search-bar-container {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    padding: 15px;*/
-/*}*/
-
-/*.search-form {*/
-/*    display: flex;*/
-/*    width: 100%;*/
-/*    max-width: 270px;*/
-/*}*/
-
-/*.search-input {*/
-/*    flex: 1;*/
-/*    padding: 10px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 4px 0 0 4px;*/
-/*}*/
-
-/*.search-button {*/
-/*    padding: 10px 20px;*/
-/*    background-color: #2b8a3e;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    border-radius: 0 4px 4px 0;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.search-button:hover {*/
-/*    background-color: #239f3c;*/
-/*}*/
-
-/*!* Филтри - позициониране в ляво и падащо меню *!*/
-/*.filters-container {*/
-/*    position: relative;*/
-/*    display: inline-block;*/
-/*    margin-left: 20px; !* Позиционираме го в лявата част на страницата *!*/
-/*}*/
-
-/*.filter-button {*/
-/*    background-color: #f0f0f0;*/
-/*    color: #333;*/
-/*    padding: 10px;*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 4px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.filter-dropdown {*/
-/*    display: none; !* Скрито по подразбиране *!*/
-/*    position: absolute;*/
-/*    background-color: white;*/
-/*    min-width: 200px;*/
-/*    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);*/
-/*    z-index: 1;*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 4px;*/
-/*    padding: 10px;*/
-/*}*/
-
-/*.filters-container:hover .filter-dropdown {*/
-/*    display: block; !* Показва се при задържане *!*/
-/*}*/
-/* Основни стилове за контейнера */
-/* Основни стилове за контейнера */
-/* Основни стилове за контейнера */
 .events-page-container {
     padding: 20px;
     background-color: #f4f4f9;
@@ -81,7 +8,6 @@
 .search-bar-container {
     text-align: center;
     margin-bottom: 40px;
-    padding-top: 70px;
 }
 
 .search-form {
@@ -117,11 +43,13 @@
 
 /* Контейнер за събития */
 .events-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    justify-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-between;
     padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .event-card {
@@ -207,4 +135,137 @@ img {
     font-size: 1.2em;
     font-weight: bold;
     color: #333;
+}
+
+
+.filters-dropdown {
+    position: absolute; /* Позиционира падащото меню спрямо родителя */
+    top: 100%; /* Позиционира го точно под бутона */
+    left: 0; /* Подравнява го спрямо лявата част на родителя */
+    z-index: 1000; /* Уверява се, че е най-отгоре */
+    background-color: white; /* Бял фон за контраст */
+    border: 1px solid #ccc; /* Граница за по-добра видимост */
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Леко сенчесто очертание */
+    display: none; /* Скрито по подразбиране */
+    width: 200px; /* Ширина на падащото меню */
+    text-align: start;
+}
+
+.filters-dropdown input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.filters-dropdown button:hover {
+    background-color: #0056b3;
+}
+
+.filters-button:focus + .filters-dropdown {
+    display: block;
+}
+
+/*!* Стилове за филтрите *!*/
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.checkbox-label {
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+/* Стилове за чекбоксовете */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    position: relative;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #2ede13;
+    border-color: #2ede13;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '✔';
+    font-size: 17px;
+    position: absolute;
+    bottom: 10px;
+    left: 2px;
+    width: 0;
+    height: 10px;
+    background-color: #2ede13;
+    border-radius: 2px;
+}
+
+/* Контейнер за филтрите и формата */
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Разстояние между елементите */
+    margin: 20px 0;
+}
+
+.filters-container {
+    position: relative;
+}
+
+.filters-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.filters-button:hover {
+    background-color: #0056b3;
+}
+
+.filters-dropdown label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Стил за поле за търсене */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-input {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+
+.search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #45a049;
 }

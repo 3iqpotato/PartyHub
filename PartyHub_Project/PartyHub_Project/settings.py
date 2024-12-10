@@ -32,6 +32,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=Csv())
 
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='', cast=Csv())
 # Application definition
 MY_APPS = [
     'PartyHub_Project.Accounts.apps.AccountsConfig',
@@ -150,14 +151,13 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static"
+    BASE_DIR / "static",
+    BASE_DIR / "images",
 ]
 
 MEDIA_URL = '/images/'
 
 MEDIA_ROOT = BASE_DIR / 'images/'
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -188,3 +188,5 @@ CLOUDINARY_STORAGE = {
     'api_key': config('API_KEY'),
     'api_secret': config('API_SECRET'),
 }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
