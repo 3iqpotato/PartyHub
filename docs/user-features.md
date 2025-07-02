@@ -99,4 +99,4 @@
   - Коментари
 
 ```bash
-npm test
+python manage.py test
