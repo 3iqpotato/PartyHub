@@ -50,6 +50,8 @@ To run the project locally, you need the following `.env` file:
 
 # 🚀 Инструкции за стартиране на проекта
 
+## Опция 1: Локално (без Docker)
+
 1. Клонирай репозитория:
 ```bash
 git clone https://github.com/3iqpotato/PartyHub
@@ -79,11 +81,36 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
-
 6. Стартирай сървъра:
 ```bash
 python manage.py runserver
  ```
+7. **🌐 Достъп до сайта:**  
+Отвори любимия си браузър и посети: [http://localhost:8000](http://localhost:8000) 🚀
+
+## Опция 2: With Docker
+
+1. **Клонирай репозитория:**
+```bash
+git clone https://github.com/3iqpotato/PartyHub
+cd PartyHub_Project
+```
+
+2. **Стартирай контейнерите:**
+```bash
+docker-compose up --build
+```
+
+3. **Влез в Django контейнера, за да пуснеш миграции:**
+
+```bash
+docker-compose exec web python manage.py migrate
+```
+
+4. **🌐 Достъп до сайта:**  
+Отвори любимия си браузър и посети: [http://localhost:8000](http://localhost:8000) 🚀
+
+
 ## 📄 Подробна документация
 
 Виж всички действия, които потребителят може да извърши в системата:  
